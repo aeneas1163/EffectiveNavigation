@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CollectionDemoActivity" android:label="@string/demo_collection" />
+        <activity android:name=".CharityCollectionActivity" android:label="@string/demo_collection" />
 
     </application>
 </manifest>
