@@ -204,8 +204,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_dummy, container, false);
             Bundle args = getArguments();
+
+            View rootView;
+
+            if (args.getInt(ARG_SECTION_NUMBER) == 1)
+                rootView = inflater.inflate(R.layout.fragment_section_alarm, container, false);
+            else
+                rootView = inflater.inflate(R.layout.fragment_section_dummy, container, false);
+
             ((TextView) rootView.findViewById(android.R.id.text1)).setText(
                     getString(R.string.dummy_section_text, args.getInt(ARG_SECTION_NUMBER)));
             return rootView;

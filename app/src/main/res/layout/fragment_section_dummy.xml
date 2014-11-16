@@ -21,4 +21,4 @@
     android:gravity="center"
     android:textSize="24sp"
     android:padding="32dp"
-    android:background="@drawable/bg" />
+    android:background="@drawable/orta" />
