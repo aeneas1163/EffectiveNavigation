@@ -143,7 +143,7 @@ public class CharityCollectionActivity extends FragmentActivity {
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_charity_object, container, false);
             Bundle args = getArguments();
-            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
+            ((TextView) rootView.findViewById(R.id.charity_object)).setText(
                     Integer.toString(args.getInt(ARG_OBJECT)));
             return rootView;
         }

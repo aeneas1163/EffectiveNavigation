@@ -25,7 +25,7 @@ public class AlarmFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_section_alarm, container, false);
 
-        ((TextView) rootView.findViewById(android.R.id.text1)).setText(
+        ((TextView) rootView.findViewById(R.id.alarm)).setText(
                 getString(R.string.alarm_section_text, args.getInt(ARG_SECTION_NUMBER)));
         return rootView;
     }

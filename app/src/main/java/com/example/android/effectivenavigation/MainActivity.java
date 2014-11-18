@@ -63,7 +63,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         // Set up the ViewPager, attaching the adapter and setting up a listener for when the
         // user swipes between sections.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = (ViewPager) findViewById(R.id.main);
         mViewPager.setAdapter(mAppSectionsPagerAdapter);
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -91,6 +91,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         actionBar.addTab(alarm_tab.setTabListener(this));
         actionBar.addTab(clock_tab.setTabListener(this));
         actionBar.addTab(settings_tab.setTabListener(this));
+
+        // set the middle tab in first launch
+        mViewPager.setCurrentItem(1);
         //}
     }
 

@@ -3,6 +3,7 @@ package com.example.android.effectivenavigation.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,11 +42,17 @@ public class SettingsFragment extends Fragment {
                         // FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET, ensures that relaunching
                         // the application from the device home screen does not return
                         // to the external activity.
-                        Intent externalActivityIntent = new Intent(Intent.ACTION_PICK);
-                        externalActivityIntent.setType("image/*");
-                        externalActivityIntent.addFlags(
-                                Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                        startActivity(externalActivityIntent);
+//                        Intent externalActivityIntent = new Intent(Intent.ACTION_PICK);
+//                        externalActivityIntent.setType("image/*");
+//                        externalActivityIntent.addFlags(
+//                                Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+//                        startActivity(externalActivityIntent);
+
+                        Fragment prefsFragment = new PrefsFragment();
+                        FragmentTransaction ft  = getFragmentManager().beginTransaction();
+                        ft.replace(R.id.settings_frag, prefsFragment);
+                        ft.addToBackStack(null);
+                        ft.commit();
                     }
                 });
 

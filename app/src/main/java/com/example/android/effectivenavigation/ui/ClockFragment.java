@@ -25,7 +25,7 @@ public class ClockFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_section_clock, container, false);
 
-        ((TextView) rootView.findViewById(android.R.id.text1)).setText(
+        ((TextView) rootView.findViewById(R.id.clock)).setText(
                 getString(R.string.clock_section_text, args.getInt(ARG_SECTION_NUMBER)));
         return rootView;
     }
