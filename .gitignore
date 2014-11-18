@@ -13,6 +13,7 @@
 # Generated files
 bin/
 gen/
+app/app.iml
 
 # Gradle files
 .gradle/
