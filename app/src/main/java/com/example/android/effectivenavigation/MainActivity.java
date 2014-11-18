@@ -18,17 +18,11 @@ package com.example.android.effectivenavigation;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.example.android.effectivenavigation.ui.AppSectionsPagerAdapter;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
@@ -55,7 +49,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the action bar.
-        final ActionBar actionBar = getActionBar();
+        final ActionBar actionBar = getActionBar(); //TODO: this can be null, handle if so
 
         // Specify that the Home/Up button should not be enabled, since there is no hierarchical
         // parent.

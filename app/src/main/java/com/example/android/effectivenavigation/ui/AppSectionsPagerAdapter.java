@@ -1,4 +1,4 @@
-package com.example.android.effectivenavigation;
+package com.example.android.effectivenavigation.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
