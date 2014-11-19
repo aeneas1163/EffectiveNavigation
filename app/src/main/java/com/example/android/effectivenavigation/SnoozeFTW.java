@@ -19,8 +19,7 @@ public class SnoozeFTW extends Application {
         super.onCreate();
 
         //TODO: acquire default values after settings sml is properly generated
-        //PreferenceManager.setDefaultValues(this, R.xml.settings, false);
-
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         sp = PreferenceManager.getDefaultSharedPreferences(this);
 
         //TODO: initializa db acces here some how
