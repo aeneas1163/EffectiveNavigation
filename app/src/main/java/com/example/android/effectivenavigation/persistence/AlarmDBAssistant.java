@@ -83,8 +83,9 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         List<AlarmDataModel> alarmList = new ArrayList<AlarmDataModel>();
         while (c.moveToNext())
             alarmList.add(generateDataModel(c));
-        if (!alarmList.isEmpty())
+        if (!alarmList.isEmpty()) {
             return alarmList;
+        }
 
         return null;
     }

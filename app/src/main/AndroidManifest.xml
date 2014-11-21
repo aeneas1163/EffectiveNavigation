@@ -33,8 +33,7 @@
         android:label="@string/app_name"
         android:theme="@style/CustomTheme" >
 
-        <activity android:name="com.example.android.effectivenavigation.MainActivity"
-            android:label="@string/app_name" >
+        <activity android:name="com.example.android.effectivenavigation.MainActivity" android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -44,20 +43,14 @@
         <activity android:name="com.example.android.effectivenavigation.CharityCollectionActivity"
             android:label="@string/demo_collection" />
 
-        <service android:name=".services.AlarmService" android:exported="false" >
-        </service>
+        <service android:name=".services.AlarmReceiverService" android:enabled="true"/>
 
-        <receiver android:name=".services.AlarmReceiver" android:enabled="true"
-            android:exported="false" >
-        </receiver>
-
-        <receiver android:name=".services.AfterBootAlarmSetter"
-            android:enabled="true"
-            android:exported="false" >
+        <receiver android:name=".services.AlarmManagerHelper">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

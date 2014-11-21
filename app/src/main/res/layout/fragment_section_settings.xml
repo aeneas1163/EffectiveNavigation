@@ -34,7 +34,13 @@
         <Button android:id="@+id/demo_external_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:text="@string/demo_external_activity" />
+
+        <Button android:id="@+id/demo_alarm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="fake alarm in 1 minute" />
 
     </LinearLayout>
 

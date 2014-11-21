@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.android.effectivenavigation.CharityCollectionActivity;
 import com.example.android.effectivenavigation.R;
+import com.example.android.effectivenavigation.services.AlarmManagerHelper;
 
 /**
  * A fragment that launches other parts of the demo application.
@@ -53,6 +54,14 @@ public class SettingsFragment extends Fragment {
                         ft.replace(R.id.settings_frag, prefsFragment);
                         ft.addToBackStack(null);
                         ft.commit();
+                    }
+                });
+
+        rootView.findViewById(R.id.demo_alarm)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AlarmManagerHelper.ring(view.getContext());
                     }
                 });
 
