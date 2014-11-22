@@ -25,11 +25,11 @@ public class AlarmReceiverService extends Service {
         long id = intent.getIntExtra(AlarmManagerHelper.ID, 0);
         String msg = intent.getStringExtra(AlarmManagerHelper.NAME);
 
-        Notification n = new Notification(R.drawable.clock_selected, msg,
+        Notification n = new Notification(R.drawable.ic_launcher, msg,
                 System.currentTimeMillis());
         PendingIntent pi = PendingIntent.getActivity(this, 0, new Intent(), 0);
 
-        n.setLatestEventInfo(this, "Remind Me", msg, pi);
+        n.setLatestEventInfo(this, "WAKEEEEE UPPPPP! :)", msg, pi);
         // TODO check user preferences
         n.defaults |= Notification.DEFAULT_VIBRATE;
         //n.sound = Uri.parse(RemindMe.getRingtone());

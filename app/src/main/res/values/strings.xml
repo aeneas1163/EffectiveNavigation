@@ -22,6 +22,7 @@
 
     <string name="demo_external_activity">Dummy Preferences</string>
     <string name="demo_collection">Demo Collection</string>
+    <string name="app_preferences">App Preferences</string>
 
     <string name="title_edittext_preference">Edit text preference</string>
 

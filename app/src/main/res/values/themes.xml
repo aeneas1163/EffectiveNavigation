@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- the theme applied to the application or activity -->
-    <style name="CustomTheme"
+    <style name="MainTheme"
         parent="@android:style/Theme.Holo.Wallpaper">
-        <item name="android:actionBarTabStyle">@style/MyActionBarTabs</item>
+        <item name="android:actionBarTabStyle">@style/MainActionBarWithTabs</item>
 
         <item name="android:windowActionBarOverlay">true</item>
 
     </style>
 
+    <style name="AppPreferencesTheme"
+        parent="@android:style/Theme.Holo">
+        <item name="android:actionBarTabStyle">@style/AppPrefsActionBar</item>
+
+        <item name="android:windowActionBarOverlay">false</item>
+
+    </style>
+
     <!-- ActionBar tabs styles -->
-    <style name="MyActionBarTabs"
+    <style name="MainActionBarWithTabs"
         parent="@android:style/Widget.Holo.ActionBar.TabView" >
         <!-- tab indicator -->
         <item name="android:tabStripEnabled">false</item>
@@ -18,5 +26,11 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:selectableItemBackground">@null</item>
         <item name="android:actionBarItemBackground">@null</item>
+    </style>
+
+    <style name="AppPrefsActionBar"
+        parent="@android:style/Widget.Holo.ActionBar" >
+        <item name="android:background">@android:color/black</item>
+        <item name="android:windowBackground">@android:color/black</item>
     </style>
 </resources>

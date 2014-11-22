@@ -2,7 +2,7 @@ package com.example.android.effectivenavigation.ui;
 
 import android.app.ActionBar;
 import android.os.Bundle;
-import android.support.v4.preference.PreferenceFragment;
+import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,15 +29,19 @@ public class PrefsFragment extends PreferenceFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         view.setBackgroundColor(getResources().getColor(android.R.color.black));
-        final ActionBar actionBar = getActivity().getActionBar();
-        actionBar.hide();
+        final ActionBar  actionBar = getActivity().getActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
         return view;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        final ActionBar actionBar = getActivity().getActionBar();
-        actionBar.show();
+        final ActionBar  actionBar = getActivity().getActionBar();
+        actionBar.setHomeButtonEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(false);
     }
+
+
 }
