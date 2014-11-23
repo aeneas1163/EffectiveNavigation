@@ -1,13 +1,17 @@
 package com.example.android.effectivenavigation.ui;
 
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.android.effectivenavigation.R;
+import com.example.android.effectivenavigation.services.AlarmManagerHelper;
+
+import java.util.Calendar;
 
 /**
  * A dummy fragment representing a section of the app, but that simply displays dummy text.
@@ -18,6 +22,7 @@ public class AlarmFragment extends Fragment {
 
     public static final String ARG_SECTION_NUMBER = "section_number";
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -25,8 +30,29 @@ public class AlarmFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_section_alarm, container, false);
 
-        ((TextView) rootView.findViewById(R.id.alarm)).setText(
-                getString(R.string.alarm_section_text, args.getInt(ARG_SECTION_NUMBER)));
+        rootView.findViewById(R.id.set_alarm_button)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        final Calendar c = Calendar.getInstance();
+                        int hour = c.get(Calendar.HOUR_OF_DAY);
+                        int minute = c.get(Calendar.MINUTE);
+
+                        // Create a new instance of TimePickerDialog and return it
+                        AlarmSetterDialog alarmSetter = new AlarmSetterDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int i, int i2) {
+                                AlarmManagerHelper.ring(getActivity());
+                            }
+                        }, hour, minute, true);
+                        alarmSetter.show();
+                    }
+                });
+
         return rootView;
     }
+
+
+
 }
