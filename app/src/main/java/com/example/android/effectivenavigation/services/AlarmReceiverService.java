@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.example.android.effectivenavigation.R;
+import com.example.android.effectivenavigation.model.AlarmDataModel;
 
 public class AlarmReceiverService extends Service {
 
+    public static String TAG = AlarmReceiverService.class.getSimpleName();
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -40,8 +42,12 @@ public class AlarmReceiverService extends Service {
         nm.notify((int)id, n);
         ///////////////////////////////////
 
-
-        AlarmManagerHelper.setAlarms(this); //this one starts the alarms
+        //TODO:
+        //AlarmDataModel newModel = //Model after snooze, time shifted 5 minutes, etc.. or we are done with it?
+        //if snoozed:
+        //AlarmManagerHelper.triggerAlarmModelUpdate(newModel);
+        //else:
+        //AlarmManagerHelper.setAlarms(this); //this one starts the alarms
         return super.onStartCommand(intent, flags, startId);
     }
 

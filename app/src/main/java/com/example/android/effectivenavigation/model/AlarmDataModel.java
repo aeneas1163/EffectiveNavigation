@@ -10,14 +10,16 @@ import java.util.Calendar;
 public class AlarmDataModel {
 
     // week day definitions for repeat setup
-    public static final int MON = 0;
-    public static final int TUE = 1;
-    public static final int WED = 2;
-    public static final int THU = 3;
-    public static final int FRI = 4;
-    public static final int SAT = 5;
-    public static final int SUN = 6;
+    public static final int SUN = 0;
+    public static final int MON = 1;
+    public static final int TUE = 2;
+    public static final int WED = 3;
+    public static final int THU = 4;
+    public static final int FRI = 5;
+    public static final int SAT = 6;
+
     private boolean repeatingDays[]; //bool array for selecting repeating days (repeatingDays[Mon] = true..)
+    private boolean isWeekly;
 
     private long id; //db id of the alarm
     private boolean isEnabled;
@@ -47,13 +49,15 @@ public class AlarmDataModel {
 
     public AlarmDataModel(String name, int timeHour, int timeMinute) {
         repeatingDays = new boolean[7];
+
         this.name = name;
         this.setTimeHour(timeHour);
         this.setTimeMinute(timeMinute);
         this.isEnabled = false;
-        this.id = -1; //TODO decide on how to get this fella
-        this.message = null; //TODO get a default message from settings?
-        this.alarmTone = null; //TODO get default alarmTone uri from somewhere? Settings maybe?
+        this.id = -1;
+        this.message = null;
+        this.alarmTone = null; //TODO: get default ring tone here, app resource?
+        this.setWeeklyRepeat(false);
     }
 
     // getters and setters
@@ -66,7 +70,6 @@ public class AlarmDataModel {
     }
 
     public long getId() {
-        //TODO: db look up
         return id;
     }
 
@@ -78,12 +81,8 @@ public class AlarmDataModel {
         return isEnabled;
     }
 
-    public void enableAlarm() {
-        this.isEnabled = true;
-    }
-
-    public void disableAlarm() {
-        this.isEnabled = false;
+    public void setEnabled(boolean state) {
+        this.isEnabled = state;
     }
 
     public String getName() {
@@ -124,5 +123,13 @@ public class AlarmDataModel {
 
     public void setAlarmTone(Uri alarmTone) {
         this.alarmTone = alarmTone;
+    }
+
+    public boolean isWeekly() {
+        return isWeekly;
+    }
+
+    public void setWeeklyRepeat(boolean isWeekly) {
+        this.isWeekly = isWeekly;
     }
 }

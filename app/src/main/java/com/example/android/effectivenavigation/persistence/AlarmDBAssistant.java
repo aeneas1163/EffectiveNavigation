@@ -29,6 +29,7 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TIME_HOUR + " INTEGER," +
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TIME_MINUTE + " INTEGER," +
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_DAYS + " TEXT," +
+                    AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_WEEKLY + " BOOLEAN," +
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TONE + " TEXT," +
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_ENABLED + " BOOLEAN" + " )";
 
@@ -71,6 +72,11 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
 
     }
 
+    public long updateAlarm(AlarmDataModel model) {
+        ContentValues values = generateContentValues(model);
+        return getWritableDatabase().update(AlarmModelContract.Alarm.TABLE_NAME, values, AlarmModelContract.Alarm._ID + " = ?", new String[] { String.valueOf(model.getId()) });
+    }
+
     public int deleteAlarm(long id) {
         return getWritableDatabase().delete(AlarmModelContract.Alarm.TABLE_NAME, AlarmModelContract.Alarm._ID + " = ?", new String[] { String.valueOf(id) });
     }
@@ -100,15 +106,17 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         model.setMessage(c.getString(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_MESSAGE)));
         model.setTimeHour(c.getInt(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TIME_HOUR)));
         model.setTimeMinute(c.getInt(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TIME_MINUTE)));
-        model.setAlarmTone(Uri.parse(c.getString(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TONE))));
+        model.setWeeklyRepeat(c.getInt(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_WEEKLY)) == 0 ? false : true);
 
-        if (c.getInt(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_ENABLED)) != 0)
-            model.enableAlarm();
-        else
-            model.disableAlarm();
+        model.setAlarmTone(c.getString(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TONE)) != ""
+                ? Uri.parse(c.getString(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TONE)))
+                : null);
+        model.setEnabled(c.getInt(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_ENABLED)) == 0 ? false : true);
 
-        //TODO:  do the parsing for COLUMN_NAME_ALARM_REPEAT_DAYS to get repeart days
-
+        String[] repeatingDays = c.getString(c.getColumnIndex((AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_DAYS))).split(",");
+        for (int i = 0; i < repeatingDays.length; ++i) {
+            model.setRepeatingDay(i, repeatingDays[i].equals("false") ? false : true);
+        }
 
         return model;
     }
@@ -123,9 +131,12 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TIME_MINUTE, model.getTimeMinute());
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TONE, model.getAlarmTone().toString());
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_ENABLED, model.isEnabled() ? 1 : 0 );
+        values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_WEEKLY, model.isWeekly());
 
         String repeatingDays = "";
-        //TODO: do parsing code to create an array of repeat days "MON, TUE, FRI" ..
+        for (int i = 0; i < 7; ++i) {
+            repeatingDays += model.getRepeatingDay(i) + ",";
+        }
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_DAYS, repeatingDays);
 
         return values;
