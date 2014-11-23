@@ -1,15 +1,17 @@
-package com.example.android.effectivenavigation;
+package com.alphan.mcan.snoozecharity;
 
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 
+import com.example.android.effectivenavigation.R;
+
 /**
  * Main Application that contains activities and holds database access if needed
  * Created by mcni on 11/18/14.
  */
-public class SnoozeFTW extends Application {
+public class SnoozeApplication extends Application {
 
     public static SQLiteDatabase db;
     public static SharedPreferences sp;

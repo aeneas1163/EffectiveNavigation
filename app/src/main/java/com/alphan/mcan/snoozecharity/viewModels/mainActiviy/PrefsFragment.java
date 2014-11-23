@@ -1,4 +1,4 @@
-package com.example.android.effectivenavigation.ui;
+package com.alphan.mcan.snoozecharity.viewModels.mainActiviy;
 
 import android.app.ActionBar;
 import android.os.Bundle;

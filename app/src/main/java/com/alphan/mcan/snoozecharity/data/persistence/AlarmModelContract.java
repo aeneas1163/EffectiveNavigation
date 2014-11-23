@@ -1,4 +1,4 @@
-package com.example.android.effectivenavigation.persistence;
+package com.alphan.mcan.snoozecharity.data.persistence;
 
 import android.provider.BaseColumns;
 

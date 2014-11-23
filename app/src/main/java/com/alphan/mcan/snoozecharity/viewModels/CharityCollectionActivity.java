@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.effectivenavigation;
+package com.alphan.mcan.snoozecharity.viewModels;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -31,6 +31,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.android.effectivenavigation.R;
 
 public class CharityCollectionActivity extends FragmentActivity {
 

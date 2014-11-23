@@ -1,8 +1,10 @@
-package com.example.android.effectivenavigation.ui;
+package com.alphan.mcan.snoozecharity.viewModels;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;
+
+import com.alphan.mcan.snoozecharity.viewModels.mainActiviy.PrefsFragment;
 
 /**
  * Created by Alphan on 22-Nov-14.

@@ -1,4 +1,4 @@
-package com.example.android.effectivenavigation.alarm;
+package com.alphan.mcan.snoozecharity.viewModels;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,6 +15,9 @@ import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
+import com.example.android.effectivenavigation.R;
 
 public class AlarmScreen extends Activity {
 	

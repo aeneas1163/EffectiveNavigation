@@ -1,4 +1,4 @@
-package com.example.android.effectivenavigation.model;
+package com.alphan.mcan.snoozecharity.data.model;
 
 import android.net.Uri;
 import android.provider.Settings;

@@ -1,4 +1,4 @@
-package com.example.android.effectivenavigation.persistence;
+package com.alphan.mcan.snoozecharity.data.persistence;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
-import com.example.android.effectivenavigation.model.AlarmDataModel;
+import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 
 import java.util.ArrayList;
 import java.util.List;

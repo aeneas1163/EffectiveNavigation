@@ -1,10 +1,10 @@
-package com.example.android.effectivenavigation.services;
+package com.alphan.mcan.snoozecharity.services;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.example.android.effectivenavigation.alarm.AlarmScreen;
+import com.alphan.mcan.snoozecharity.viewModels.AlarmScreen;
 
 public class AlarmReceiverService extends Service {
 

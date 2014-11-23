@@ -1,4 +1,4 @@
-package com.example.android.effectivenavigation.services;
+package com.alphan.mcan.snoozecharity.services;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -7,13 +7,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.android.effectivenavigation.model.AlarmDataModel;
-import com.example.android.effectivenavigation.persistence.AlarmDBAssistant;
+import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
+import com.alphan.mcan.snoozecharity.data.persistence.AlarmDBAssistant;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Random;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.example.android.effectivenavigation.ui;
+package com.alphan.mcan.snoozecharity.viewModels.mainActiviy;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,10 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.android.effectivenavigation.CharityCollectionActivity;
+import com.alphan.mcan.snoozecharity.viewModels.CharityCollectionActivity;
 import com.example.android.effectivenavigation.R;
-import com.example.android.effectivenavigation.model.AlarmDataModel;
-import com.example.android.effectivenavigation.services.AlarmManagerHelper;
+import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
+import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
+import com.alphan.mcan.snoozecharity.viewModels.AppPreferencesActivity;
 
 import java.util.Calendar;
 

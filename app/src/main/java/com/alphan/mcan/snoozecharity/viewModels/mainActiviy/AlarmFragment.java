@@ -1,4 +1,4 @@
-package com.example.android.effectivenavigation.ui;
+package com.alphan.mcan.snoozecharity.viewModels.mainActiviy;
 
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -8,9 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TimePicker;
 
+import com.alphan.mcan.snoozecharity.viewModels.mainActiviy.AlarmSetterDialog;
 import com.example.android.effectivenavigation.R;
-import com.example.android.effectivenavigation.model.AlarmDataModel;
-import com.example.android.effectivenavigation.services.AlarmManagerHelper;
+import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
+import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 
 import java.util.Calendar;
 
