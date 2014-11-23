@@ -9,7 +9,10 @@ import android.view.ViewGroup;
 
 import com.example.android.effectivenavigation.CharityCollectionActivity;
 import com.example.android.effectivenavigation.R;
+import com.example.android.effectivenavigation.model.AlarmDataModel;
 import com.example.android.effectivenavigation.services.AlarmManagerHelper;
+
+import java.util.Calendar;
 
 /**
  * A fragment that launches other parts of the demo application.
@@ -47,7 +50,12 @@ public class SettingsFragment extends Fragment{
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        AlarmManagerHelper.ring(view.getContext());
+                        final Calendar c = Calendar.getInstance();
+                        int hour = c.get(Calendar.HOUR_OF_DAY);
+                        int minute = c.get(Calendar.MINUTE);
+                        AlarmDataModel alarmData = new AlarmDataModel("WAAAAKE UPPP!!", hour, minute + 1);
+                        alarmData.setEnabled(true);
+                        AlarmManagerHelper.triggerAlarmModelUpdate(getActivity(), alarmData);
                     }
                 });
 

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="transparent_black">#AA000000</color>
     <!-- the theme applied to the application or activity -->
     <style name="MainTheme"
         parent="@android:style/Theme.Holo.Wallpaper">
@@ -16,6 +18,18 @@
         <item name="android:windowActionBarOverlay">false</item>
 
     </style>
+
+    <style name="AlarmTheme"
+        parent="@android:style/Theme.Holo">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowFullscreen">false</item>
+    </style>
+
+
 
     <!-- ActionBar tabs styles -->
     <style name="MainActionBarWithTabs"

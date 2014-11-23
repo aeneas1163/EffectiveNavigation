@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TimePicker;
 
 import com.example.android.effectivenavigation.R;
+import com.example.android.effectivenavigation.model.AlarmDataModel;
 import com.example.android.effectivenavigation.services.AlarmManagerHelper;
 
 import java.util.Calendar;
@@ -41,9 +42,17 @@ public class AlarmFragment extends Fragment {
 
                         // Create a new instance of TimePickerDialog and return it
                         AlarmSetterDialog alarmSetter = new AlarmSetterDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+
+                            int callCount = 0;
                             @Override
-                            public void onTimeSet(TimePicker timePicker, int i, int i2) {
-                                AlarmManagerHelper.ring(getActivity());
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                                if(callCount == 1)    // On second call
+                                {
+                                    AlarmDataModel alarmData = new AlarmDataModel("WAAAAKE UPPP!!", selectedHour, selectedMinute);
+                                    alarmData.setEnabled(true);
+                                    AlarmManagerHelper.triggerAlarmModelUpdate(getActivity(), alarmData);
+                                }
+                                callCount++;
                             }
                         }, hour, minute, true);
                         alarmSetter.show();

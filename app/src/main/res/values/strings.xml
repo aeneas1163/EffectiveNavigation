@@ -24,6 +24,7 @@
     <string name="demo_collection">Demo Collection</string>
     <string name="app_preferences">App Preferences</string>
     <string name="set_alarm">Create new alarm</string>
+    <string name="alarm_screen">WAAAAAKE UPPP!</string>
 
     <string name="title_edittext_preference">Edit text preference</string>
 

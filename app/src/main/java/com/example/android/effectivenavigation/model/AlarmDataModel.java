@@ -1,6 +1,9 @@
 package com.example.android.effectivenavigation.model;
 
 import android.net.Uri;
+import android.provider.Settings;
+
+import java.util.Arrays;
 import java.util.Calendar;
 
 /**
@@ -45,10 +48,13 @@ public class AlarmDataModel {
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
         // by default set an alarm for now
+        repeatingDays = new boolean[7];
+        Arrays.fill(repeatingDays, false);
     }
 
     public AlarmDataModel(String name, int timeHour, int timeMinute) {
         repeatingDays = new boolean[7];
+        Arrays.fill(repeatingDays, true);
 
         this.name = name;
         this.setTimeHour(timeHour);
@@ -56,7 +62,7 @@ public class AlarmDataModel {
         this.isEnabled = false;
         this.id = -1;
         this.message = null;
-        this.alarmTone = null; //TODO: get default ring tone here, app resource?
+        this.alarmTone = Settings.System.DEFAULT_NOTIFICATION_URI; //TODO: get default ring tone here, app resource?
         this.setWeeklyRepeat(false);
     }
 

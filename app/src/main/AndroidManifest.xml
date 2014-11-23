@@ -24,7 +24,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
-
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -46,6 +46,10 @@
         <activity android:name="com.example.android.effectivenavigation.ui.AppPreferencesActivity"
             android:label="@string/app_preferences"
             android:theme="@style/AppPreferencesTheme" />
+
+        <activity android:name="com.example.android.effectivenavigation.alarm.AlarmScreen"
+            android:label="@string/alarm_screen"
+            android:theme="@style/AlarmTheme" />
 
         <service android:name=".services.AlarmReceiverService" android:enabled="true"/>
 
