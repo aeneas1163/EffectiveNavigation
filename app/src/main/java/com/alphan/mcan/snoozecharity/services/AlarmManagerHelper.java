@@ -130,7 +130,7 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
         intent.putExtra(TIME_MINUTE, model.getTimeMinute());
         intent.putExtra(TONE, model.getAlarmTone().toString());
 
-        return PendingIntent.getBroadcast(context, (int) model.getId(), intent, PendingIntent.FLAG_ONE_SHOT);
+        return PendingIntent.getBroadcast(context, (int) model.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     /**
