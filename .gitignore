@@ -28,4 +28,9 @@ proguard/
 # Log Files
 *.log
 
-
+gradle/wrapper/gradle-wrapper.properties
+app/build.gradle
+settings.gradle
+build.gradle
+EffectiveNavigation.iml
+SnoozeCharity.iml
