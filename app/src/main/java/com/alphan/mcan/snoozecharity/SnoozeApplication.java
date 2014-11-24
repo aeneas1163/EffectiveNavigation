@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 
-import com.example.android.effectivenavigation.R;
-
 /**
  * Main Application that contains activities and holds database access if needed
  * Created by mcni on 11/18/14.

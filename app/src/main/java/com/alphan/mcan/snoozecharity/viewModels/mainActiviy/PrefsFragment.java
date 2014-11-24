@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.android.effectivenavigation.R;
+import com.alphan.mcan.snoozecharity.R;
 
 /**
  * Preferences fragment that uses PreferenceScreen.xml in res/values in order to allow user to edit

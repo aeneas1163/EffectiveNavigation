@@ -32,7 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.android.effectivenavigation.R;
+import com.alphan.mcan.snoozecharity.R;
 
 public class CharityCollectionActivity extends FragmentActivity {
 

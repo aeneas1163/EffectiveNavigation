@@ -8,8 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TimePicker;
 
-import com.alphan.mcan.snoozecharity.viewModels.mainActiviy.AlarmSetterDialog;
-import com.example.android.effectivenavigation.R;
+import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 

@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.android.effectivenavigation.R;
+import com.alphan.mcan.snoozecharity.R;
 
 /**
  * A dummy fragment representing a section of the app, but that simply displays dummy text.

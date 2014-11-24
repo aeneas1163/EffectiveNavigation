@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.viewModels.CharityCollectionActivity;
-import com.example.android.effectivenavigation.R;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 import com.alphan.mcan.snoozecharity.viewModels.AppPreferencesActivity;

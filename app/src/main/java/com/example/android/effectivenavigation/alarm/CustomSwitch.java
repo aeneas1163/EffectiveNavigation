@@ -1,19 +1,5 @@
 package com.example.android.effectivenavigation.alarm;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.util.AttributeSet;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-import android.widget.Switch;
-import android.widget.TextView;
-import com.example.android.effectivenavigation.R;
-
 //@SuppressLint("NewApi")
 //public class CustomSwitch extends FrameLayout {
 //

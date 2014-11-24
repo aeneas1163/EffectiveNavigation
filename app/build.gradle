@@ -4,7 +4,7 @@ android {
     buildToolsVersion "21.1.1"
 
     defaultConfig {
-        applicationId "com.example.android.effectivenavigation"
+        applicationId "com.alphan.mcan.snoozecharity"
         minSdkVersion 14
         targetSdkVersion 14
     }

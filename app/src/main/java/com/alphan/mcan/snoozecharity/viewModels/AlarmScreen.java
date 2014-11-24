@@ -16,8 +16,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
-import com.example.android.effectivenavigation.R;
 
 public class AlarmScreen extends Activity {
 	

@@ -21,7 +21,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
-import com.example.android.effectivenavigation.R;
+import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.viewModels.mainActiviy.AppSectionsPagerAdapter;
 
 public class MainActivity extends FragmentActivity{
