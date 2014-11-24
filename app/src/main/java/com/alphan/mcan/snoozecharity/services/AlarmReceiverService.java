@@ -13,12 +13,15 @@ public class AlarmReceiverService extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Intent alarmIntent = new Intent(context, AlarmScreen.class);
-        alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        alarmIntent.putExtras(intent);
-        context.startActivity(alarmIntent);
+//        if (intent != null) {
 
-        AlarmManagerHelper.setAlarms(context);
+            Intent alarmIntent = new Intent(context, AlarmScreen.class);
+            alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            alarmIntent.putExtras(intent);
+            context.startActivity(alarmIntent);
+
+            AlarmManagerHelper.setAlarms(context);
+//        }
     }
 
 }
