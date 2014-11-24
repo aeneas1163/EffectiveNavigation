@@ -36,15 +36,21 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
         setAlarms(context);
     }
 
-    public static void triggerAlarmModelUpdate(Context context, AlarmDataModel alarm ) {
+    public static void triggerAlarmModelUpdate(Context context, AlarmDataModel newAlarm ) {
         AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
+
+        List<AlarmDataModel> alarms =  dbHelper.getAlarms();
+
+        for (AlarmDataModel alarm : alarms) {
+            dbHelper.deleteAlarm(alarm.getId());
+        }
 
         AlarmManagerHelper.cancelAlarms(context);
 
-        if (alarm.getId() < 0)
-            dbHelper.addAlarm(alarm);
+        if (newAlarm.getId() < 0)
+            dbHelper.addAlarm(newAlarm);
         else
-            dbHelper.updateAlarm(alarm);
+            dbHelper.updateAlarm(newAlarm);
 
         AlarmManagerHelper.setAlarms(context);
     }
@@ -124,7 +130,7 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
         intent.putExtra(TIME_MINUTE, model.getTimeMinute());
         intent.putExtra(TONE, model.getAlarmTone());
 
-        return PendingIntent.getService(context, (int)model.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(context, (int) model.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     /**

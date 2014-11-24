@@ -58,9 +58,7 @@
             android:label="@string/alarm_screen"
             android:theme="@style/AlarmTheme" />
 
-        <service
-            android:name="com.alphan.mcan.snoozecharity.services.AlarmReceiverService"
-            android:enabled="true" />
+        <receiver android:name="com.alphan.mcan.snoozecharity.services.AlarmReceiverService" />
 
         <receiver android:name="com.alphan.mcan.snoozecharity.services.AlarmManagerHelper" >
             <intent-filter>
