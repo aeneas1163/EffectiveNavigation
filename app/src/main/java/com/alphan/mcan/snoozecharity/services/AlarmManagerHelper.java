@@ -19,7 +19,7 @@ import java.util.List;
  * set and cancel alarms. This is also responsible for restarting alarms on reboot
  * <p/>
  */
-public class AlarmManagerHelper extends BroadcastReceiver {
+public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to local-broadcast receiver?
     public AlarmManagerHelper() {
     }
 

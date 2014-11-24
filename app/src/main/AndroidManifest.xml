@@ -21,44 +21,58 @@
 
     <uses-sdk android:minSdkVersion="14" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <application android:name="com.alphan.mcan.snoozecharity.SnoozeApplication"
+    <application
+        android:name="com.alphan.mcan.snoozecharity.SnoozeApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/MainTheme" >
-
-        <activity android:name="com.alphan.mcan.snoozecharity.viewModels.MainActivity" android:label="@string/app_name" >
+        <activity
+            android:name="com.alphan.mcan.snoozecharity.viewModels.MainActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.alphan.mcan.snoozecharity.viewModels.CharityCollectionActivity"
+        <activity
+            android:name="com.alphan.mcan.snoozecharity.viewModels.CharityCollectionActivity"
             android:label="@string/demo_collection" />
-
-        <activity android:name="com.alphan.mcan.snoozecharity.viewModels.AppPreferencesActivity"
+        <activity
+            android:name="com.alphan.mcan.snoozecharity.viewModels.AppPreferencesActivity"
             android:label="@string/app_preferences"
             android:theme="@style/AppPreferencesTheme" />
-
-        <activity android:name="com.alphan.mcan.snoozecharity.viewModels.AlarmScreen"
+        <activity
+            android:name="com.alphan.mcan.snoozecharity.viewModels.AlarmScreen"
             android:label="@string/alarm_screen"
             android:theme="@style/AlarmTheme" />
 
-        <service android:name="com.alphan.mcan.snoozecharity.services.AlarmReceiverService" android:enabled="true"/>
+        <service
+            android:name="com.alphan.mcan.snoozecharity.services.AlarmReceiverService"
+            android:enabled="true" />
 
-        <receiver android:name="com.alphan.mcan.snoozecharity.services.AlarmManagerHelper">
+        <receiver android:name="com.alphan.mcan.snoozecharity.services.AlarmManagerHelper" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
+        <service
+            android:name="com.alphan.mcan.snoozecharity.services.DonationManager"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

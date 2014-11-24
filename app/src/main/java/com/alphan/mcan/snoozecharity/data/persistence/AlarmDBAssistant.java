@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
+import com.alphan.mcan.snoozecharity.data.model.CharityDataModel;
+import com.alphan.mcan.snoozecharity.data.model.DonationDataModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "snoozeFTW.db";
 
+    //TODO: modify for charity and donation
     private static final String SQL_CREATE_ALARM_TABLE =
             "CREATE TABLE " + AlarmModelContract.Alarm.TABLE_NAME + " (" +
                     AlarmModelContract.Alarm._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -52,9 +55,12 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         //TODO: Not sure what the hell this one does, search a bit?
     }
 
-    //DB access methods
+
+    /**
+     DB alarm access methods
+     */
     public long addAlarm(AlarmDataModel model) {
-        ContentValues values = generateContentValues(model);
+        ContentValues values = generateAlarmContentValues(model);
         return getWritableDatabase().insert(AlarmModelContract.Alarm.TABLE_NAME, null, values);
     }
 
@@ -66,15 +72,16 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         String select = "SELECT * FROM " + AlarmModelContract.Alarm.TABLE_NAME + " WHERE " + AlarmModelContract.Alarm._ID + " = " + id;
         Cursor c = db.rawQuery(select, null);
         if (c.moveToNext())
-            return generateDataModel(c);
+            return generateAlarmModel(c);
         else
             return null;
 
     }
 
     public long updateAlarm(AlarmDataModel model) {
-        ContentValues values = generateContentValues(model);
-        return getWritableDatabase().update(AlarmModelContract.Alarm.TABLE_NAME, values, AlarmModelContract.Alarm._ID + " = ?", new String[] { String.valueOf(model.getId()) });
+        ContentValues values = generateAlarmContentValues(model);
+        return getWritableDatabase().update(AlarmModelContract.Alarm.TABLE_NAME,
+                values, AlarmModelContract.Alarm._ID + " = ?", new String[] { String.valueOf(model.getId()) });
     }
 
     public int deleteAlarm(long id) {
@@ -88,7 +95,7 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
 
         List<AlarmDataModel> alarmList = new ArrayList<AlarmDataModel>();
         while (c.moveToNext())
-            alarmList.add(generateDataModel(c));
+            alarmList.add(generateAlarmModel(c));
         if (!alarmList.isEmpty()) {
             return alarmList;
         }
@@ -97,8 +104,73 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
     }
 
 
-    //helper method to generate model out of DB cursor:
-    private AlarmDataModel generateDataModel(Cursor c) {
+    /**
+     DB donation access methods
+     */
+    public long addDonation(DonationDataModel donation) {
+        //TODO
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+    public DonationDataModel getDonation(long id) {
+        //TODO
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+    public long updateDonation(DonationDataModel model) {
+        //TODO
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+    public int deleteDonation(long id) {
+        //TODO
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+    public List<DonationDataModel> getDonations() {
+        List<DonationDataModel> pendingDonations = getPendingDonations();
+        pendingDonations.addAll(getSubmittedDonations());
+        return pendingDonations;
+    }
+
+    public List<DonationDataModel> getSubmittedDonations() {
+        //TODO
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+    public List<DonationDataModel> getPendingDonations() {
+        //TODO
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+
+    /**
+     DB charity access methods
+     */
+    public long addCharity(CharityDataModel charity) {
+        //TODO
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+    public CharityDataModel getCharity(long id) {
+        //TODO
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+    public int deleteCharity(long id) {
+        //TODO
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+    public List<CharityDataModel> getCharities() {
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+
+    /**
+     *
+     * Helper DB generation methods
+     */
+    private AlarmDataModel generateAlarmModel(Cursor c) {
         AlarmDataModel model = new AlarmDataModel();
 
         model.setId(c.getLong(c.getColumnIndex(AlarmModelContract.Alarm._ID)));
@@ -121,8 +193,7 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         return model;
     }
 
-    //helper method to push model to DB:
-    private ContentValues generateContentValues(AlarmDataModel model) {
+    private ContentValues generateAlarmContentValues(AlarmDataModel model) {
         ContentValues values = new ContentValues();
 
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_NAME, model.getName());
@@ -141,4 +212,28 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
 
         return values;
     }
+
+
+    private DonationDataModel generateDonationModel(Cursor c) {
+        //TODO
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+    private ContentValues generateDonationContentValues(DonationDataModel model) {
+        //TODO
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+
+    private CharityDataModel generateCharityModel(Cursor c) {
+        //TODO
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+    private ContentValues generateCharityContentValues(CharityDataModel model) {
+        //TODO
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+
 }
