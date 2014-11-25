@@ -56,7 +56,7 @@ public class SettingsFragment extends Fragment{
                         int minute = c.get(Calendar.MINUTE);
                         AlarmDataModel alarmData = new AlarmDataModel("WAAAAKE UPPP!!", hour, minute + 1);
                         alarmData.setEnabled(true);
-                        AlarmManagerHelper.triggerAlarmModelUpdate(getActivity(), alarmData);
+                        AlarmManagerHelper.createOrModifyAlarmPendingIntent(getActivity(), alarmData);
                     }
                 });
 

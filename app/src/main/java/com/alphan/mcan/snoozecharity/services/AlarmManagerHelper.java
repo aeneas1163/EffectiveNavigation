@@ -23,6 +23,12 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
     public AlarmManagerHelper() {
     }
 
+    // intent params:
+    public static final String INTENT_TYPE = "intentType";
+    public static final int ALARM_INTENT = 0;
+    public static final int DONATION_INTENT = 1;
+
+    // alarm params:
     public static final String ID = "id";
     public static final String NAME = "name";
     public static final String MESSAGE = "message";
@@ -30,17 +36,23 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
     public static final String TIME_MINUTE = "timeMinute";
     public static final String TONE = "alarmTone";
 
+
     // set alarms again on reboot
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
+        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
             setAlarms(context);
+            //TODO: if (donationReminderIsEnabled)
+            // get if from SnoozeApplication.sp
+            enableDonationCheck(context);
+        }
     }
 
-    public static void triggerAlarmModelUpdate(Context context, AlarmDataModel newAlarm ) {
+    // add/modify an existing alarm and set it
+    public static void createOrModifyAlarmPendingIntent(Context context, AlarmDataModel newAlarm) {
         AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
 
-        AlarmManagerHelper.cancelAlarms(context);
+        AlarmManagerHelper.cancelPendingAlarms(context);
 
         if (newAlarm.getId() < 0)
             dbHelper.addAlarm(newAlarm);
@@ -50,7 +62,47 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
         AlarmManagerHelper.setAlarms(context);
     }
 
-    // sets all of the required alarms from DB
+    // cancels all of the pending alarm intents
+    public static void cancelPendingAlarms(Context context) {
+        AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
+
+        List<AlarmDataModel> alarms =  dbHelper.getAlarms();
+        if (alarms != null) for (AlarmDataModel alarm : alarms)
+            if (alarm.isEnabled()) {
+                PendingIntent pIntent = createAlarmPendingIntent(context, alarm);
+                AlarmManager androidAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                androidAlarmManager.cancel(pIntent);
+            }
+    }
+
+    // enable a donation reminder check alarm (every 2 days)
+    public static void enableDonationCheck(Context context) {
+
+        PendingIntent pIntent = createDonationPendingIntent(context);
+
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        // set a reminder to check donation status every 2 days (not counting today)
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 20);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY * 2, pIntent);
+    }
+
+    // cancel the donation reminder
+    public static void disableDonationCheck(Context context) {
+        PendingIntent pIntent = createDonationPendingIntent(context);
+        AlarmManager androidAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        androidAlarmManager.cancel(pIntent);
+    }
+
+    /**
+     * helper method used to create alarm PendingIntents for every enabled alarm in our DB for
+     * our service: {@link AlarmBroadcastReceiver}
+     */
     private static void setAlarms(Context context) {
 
         AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
@@ -58,7 +110,7 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
         for (AlarmDataModel alarm : alarms)
             if (alarm.isEnabled()) {
 
-                PendingIntent pIntent = createPendingIntent(context, alarm);
+                PendingIntent pIntent = createAlarmPendingIntent(context, alarm);
 
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.HOUR_OF_DAY, alarm.getTimeHour());
@@ -97,25 +149,26 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
 
     }
 
-    // cancels the alarms that as been set
-    private static void cancelAlarms(Context context) {
-        AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
-
-        List<AlarmDataModel> alarms =  dbHelper.getAlarms();
-        if (alarms != null) for (AlarmDataModel alarm : alarms)
-            if (alarm.isEnabled()) {
-                PendingIntent pIntent = createPendingIntent(context, alarm);
-                AlarmManager androidAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                androidAlarmManager.cancel(pIntent);
-            }
+    /**
+     * helper method that schedules a pending alarm intent over android's {@link AlarmManager}
+     */
+    @SuppressLint("NewApi")
+    private static void setAlarm(Context context, Calendar calendar, PendingIntent pIntent) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pIntent);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pIntent);
+        }
     }
 
     /**
-     * helper method used to create PendingIntents for our service: {@link AlarmBroadcastReceiver}
+     * helper method used to create an Alarm PendingIntents for our service: {@link AlarmBroadcastReceiver}
     */
-    private static PendingIntent createPendingIntent(Context context, AlarmDataModel model) {
+    private static PendingIntent createAlarmPendingIntent(Context context, AlarmDataModel model) {
 
         Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
+        intent.putExtra(INTENT_TYPE, ALARM_INTENT);
         intent.putExtra(ID, model.getId());
         intent.putExtra(NAME, model.getName());
         intent.putExtra(MESSAGE, model.getMessage());
@@ -127,16 +180,14 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
     }
 
     /**
-     * helper method that schedules a pending intent over android's {@link AlarmManager}
+     * helper method used to create an Donation check PendingIntent for our service: {@link AlarmBroadcastReceiver}
      */
-    @SuppressLint("NewApi")
-    private static void setAlarm(Context context, Calendar calendar, PendingIntent pIntent) {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pIntent);
-        } else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pIntent);
-        }
+    private static PendingIntent createDonationPendingIntent(Context context) {
+
+        Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
+        intent.putExtra(INTENT_TYPE, DONATION_INTENT);
+
+        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
 }

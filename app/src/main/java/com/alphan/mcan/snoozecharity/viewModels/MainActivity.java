@@ -17,11 +17,14 @@
 package com.alphan.mcan.snoozecharity.viewModels;
 
 import android.app.ActionBar;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
 import com.alphan.mcan.snoozecharity.R;
+import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 import com.alphan.mcan.snoozecharity.viewModels.mainActiviy.AppSectionsPagerAdapter;
 
 public class MainActivity extends FragmentActivity{
@@ -40,24 +43,42 @@ public class MainActivity extends FragmentActivity{
      */
     ViewPager mViewPager;
 
+    SharedPreferences prefs;
+
+    @Override
     public void onCreate(Bundle savedInstanceState)     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        // Create the adapter that will return a fragment for each of the three primary sections
-        // of the app.
+        initAppPreferences();
+        initViewPager();
+        initActionBar();
+
+        mViewPager.setCurrentItem(1);
+    }
+
+    private void initAppPreferences() {
+        // set preferences, moved from app to here
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    }
+
+    private void initViewPager() {
+        setContentView(R.layout.activity_main);
         mViewPager = (ViewPager) findViewById(R.id.main);
         mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(this, mViewPager);
+    }
 
-        // Set up the action bar.
-        final ActionBar actionBar = getActionBar(); //TODO: this can be null, handle if so
+    private void initActionBar() {
+        final ActionBar actionBar = getActionBar();
+        if (actionBar == null)
+            return;
 
         // Specify that the Home/Up button should not be enabled, since there is no hierarchical
         // parent.
         actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(false);
-        
+
         // Specify that we will be displaying tabs in the action bar.
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -72,9 +93,23 @@ public class MainActivity extends FragmentActivity{
         actionBar.addTab(clock_tab.setTabListener(mAppSectionsPagerAdapter));
         actionBar.addTab(settings_tab.setTabListener(mAppSectionsPagerAdapter));
 
-        // set the middle tab in first launch
-        mViewPager.setCurrentItem(1);
+
     }
 
+    // implemented to catch the first time run of our app
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (prefs.getBoolean("firstrun", true)) {
+
+            firstRunInitialization();
+
+            prefs.edit().putBoolean("firstrun", false).commit();
+        }
+    }
+
+    private void firstRunInitialization() {
+        AlarmManagerHelper.enableDonationCheck(this);
+    }
 
 }

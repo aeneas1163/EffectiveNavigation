@@ -64,7 +64,7 @@ public class AlarmScreen extends Activity {
                 // if it is found in DB, disable it and update db, or snooze or what ever
                 if (currentAlarm != null) {
                     currentAlarm.setEnabled(false);
-                    AlarmManagerHelper.triggerAlarmModelUpdate(getApplicationContext(), currentAlarm);
+                    AlarmManagerHelper.createOrModifyAlarmPendingIntent(getApplicationContext(), currentAlarm);
                 }
 				mPlayer.stop();
                 finish();

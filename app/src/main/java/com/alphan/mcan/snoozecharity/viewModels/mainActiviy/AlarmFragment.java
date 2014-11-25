@@ -50,7 +50,7 @@ public class AlarmFragment extends Fragment {
                                 {
                                     AlarmDataModel alarmData = new AlarmDataModel("WAAAAKE UPPP!!", selectedHour, selectedMinute);
                                     alarmData.setEnabled(true);
-                                    AlarmManagerHelper.triggerAlarmModelUpdate(getActivity().getApplicationContext(), alarmData);
+                                    AlarmManagerHelper.createOrModifyAlarmPendingIntent(getActivity().getApplicationContext(), alarmData);
                                 }
                                 callCount++;
                             }

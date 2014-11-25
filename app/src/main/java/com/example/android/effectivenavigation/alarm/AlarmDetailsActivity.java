@@ -127,7 +127,7 @@ package com.example.android.effectivenavigation.alarm;
 //			case R.id.action_save_alarm_details: {
 //				updateModelFromLayout();
 //
-//				AlarmManagerHelper.cancelAlarms(this);
+//				AlarmManagerHelper.cancelPendingAlarms(this);
 //
 //				if (alarmDetails.id < 0) {
 //					dbHelper.createAlarm(alarmDetails);

@@ -66,11 +66,6 @@
             </intent-filter>
         </receiver>
 
-        <service
-            android:name="com.alphan.mcan.snoozecharity.services.DonationManager"
-            android:enabled="true"
-            android:exported="false" >
-        </service>
     </application>
 
 </manifest>
