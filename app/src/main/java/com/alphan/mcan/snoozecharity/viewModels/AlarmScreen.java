@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.alphan.mcan.snoozecharity.R;
+import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
+import com.alphan.mcan.snoozecharity.data.persistence.AlarmDBAssistant;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 
 public class AlarmScreen extends Activity {
@@ -25,6 +27,7 @@ public class AlarmScreen extends Activity {
 
 	private WakeLock mWakeLock;
 	private MediaPlayer mPlayer;
+    private AlarmDataModel currentAlarm;
 
 	private static final int WAKELOCK_TIMEOUT = 60 * 1000;
 	
@@ -40,8 +43,14 @@ public class AlarmScreen extends Activity {
 		int timeMinute = getIntent().getIntExtra(AlarmManagerHelper.TIME_MINUTE, 0);
 		String tone = getIntent().getStringExtra(AlarmManagerHelper.TONE);
         long alarmID = getIntent().getLongExtra(AlarmManagerHelper.ID, -1);
-		
-		TextView tvName = (TextView) findViewById(R.id.alarm_screen_name);
+
+        AlarmDBAssistant dbHelper = new AlarmDBAssistant(this);
+        currentAlarm = dbHelper.getAlarm(alarmID);
+
+
+
+
+        TextView tvName = (TextView) findViewById(R.id.alarm_screen_name);
 		tvName.setText(name + " -ID: " + alarmID);
 		
 		TextView tvTime = (TextView) findViewById(R.id.alarm_screen_time);
@@ -52,6 +61,11 @@ public class AlarmScreen extends Activity {
 			
 			@Override
 			public void onClick(View view) {
+                // if it is found in DB, disable it and update db, or snooze or what ever
+                if (currentAlarm != null) {
+                    currentAlarm.setEnabled(false);
+                    AlarmManagerHelper.triggerAlarmModelUpdate(getApplicationContext(), currentAlarm);
+                }
 				mPlayer.stop();
                 finish();
 			}
@@ -125,4 +139,10 @@ public class AlarmScreen extends Activity {
 			mWakeLock.release();
 		}
 	}
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
 }

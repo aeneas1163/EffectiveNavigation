@@ -111,11 +111,11 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
     }
 
     /**
-     * helper method used to create PendingIntents for our service: {@link AlarmReceiverService}
+     * helper method used to create PendingIntents for our service: {@link AlarmBroadcastReceiver}
     */
     private static PendingIntent createPendingIntent(Context context, AlarmDataModel model) {
 
-        Intent intent = new Intent(context, AlarmReceiverService.class);
+        Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
         intent.putExtra(ID, model.getId());
         intent.putExtra(NAME, model.getName());
         intent.putExtra(MESSAGE, model.getMessage());

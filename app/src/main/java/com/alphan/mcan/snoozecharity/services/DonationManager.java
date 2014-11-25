@@ -6,7 +6,7 @@ import android.os.IBinder;
 
 public class DonationManager extends Service {
 
-    public static String TAG = AlarmReceiverService.class.getSimpleName();
+    public static String TAG = AlarmBroadcastReceiver.class.getSimpleName();
 
     public DonationManager() {
     }
