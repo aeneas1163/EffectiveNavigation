@@ -33,17 +33,12 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
     // set alarms again on reboot
     @Override
     public void onReceive(Context context, Intent intent) {
-        setAlarms(context);
+        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
+            setAlarms(context);
     }
 
     public static void triggerAlarmModelUpdate(Context context, AlarmDataModel newAlarm ) {
         AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
-
-        List<AlarmDataModel> alarms =  dbHelper.getAlarms();
-
-        for (AlarmDataModel alarm : alarms) {
-            dbHelper.deleteAlarm(alarm.getId());
-        }
 
         AlarmManagerHelper.cancelAlarms(context);
 
@@ -56,13 +51,10 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
     }
 
     // sets all of the required alarms from DB
-    public static void setAlarms(Context context) {
-        cancelAlarms(context); //cancel every alarm we have set as they will be reset.
+    private static void setAlarms(Context context) {
 
         AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
-
         List<AlarmDataModel> alarms =  dbHelper.getAlarms();
-
         for (AlarmDataModel alarm : alarms)
             if (alarm.isEnabled()) {
 
@@ -106,7 +98,7 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
     }
 
     // cancels the alarms that as been set
-    public static void cancelAlarms(Context context) {
+    private static void cancelAlarms(Context context) {
         AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
 
         List<AlarmDataModel> alarms =  dbHelper.getAlarms();
@@ -122,6 +114,7 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
      * helper method used to create PendingIntents for our service: {@link AlarmReceiverService}
     */
     private static PendingIntent createPendingIntent(Context context, AlarmDataModel model) {
+
         Intent intent = new Intent(context, AlarmReceiverService.class);
         intent.putExtra(ID, model.getId());
         intent.putExtra(NAME, model.getName());

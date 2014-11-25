@@ -39,9 +39,10 @@ public class AlarmScreen extends Activity {
 		int timeHour = getIntent().getIntExtra(AlarmManagerHelper.TIME_HOUR, 0);
 		int timeMinute = getIntent().getIntExtra(AlarmManagerHelper.TIME_MINUTE, 0);
 		String tone = getIntent().getStringExtra(AlarmManagerHelper.TONE);
+        long alarmID = getIntent().getLongExtra(AlarmManagerHelper.ID, -1);
 		
 		TextView tvName = (TextView) findViewById(R.id.alarm_screen_name);
-		tvName.setText(name);
+		tvName.setText(name + " -ID: " + alarmID);
 		
 		TextView tvTime = (TextView) findViewById(R.id.alarm_screen_time);
 		tvTime.setText(String.format("%02d : %02d", timeHour, timeMinute));
@@ -52,7 +53,7 @@ public class AlarmScreen extends Activity {
 			@Override
 			public void onClick(View view) {
 				mPlayer.stop();
-				finish();
+                finish();
 			}
 		});
 

@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
+import com.alphan.mcan.snoozecharity.data.persistence.AlarmDBAssistant;
 import com.alphan.mcan.snoozecharity.viewModels.AlarmScreen;
 
 public class AlarmReceiverService extends BroadcastReceiver {
@@ -13,15 +15,22 @@ public class AlarmReceiverService extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if (intent != null) {
+        // get received alarm from DB
+        long receivedAlarmID = intent.getLongExtra(AlarmManagerHelper.ID, -1);
+        AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
+        AlarmDataModel receivedAlarm = dbHelper.getAlarm(receivedAlarmID);
 
-            Intent alarmIntent = new Intent(context, AlarmScreen.class);
-            alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            alarmIntent.putExtras(intent);
-            context.startActivity(alarmIntent);
-
-            AlarmManagerHelper.setAlarms(context);
+        // if it is found in DB, disable it and update db, or snooze or what ever
+        if (receivedAlarm != null) {
+            receivedAlarm.setEnabled(false);
+            AlarmManagerHelper.triggerAlarmModelUpdate(context, receivedAlarm);
         }
+
+        Intent alarmIntent = new Intent(context, AlarmScreen.class);
+        alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        alarmIntent.putExtras(intent);
+        context.startActivity(alarmIntent);
+
     }
 
 }
