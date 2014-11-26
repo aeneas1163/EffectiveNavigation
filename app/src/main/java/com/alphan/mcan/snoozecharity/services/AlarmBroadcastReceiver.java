@@ -8,7 +8,7 @@ import com.alphan.mcan.snoozecharity.viewModels.AlarmScreen;
 
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
-    public static String TAG = AlarmBroadcastReceiver.class.getSimpleName();
+    public final String TAG = this.getClass().getSimpleName();
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -24,16 +24,18 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
-    private void handleAlarmIntent(Context context, Intent intent) {
+    private void handleAlarmIntent(final Context context, Intent intent) {
         // start the Alarm Screen activity, the activity will deceide
         Intent alarmIntent = new Intent(context, AlarmScreen.class);
         alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         alarmIntent.putExtras(intent);
         context.startActivity(alarmIntent);
 
+        //TODO: start a servicec or dialog from here
     }
 
     private void handleDonationCheckIntent(Context context, Intent intent) {
+        //TODO:
         //get the largest pending donation from db
         //check if it larger than warning threshold
         //if it is show notification to the user

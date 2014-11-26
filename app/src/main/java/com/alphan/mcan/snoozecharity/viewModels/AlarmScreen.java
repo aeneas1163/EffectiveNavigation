@@ -2,6 +2,7 @@ package com.alphan.mcan.snoozecharity.viewModels;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,6 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.alphan.mcan.snoozecharity.R;
+import com.alphan.mcan.snoozecharity.SnoozeApplication;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.data.persistence.AlarmDBAssistant;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
@@ -38,16 +41,16 @@ public class AlarmScreen extends Activity {
 		//Setup layout
 		this.setContentView(R.layout.activity_alarm_screen);
 
-		String name = getIntent().getStringExtra(AlarmManagerHelper.NAME);
-		int timeHour = getIntent().getIntExtra(AlarmManagerHelper.TIME_HOUR, 0);
-		int timeMinute = getIntent().getIntExtra(AlarmManagerHelper.TIME_MINUTE, 0);
-		String tone = getIntent().getStringExtra(AlarmManagerHelper.TONE);
+
         long alarmID = getIntent().getLongExtra(AlarmManagerHelper.ID, -1);
 
         AlarmDBAssistant dbHelper = new AlarmDBAssistant(this);
         currentAlarm = dbHelper.getAlarm(alarmID);
 
-
+        String name = getIntent().getStringExtra(AlarmManagerHelper.NAME);
+        int timeHour = getIntent().getIntExtra(AlarmManagerHelper.TIME_HOUR, 0);
+        int timeMinute = getIntent().getIntExtra(AlarmManagerHelper.TIME_MINUTE, 0);
+        String tone = getIntent().getStringExtra(AlarmManagerHelper.TONE);
 
 
         TextView tvName = (TextView) findViewById(R.id.alarm_screen_name);
@@ -144,5 +147,6 @@ public class AlarmScreen extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         android.os.Process.killProcess(android.os.Process.myPid());
+        //TODO: we need to figure this out, as this way, it kills the app if it was running as well.
     }
 }

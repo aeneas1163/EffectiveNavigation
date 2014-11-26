@@ -28,6 +28,4 @@ public class AppPreferencesActivity extends PreferenceActivity {
         return (super.onOptionsItemSelected(menuItem));
     }
 
-
-
 }

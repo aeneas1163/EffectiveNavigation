@@ -23,7 +23,6 @@ public class AlarmFragment extends Fragment {
 
     public static final String ARG_SECTION_NUMBER = "section_number";
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,7 +49,7 @@ public class AlarmFragment extends Fragment {
                                 {
                                     AlarmDataModel alarmData = new AlarmDataModel("WAAAAKE UPPP!!", selectedHour, selectedMinute);
                                     alarmData.setEnabled(true);
-                                    AlarmManagerHelper.createOrModifyAlarmPendingIntent(getActivity().getApplicationContext(), alarmData);
+                                    AlarmManagerHelper.createOrModifyAlarmPendingIntent(getActivity(), alarmData);
                                 }
                                 callCount++;
                             }
