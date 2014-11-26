@@ -34,6 +34,7 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_DAYS + " TEXT," +
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_WEEKLY + " BOOLEAN," +
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TONE + " TEXT," +
+                    AlarmModelContract.Alarm.COLUMN_NAME_ALARM_SNOOZE_ALARM + " BOOLEAN" +
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_ENABLED + " BOOLEAN" + " )";
 
     private static final String SQL_DELETE_ALARM_TABLE =
@@ -178,13 +179,12 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         model.setMessage(c.getString(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_MESSAGE)));
         model.setTimeHour(c.getInt(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TIME_HOUR)));
         model.setTimeMinute(c.getInt(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TIME_MINUTE)));
-        model.setWeeklyRepeat(c.getInt(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_WEEKLY)) == 0 ? false : true);
-
         model.setAlarmTone(c.getString(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TONE)) != ""
                 ? Uri.parse(c.getString(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TONE)))
                 : null);
         model.setEnabled(c.getInt(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_ENABLED)) == 0 ? false : true);
-
+        model.setSnoozeAlarm(c.getInt(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_SNOOZE_ALARM)) == 0 ? false : true);
+        model.setWeeklyRepeat(c.getInt(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_WEEKLY)) == 0 ? false : true);
         String[] repeatingDays = c.getString(c.getColumnIndex((AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_DAYS))).split(",");
         for (int i = 0; i < repeatingDays.length; ++i) {
             model.setRepeatingDay(i, repeatingDays[i].equals("false") ? false : true);
@@ -202,8 +202,8 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TIME_MINUTE, model.getTimeMinute());
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TONE, model.getAlarmTone().toString());
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_ENABLED, model.isEnabled() ? 1 : 0 );
+        values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_SNOOZE_ALARM, model.isEnabled() ? 1 : 0 );
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_WEEKLY, model.isWeekly());
-
         String repeatingDays = "";
         for (int i = 0; i < 7; ++i) {
             repeatingDays += model.getRepeatingDay(i) + ",";

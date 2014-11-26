@@ -23,6 +23,7 @@ public class AlarmDataModel {
 
     private boolean repeatingDays[]; //bool array for selecting repeating days (repeatingDays[Mon] = true..)
     private boolean isWeekly;
+    private boolean snoozeAlarm; //TODO: add this fild to DB
 
     private long id; //db id of the alarm
     private boolean isEnabled;
@@ -32,7 +33,8 @@ public class AlarmDataModel {
     private int timeHour;
     private int timeMinute;
 
-    private Uri alarmTone;   // acquire using ring tone selector and handle its return in UI
+    private Uri alarmTone;  //TODO:
+                            // acquire using ring tone selector and handle its return in UI
                             // new Intent(RingtoneManager.ACTION_RINGTONE_PICKER)
                             // thn handle its return:
                             // onActivityResult(int requestCode, int resultCode, Intent data)
@@ -44,26 +46,29 @@ public class AlarmDataModel {
                             // }
 
     public AlarmDataModel() {
-        Calendar c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
-        // by default set an alarm for now
-        repeatingDays = new boolean[7];
-        Arrays.fill(repeatingDays, false);
-    }
-
-    public AlarmDataModel(String name, int timeHour, int timeMinute) {
         repeatingDays = new boolean[7];
         Arrays.fill(repeatingDays, true);
 
-        this.name = name;
+        this.setName("Alarm");
+
+        Calendar c = Calendar.getInstance();
+        this.setTimeHour(c.get(Calendar.HOUR_OF_DAY));
+        this.setTimeMinute(c.get(Calendar.MINUTE));
+
+        this.setEnabled(false);
+        this.setId(-1);
+        this.setMessage("");
+        this.setAlarmTone(Settings.System.DEFAULT_ALARM_ALERT_URI);
+        this.setWeeklyRepeat(false);
+        this.setSnoozeAlarm(false);
+    }
+
+    public AlarmDataModel(String name, int timeHour, int timeMinute) {
+        this();
+
+        this.setName(name);
         this.setTimeHour(timeHour);
         this.setTimeMinute(timeMinute);
-        this.isEnabled = false;
-        this.id = -1;
-        this.message = null;
-        this.alarmTone = Settings.System.DEFAULT_NOTIFICATION_URI; //TODO: get default ring tone here, app resource?
-        this.setWeeklyRepeat(false);
     }
 
     // getters and setters
@@ -137,5 +142,13 @@ public class AlarmDataModel {
 
     public void setWeeklyRepeat(boolean isWeekly) {
         this.isWeekly = isWeekly;
+    }
+
+    public boolean isSnoozeAlarm() {
+        return snoozeAlarm;
+    }
+
+    public void setSnoozeAlarm(boolean snoozeAlarm) {
+        this.snoozeAlarm = snoozeAlarm;
     }
 }

@@ -4,7 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.alphan.mcan.snoozecharity.viewModels.AlarmScreen;
+import static com.alphan.mcan.snoozecharity.services.DialogService.startActionRingAlarm;
+import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
@@ -25,13 +26,9 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void handleAlarmIntent(final Context context, Intent intent) {
-        // start the Alarm Screen activity, the activity will deceide
-        Intent alarmIntent = new Intent(context, AlarmScreen.class);
-        alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        alarmIntent.putExtras(intent);
-        context.startActivity(alarmIntent);
+        long alarmID = intent.getLongExtra(AlarmManagerHelper.ID, -1);
+        startActionRingAlarm(context, alarmID);
 
-        //TODO: start a servicec or dialog from here
     }
 
     private void handleDonationCheckIntent(Context context, Intent intent) {

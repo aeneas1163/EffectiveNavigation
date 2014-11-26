@@ -19,6 +19,7 @@ public final class AlarmModelContract {
         public static final String COLUMN_NAME_ALARM_REPEAT_WEEKLY = "weekly";
         public static final String COLUMN_NAME_ALARM_TONE = "tone";
         public static final String COLUMN_NAME_ALARM_ENABLED = "isEnabled";
+        public static final String COLUMN_NAME_ALARM_SNOOZE_ALARM = "snoozeAlarm";
     }
 
 }

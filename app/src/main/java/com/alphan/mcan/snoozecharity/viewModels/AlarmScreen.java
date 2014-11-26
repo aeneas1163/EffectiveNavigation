@@ -37,25 +37,25 @@ public class AlarmScreen extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		//Setup layout
 		this.setContentView(R.layout.activity_alarm_screen);
 
 
         long alarmID = getIntent().getLongExtra(AlarmManagerHelper.ID, -1);
-
         AlarmDBAssistant dbHelper = new AlarmDBAssistant(this);
         currentAlarm = dbHelper.getAlarm(alarmID);
-
-        String name = getIntent().getStringExtra(AlarmManagerHelper.NAME);
-        int timeHour = getIntent().getIntExtra(AlarmManagerHelper.TIME_HOUR, 0);
-        int timeMinute = getIntent().getIntExtra(AlarmManagerHelper.TIME_MINUTE, 0);
-        String tone = getIntent().getStringExtra(AlarmManagerHelper.TONE);
+        if (currentAlarm == null){
+            return;
+        }
+        String name = currentAlarm.getName();
+        int timeHour = currentAlarm.getTimeHour();
+        int timeMinute = currentAlarm.getTimeMinute();
+        Uri tone = currentAlarm.getAlarmTone();
 
 
         TextView tvName = (TextView) findViewById(R.id.alarm_screen_name);
 		tvName.setText(name + " -ID: " + alarmID);
-		
+
 		TextView tvTime = (TextView) findViewById(R.id.alarm_screen_time);
 		tvTime.setText(String.format("%02d : %02d", timeHour, timeMinute));
 		
@@ -77,16 +77,14 @@ public class AlarmScreen extends Activity {
 		//Play alarm tone
 		mPlayer = new MediaPlayer();
 		try {
-			if (tone != null && !tone.equals("")) {
-				Uri toneUri = Uri.parse(tone);
-				if (toneUri != null) {
-					mPlayer.setDataSource(this, toneUri);
-					mPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-					mPlayer.setLooping(true);
-					mPlayer.prepare();
-					mPlayer.start();
-				}
+            if (tone != null) {
+                mPlayer.setDataSource(this, tone);
+				mPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+				mPlayer.setLooping(true);
+				mPlayer.prepare();
+				mPlayer.start();
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

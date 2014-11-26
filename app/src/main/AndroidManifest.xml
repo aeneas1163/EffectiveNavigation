@@ -58,14 +58,17 @@
             android:label="@string/alarm_screen"
             android:theme="@style/AlarmTheme" />
 
-        <receiver android:name=".services.AlarmBroadcastReceiver" />
-
+        <receiver android:name="com.alphan.mcan.snoozecharity.services.AlarmBroadcastReceiver" />
         <receiver android:name="com.alphan.mcan.snoozecharity.services.AlarmManagerHelper" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
+        <service
+            android:name="com.alphan.mcan.snoozecharity.services.DialogService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

@@ -27,15 +27,8 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
     public static final String INTENT_TYPE = "intentType";
     public static final int ALARM_INTENT = 0;
     public static final int DONATION_INTENT = 1;
-
     // alarm params:
     public static final String ID = "id";
-    public static final String NAME = "name";
-    public static final String MESSAGE = "message";
-    public static final String TIME_HOUR = "timeHour";
-    public static final String TIME_MINUTE = "timeMinute";
-    public static final String TONE = "alarmTone";
-
 
     // set alarms again on reboot
     @Override
@@ -170,11 +163,6 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
         Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
         intent.putExtra(INTENT_TYPE, ALARM_INTENT);
         intent.putExtra(ID, model.getId());
-        intent.putExtra(NAME, model.getName());
-        intent.putExtra(MESSAGE, model.getMessage());
-        intent.putExtra(TIME_HOUR, model.getTimeHour());
-        intent.putExtra(TIME_MINUTE, model.getTimeMinute());
-        intent.putExtra(TONE, model.getAlarmTone().toString());
 
         return PendingIntent.getBroadcast(context, (int) model.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
