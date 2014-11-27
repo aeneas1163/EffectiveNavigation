@@ -34,7 +34,7 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_DAYS + " TEXT," +
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_WEEKLY + " BOOLEAN," +
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TONE + " TEXT," +
-                    AlarmModelContract.Alarm.COLUMN_NAME_ALARM_SNOOZE_ALARM + " BOOLEAN" +
+                    AlarmModelContract.Alarm.COLUMN_NAME_ALARM_SNOOZE_ALARM + " BOOLEAN," +
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_ENABLED + " BOOLEAN" + " )";
 
     private static final String SQL_DELETE_ALARM_TABLE =
@@ -62,7 +62,8 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
      */
     public long addAlarm(AlarmDataModel model) {
         ContentValues values = generateAlarmContentValues(model);
-        return getWritableDatabase().insert(AlarmModelContract.Alarm.TABLE_NAME, null, values);
+        long addResult = getWritableDatabase().insert(AlarmModelContract.Alarm.TABLE_NAME, null, values);
+        return addResult;
     }
 
     public AlarmDataModel getAlarm(long id) {
@@ -202,7 +203,7 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TIME_MINUTE, model.getTimeMinute());
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TONE, model.getAlarmTone().toString());
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_ENABLED, model.isEnabled() ? 1 : 0 );
-        values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_SNOOZE_ALARM, model.isEnabled() ? 1 : 0 );
+        values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_SNOOZE_ALARM, model.isSnoozeAlarm() ? 1 : 0 );
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_WEEKLY, model.isWeekly());
         String repeatingDays = "";
         for (int i = 0; i < 7; ++i) {
