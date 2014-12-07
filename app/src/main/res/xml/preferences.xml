@@ -4,6 +4,13 @@
     <PreferenceCategory
         android:title="@string/inline_preferences">
 
+        <RingtonePreference android:key="ringtone_pref"
+            android:title="@string/set_ringtone"
+            android:summary="Default"
+            android:ringtoneType="all"
+            android:showDefault="true"
+            android:showSilent="false" />
+
         <CheckBoxPreference
             android:key="checkbox_preference"
             android:title="@string/title_checkbox_preference"

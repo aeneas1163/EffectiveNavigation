@@ -24,6 +24,21 @@
     <string name="demo_collection">Demo Collection</string>
     <string name="app_preferences">App Preferences</string>
     <string name="set_alarm">Create new alarm</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="set_ringtone">Set Alarm Ringtone</string>
+
+    <string name="alarm_repeat">REPEAT</string>
+
+    <string name="monday_short">MON</string>
+    <string name="tuesday_short">TUE</string>
+    <string name="wednesday_short">WED</string>
+    <string name="thursday_short">THU</string>
+    <string name="friday_short">FRI</string>
+    <string name="saturday_short">SAT</string>
+    <string name="sunday_short">SUN</string>
+
     <string name="alarm_screen">WAAAAAKE UPPP!</string>
 
     <string name="title_edittext_preference">Edit text preference</string>

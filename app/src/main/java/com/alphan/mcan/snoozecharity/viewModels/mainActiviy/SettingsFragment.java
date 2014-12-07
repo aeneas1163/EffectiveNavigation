@@ -1,7 +1,11 @@
 package com.alphan.mcan.snoozecharity.viewModels.mainActiviy;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +58,14 @@ public class SettingsFragment extends Fragment{
                         final Calendar c = Calendar.getInstance();
                         int hour = c.get(Calendar.HOUR_OF_DAY);
                         int minute = c.get(Calendar.MINUTE);
-                        AlarmDataModel alarmData = new AlarmDataModel("WAAAAKE UPPP!!", hour, minute + 1);
+                        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                        String strRingtonePreference = preference.getString("ringtone_pref", "DEFAULT_SOUND");
+                        Uri ringtoneUri = Settings.System.DEFAULT_ALARM_ALERT_URI;
+                        if (!strRingtonePreference.equalsIgnoreCase("DEFAULT_SOUND"))
+                        {
+                            ringtoneUri = Uri.parse( strRingtonePreference);
+                        }
+                        AlarmDataModel alarmData = new AlarmDataModel("WAAAAKE UPPP!!", hour, minute + 1, ringtoneUri);
                         alarmData.setEnabled(true);
                         AlarmManagerHelper.createOrModifyAlarmPendingIntent(getActivity(), alarmData);
                     }

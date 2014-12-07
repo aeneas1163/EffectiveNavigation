@@ -1,7 +1,6 @@
 package com.alphan.mcan.snoozecharity.data.model;
 
 import android.net.Uri;
-import android.provider.Settings;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -58,17 +57,17 @@ public class AlarmDataModel {
         this.setEnabled(false);
         this.setId(-1);
         this.setMessage("");
-        this.setAlarmTone(Settings.System.DEFAULT_ALARM_ALERT_URI);
         this.setWeeklyRepeat(false);
         this.setSnoozeAlarm(false);
     }
 
-    public AlarmDataModel(String name, int timeHour, int timeMinute) {
+    public AlarmDataModel(String name, int timeHour, int timeMinute, Uri ringtone) {
         this();
 
         this.setName(name);
         this.setTimeHour(timeHour);
         this.setTimeMinute(timeMinute);
+        this.setAlarmTone(ringtone);
     }
 
     // getters and setters
