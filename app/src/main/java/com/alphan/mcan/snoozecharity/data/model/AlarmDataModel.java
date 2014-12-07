@@ -46,7 +46,7 @@ public class AlarmDataModel {
 
     public AlarmDataModel() {
         repeatingDays = new boolean[7];
-        Arrays.fill(repeatingDays, true);
+        Arrays.fill(repeatingDays, false);
 
         this.setName("Alarm");
 

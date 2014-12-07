@@ -136,8 +136,14 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
                             calendar.add(Calendar.WEEK_OF_YEAR, 1);
 
                             setAlarm(context, calendar, pIntent);
+                            alarmSet = true;
                             break;
                         }
+                // if alarm is still not set, check if it is a non-repeating one time alarm
+                if (!alarmSet)
+                    if (!alarm.isWeekly()) {
+                        setAlarm(context, calendar, pIntent);
+                    }
             }
 
     }
