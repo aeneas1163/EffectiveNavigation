@@ -11,15 +11,15 @@ import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.alphan.mcan.snoozecharity.R;
-import com.alphan.mcan.snoozecharity.SnoozeApplication;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.data.persistence.AlarmDBAssistant;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
@@ -50,8 +50,14 @@ public class AlarmScreen extends Activity {
         String name = currentAlarm.getName();
         int timeHour = currentAlarm.getTimeHour();
         int timeMinute = currentAlarm.getTimeMinute();
-        Uri tone = currentAlarm.getAlarmTone();
 
+        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
+        String strRingtonePreference = preference.getString("ringtone_pref", "DEFAULT_SOUND");
+        Uri tone = Settings.System.DEFAULT_ALARM_ALERT_URI;
+        if (!strRingtonePreference.equalsIgnoreCase("DEFAULT_SOUND"))
+        {
+            tone = Uri.parse( strRingtonePreference);
+        }
 
         TextView tvName = (TextView) findViewById(R.id.alarm_screen_name);
 		tvName.setText(name + " -ID: " + alarmID);
@@ -66,7 +72,9 @@ public class AlarmScreen extends Activity {
 			public void onClick(View view) {
                 // if it is found in DB, disable it and update db, or snooze or what ever
                 if (currentAlarm != null) {
-                    currentAlarm.setEnabled(false);
+                    // if the alarm is not weekly then do not disable it
+                    if (!currentAlarm.isWeekly())
+                        currentAlarm.setEnabled(false);
                     AlarmManagerHelper.createOrModifyAlarmPendingIntent(getApplicationContext(), currentAlarm);
                 }
 				mPlayer.stop();

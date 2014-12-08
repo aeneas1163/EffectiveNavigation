@@ -13,21 +13,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
 import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
+import com.alphan.mcan.snoozecharity.data.persistence.AlarmDBAssistant;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * A dummy fragment representing a section of the app, but that simply displays dummy text.
  *
  * Created by Alphan on 16-Nov-14.
  */
-public class AlarmFragment extends Fragment {
+public class AlarmFragment extends Fragment{
 
     public static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -38,14 +41,24 @@ public class AlarmFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_section_alarm, container, false);
 
+        final AlarmDBAssistant dbHelper = new AlarmDBAssistant(getActivity());
+        List<AlarmDataModel> alarms =  dbHelper.getAlarms();
+
+        AlarmListAdapter alarmListAdapter = new AlarmListAdapter(getActivity(), alarms);
+
+        final ListView alarmListView = (ListView) rootView.findViewById(R.id.alarm_list);
+
+        if (alarms != null) {
+            alarmListView.setAdapter(alarmListAdapter);
+        }
+
+
         rootView.findViewById(R.id.set_alarm_button)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
                         final Calendar c = Calendar.getInstance();
-                        int hour = c.get(Calendar.HOUR_OF_DAY);
-                        int minute = c.get(Calendar.MINUTE);
 
                         final Dialog dialog = new Dialog(getActivity());
 
@@ -85,10 +98,40 @@ public class AlarmFragment extends Fragment {
                                 {
                                     ringtoneUri = Uri.parse( strRingtonePreference);
                                 }
-                                AlarmDataModel alarmData = new AlarmDataModel("WAAAAKE UPPP!!", selectedHour, selectedMinute, ringtoneUri);
+                                AlarmDataModel alarmData = new AlarmDataModel("Alarm", selectedHour, selectedMinute, ringtoneUri);
                                 alarmData.setEnabled(true);
                                 AlarmFragment.setRepeatingDays(dialog, alarmData);
                                 AlarmManagerHelper.createOrModifyAlarmPendingIntent(getActivity(), alarmData);
+
+                                // if this is the first alarm then set up the adapter which will autoatically add
+                                // first alarm to the list
+                                List<AlarmDataModel> alarms =  dbHelper.getAlarms();
+                                if (alarmListView.getAdapter() == null && alarms.size() == 1) {
+
+                                    AlarmListAdapter alarmListAdapter = new AlarmListAdapter(getActivity(), alarms);
+                                    alarmListView.setAdapter(alarmListAdapter);
+                                }
+                                // if not then just get the current adapter and add the new alarm
+                                else {
+                                    AlarmListAdapter currentAdapter = (AlarmListAdapter) alarmListView.getAdapter();
+
+                                    if (currentAdapter != null)
+                                    {
+                                        currentAdapter.clear();
+
+                                        if (alarms != null){
+
+                                            for (AlarmDataModel alarm_iter : alarms) {
+
+                                                currentAdapter.add(alarm_iter);
+                                            }
+                                        }
+
+                                        currentAdapter.notifyDataSetChanged();
+                                    }
+                                }
+
+
                                 dialog.dismiss();
                             }
                         });
