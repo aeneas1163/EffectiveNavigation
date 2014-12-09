@@ -23,6 +23,7 @@ import com.alphan.mcan.snoozecharity.data.persistence.AlarmDBAssistant;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -43,6 +44,13 @@ public class AlarmFragment extends Fragment{
 
         final AlarmDBAssistant dbHelper = new AlarmDBAssistant(getActivity());
         List<AlarmDataModel> alarms =  dbHelper.getAlarms();
+
+        // filter snooze alarms out:
+        for (Iterator<AlarmDataModel> alarmIterator  = alarms.iterator(); alarmIterator.hasNext();) {
+            AlarmDataModel alarm = alarmIterator.next();
+            if (alarm.isSnoozeAlarm())
+                alarmIterator.remove();
+        }
 
         AlarmListAdapter alarmListAdapter = new AlarmListAdapter(getActivity(), alarms);
 
