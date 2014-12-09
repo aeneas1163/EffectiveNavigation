@@ -79,6 +79,7 @@ public class AlarmScreen extends Activity {
                 }
 				mPlayer.stop();
                 finish();
+                return;
 			}
 		});
 
@@ -115,8 +116,13 @@ public class AlarmScreen extends Activity {
 
 		new Handler().postDelayed(releaseWakelock, WAKELOCK_TIMEOUT);
 	}
-	
-	@SuppressWarnings("deprecation")
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @SuppressWarnings("deprecation")
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -150,9 +156,12 @@ public class AlarmScreen extends Activity {
 	}
 
     @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        android.os.Process.killProcess(android.os.Process.myPid());
-        //TODO: we need to figure this out, as this way, it kills the app if it was running as well.
     }
 }

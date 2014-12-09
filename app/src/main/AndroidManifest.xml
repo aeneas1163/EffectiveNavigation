@@ -56,7 +56,8 @@
         <activity
             android:name="com.alphan.mcan.snoozecharity.viewModels.AlarmScreen"
             android:label="@string/alarm_screen"
-            android:theme="@style/AlarmTheme" />
+            android:theme="@style/AlarmTheme"
+            android:excludeFromRecents="true"/>
 
         <receiver android:name="com.alphan.mcan.snoozecharity.services.AlarmBroadcastReceiver" />
         <receiver android:name="com.alphan.mcan.snoozecharity.services.AlarmManagerHelper" >
