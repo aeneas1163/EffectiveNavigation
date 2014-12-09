@@ -22,7 +22,6 @@ import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.data.persistence.AlarmDBAssistant;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -66,8 +65,6 @@ public class AlarmFragment extends Fragment{
                     @Override
                     public void onClick(View view) {
 
-                        final Calendar c = Calendar.getInstance();
-
                         final Dialog dialog = new Dialog(getActivity());
 
                         dialog.setContentView(R.layout.alarm_setter_dialog);
@@ -106,7 +103,7 @@ public class AlarmFragment extends Fragment{
                                 {
                                     ringtoneUri = Uri.parse( strRingtonePreference);
                                 }
-                                AlarmDataModel alarmData = new AlarmDataModel("Alarm", selectedHour, selectedMinute, ringtoneUri);
+                                AlarmDataModel alarmData = new AlarmDataModel("Test Alarm", selectedHour, selectedMinute, ringtoneUri);
                                 alarmData.setEnabled(true);
                                 AlarmFragment.setRepeatingDays(dialog, alarmData);
                                 AlarmManagerHelper.createOrModifyAlarmPendingIntent(getActivity(), alarmData);

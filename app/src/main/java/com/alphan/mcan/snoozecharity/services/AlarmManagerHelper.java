@@ -47,8 +47,11 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
 
         AlarmManagerHelper.cancelPendingAlarms(context);
 
-        if (newAlarm.getId() < 0)
-            dbHelper.addAlarm(newAlarm);
+        if (newAlarm.getId() < 0) {
+
+            long id = dbHelper.addAlarm(newAlarm);
+            newAlarm.setId(id);
+        }
         else
             dbHelper.updateAlarm(newAlarm);
 
@@ -142,7 +145,15 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
                 // if alarm is still not set, check if it is a non-repeating one time alarm
                 if (!alarmSet)
                     if (!alarm.isWeekly()) {
-                        setAlarm(context, calendar, pIntent);
+                        // if the time is less than now, then the alarm should be for tomorrow
+                        if (alarm.getTimeHour() < nowHour || (alarm.getTimeHour() == nowHour && alarm.getTimeMinute() < nowMinute))
+                        {
+                            calendar.set(Calendar.DAY_OF_WEEK, nowDay + 1);
+                            setAlarm(context, calendar, pIntent);
+                        }
+                        // else it is for today
+                        else
+                            setAlarm(context, calendar, pIntent);
                     }
             }
 
