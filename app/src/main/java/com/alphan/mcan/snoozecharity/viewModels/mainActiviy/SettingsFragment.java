@@ -67,7 +67,7 @@ public class SettingsFragment extends Fragment{
                         }
                         AlarmDataModel alarmData = new AlarmDataModel("WAAAAKE UPPP!!", hour, minute + 1, ringtoneUri);
                         alarmData.setEnabled(true);
-                        AlarmManagerHelper.createOrModifyAlarmPendingIntent(getActivity(), alarmData);
+                        AlarmManagerHelper.createNewAlarm(getActivity(), alarmData);
                     }
                 });
 

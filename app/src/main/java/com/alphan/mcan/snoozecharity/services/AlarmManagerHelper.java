@@ -41,36 +41,68 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
         }
     }
 
-    // add/modify an existing alarm and set it
-    public static void createOrModifyAlarmPendingIntent(Context context, AlarmDataModel newAlarm) {
+    // ALARM METHODS:
+    // add a completely new alarm and properly set it
+    public static boolean createNewAlarm(Context context, AlarmDataModel newAlarm) {
+
+        //try to add alarm to db
         AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
+        boolean added = dbHelper.addAlarmToDB(newAlarm);
+        if (!added)
+            return false;
 
-        AlarmManagerHelper.cancelPendingAlarms(context);
+        //set alarm if needed
+        return setAlarm(context, newAlarm);
+    }
 
-        if (newAlarm.getId() < 0) {
+    // modify an existing alarm and set it
+    public static boolean modifyAlarm(Context context, AlarmDataModel modifiedAlarm) {
+        //try to modify the alarm in db
+        AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
+        boolean modified = dbHelper.updateAlarmInDB(modifiedAlarm);
 
-            long id = dbHelper.addAlarm(newAlarm);
-            newAlarm.setId(id);
-        }
+        //remove existing alarm if there is one
+        cancelPendingAlarm(context, modifiedAlarm);
+        setAlarm(context, modifiedAlarm);
+        return modified;
+    }
+
+    public static boolean resetAlarm(Context context, AlarmDataModel comingAlarm) {
+        if (comingAlarm.getId() == -1)
+            return false;
+
+        cancelPendingAlarm(context, comingAlarm);
+        setAlarm(context, comingAlarm);
+        return true;
+    }
+
+    // remove an existing alarm
+    public static boolean deleteAlarm(Context context, AlarmDataModel deletedAlarm) {
+
+        //first remove existing alarm if there is one (deletion from DB invalidated its ID!)
+        cancelPendingAlarm(context, deletedAlarm);
+
+        //try to delete the alarm from db
+        AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
+        boolean deleted = dbHelper.removeAlarmFromDB(deletedAlarm);
+        if (deleted)
+            return true;
         else
-            dbHelper.updateAlarm(newAlarm);
-
-        AlarmManagerHelper.setAlarms(context);
+            return false;
     }
 
-    // cancels all of the pending alarm intents
-    public static void cancelPendingAlarms(Context context) {
+    public static AlarmDataModel getAlarm(Context context, long iD) {
         AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
-
-        List<AlarmDataModel> alarms =  dbHelper.getAlarms();
-        if (alarms != null) for (AlarmDataModel alarm : alarms)
-            if (alarm.isEnabled()) {
-                PendingIntent pIntent = createAlarmPendingIntent(context, alarm);
-                AlarmManager androidAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                androidAlarmManager.cancel(pIntent);
-            }
+        return dbHelper.getAlarmFromDB(iD);
     }
 
+    public static List<AlarmDataModel> getAlarms(Context context) {
+        AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
+        return dbHelper.getAlarmsInDB();
+    }
+
+
+    // DONATION METHODS
     // enable a donation reminder check alarm (every 2 days)
     public static void enableDonationCheck(Context context) {
 
@@ -95,6 +127,9 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
         androidAlarmManager.cancel(pIntent);
     }
 
+
+
+    // HELPER METHODS
     /**
      * helper method used to create alarm PendingIntents for every enabled alarm in our DB for
      * our service: {@link AlarmBroadcastReceiver}
@@ -102,68 +137,93 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
     private static void setAlarms(Context context) {
 
         AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
-        List<AlarmDataModel> alarms =  dbHelper.getAlarms();
-        for (AlarmDataModel alarm : alarms)
-            if (alarm.isEnabled()) {
+        List<AlarmDataModel> alarms =  dbHelper.getAlarmsInDB();
+        for (AlarmDataModel alarm : alarms) {
+            setAlarm(context, alarm);
+        }
+    }
 
-                PendingIntent pIntent = createAlarmPendingIntent(context, alarm);
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.HOUR_OF_DAY, alarm.getTimeHour());
-                calendar.set(Calendar.MINUTE, alarm.getTimeMinute());
-                calendar.set(Calendar.SECOND, 00);
+    /**
+     * helper method used to cancel alarm PendingIntents for the given model if there is one
+     */
+    private static boolean cancelPendingAlarm(Context context, AlarmDataModel alarm) {
+        if (alarm.getId() == -1 )
+            return false;
 
-                //Find next time to set
-                final int nowDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-                final int nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-                final int nowMinute = Calendar.getInstance().get(Calendar.MINUTE);
-                boolean alarmSet = false;
+        PendingIntent pIntent = createAlarmPendingIntent(context, alarm);
+        AlarmManager androidAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        androidAlarmManager.cancel(pIntent);
+        return true;
+    }
 
-                //First check if it's later in the week
-                for (int dayOfWeek = Calendar.SUNDAY; dayOfWeek <= Calendar.SATURDAY; ++dayOfWeek)
-                    if (alarm.getRepeatingDay(dayOfWeek - 1) && dayOfWeek >= nowDay &&
-                            !(dayOfWeek == nowDay && alarm.getTimeHour() < nowHour) &&
-                            !(dayOfWeek == nowDay && alarm.getTimeHour() == nowHour && alarm.getTimeMinute() <= nowMinute)) {
-                        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
 
-                        setAlarm(context, calendar, pIntent);
-                        alarmSet = true;
-                        break;
-                    }
+    /**
+     * helper method used to create alarm PendingIntents for the given model for the correct time
+     */
+    private static boolean setAlarm(Context context, AlarmDataModel alarm) {
+        if (!alarm.isEnabled())
+            return false;
 
-                //Else check if it's earlier in the week
-                if (!alarmSet)
-                    for (int dayOfWeek = Calendar.SUNDAY; dayOfWeek <= Calendar.SATURDAY; ++dayOfWeek)
-                        if (alarm.getRepeatingDay(dayOfWeek - 1) && dayOfWeek <= nowDay && alarm.isWeekly()) {
-                            calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-                            calendar.add(Calendar.WEEK_OF_YEAR, 1);
+        boolean alarmSet = false;
 
-                            setAlarm(context, calendar, pIntent);
-                            alarmSet = true;
-                            break;
-                        }
-                // if alarm is still not set, check if it is a non-repeating one time alarm
-                if (!alarmSet)
-                    if (!alarm.isWeekly()) {
-                        // if the time is less than now, then the alarm should be for tomorrow
-                        if (alarm.getTimeHour() < nowHour || (alarm.getTimeHour() == nowHour && alarm.getTimeMinute() < nowMinute))
-                        {
-                            calendar.set(Calendar.DAY_OF_WEEK, nowDay + 1);
-                            setAlarm(context, calendar, pIntent);
-                        }
-                        // else it is for today
-                        else
-                            setAlarm(context, calendar, pIntent);
-                    }
+        PendingIntent pIntent = createAlarmPendingIntent(context, alarm);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, alarm.getTimeHour());
+        calendar.set(Calendar.MINUTE, alarm.getTimeMinute());
+        calendar.set(Calendar.SECOND, 0);
+
+        //Find next time to set
+        final int nowDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        final int nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        final int nowMinute = Calendar.getInstance().get(Calendar.MINUTE);
+
+        //First check if it's later in the week
+        for (int dayOfWeek = Calendar.SUNDAY; dayOfWeek <= Calendar.SATURDAY; ++dayOfWeek)
+            if (alarm.getRepeatingDay(dayOfWeek - 1) && dayOfWeek >= nowDay &&
+                    !(dayOfWeek == nowDay && alarm.getTimeHour() < nowHour) &&
+                    !(dayOfWeek == nowDay && alarm.getTimeHour() == nowHour && alarm.getTimeMinute() <= nowMinute)) {
+                calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+                setPendingAndroidAlarm(context, calendar, pIntent);
+                alarmSet = true;
+                break;
             }
 
+        //Else check if it's earlier in the week
+        if (!alarmSet)
+            for (int dayOfWeek = Calendar.SUNDAY; dayOfWeek <= Calendar.SATURDAY; ++dayOfWeek)
+                if (alarm.getRepeatingDay(dayOfWeek - 1) && dayOfWeek <= nowDay && alarm.isWeekly()) {
+                    calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+                    calendar.add(Calendar.WEEK_OF_YEAR, 1);
+
+                    setPendingAndroidAlarm(context, calendar, pIntent);
+                    alarmSet = true;
+                    break;
+                }
+
+        // if alarm is still not set, check if it is a non-repeating one time alarm
+        if (!alarmSet)
+            if (!alarm.isWeekly()) { // if the time is less than now, then the alarm should be for tomorrow
+                if (alarm.getTimeHour() < nowHour || (alarm.getTimeHour() == nowHour && alarm.getTimeMinute() < nowMinute)) {
+                    calendar.set(Calendar.DAY_OF_WEEK, nowDay + 1);
+                    setPendingAndroidAlarm(context, calendar, pIntent);
+                    alarmSet = true;
+                }
+                else { // else it is for today
+                    setPendingAndroidAlarm(context, calendar, pIntent);
+                    alarmSet = true;
+                }
+            }
+
+        return alarmSet;
     }
 
     /**
      * helper method that schedules a pending alarm intent over android's {@link AlarmManager}
      */
     @SuppressLint("NewApi")
-    private static void setAlarm(Context context, Calendar calendar, PendingIntent pIntent) {
+    private static void setPendingAndroidAlarm(Context context, Calendar calendar, PendingIntent pIntent) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pIntent);

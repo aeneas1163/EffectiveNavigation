@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
-import com.alphan.mcan.snoozecharity.data.persistence.AlarmDBAssistant;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 
 public class AlarmScreen extends Activity {
@@ -42,8 +41,7 @@ public class AlarmScreen extends Activity {
 
 
         long alarmID = getIntent().getLongExtra(AlarmManagerHelper.ID, -1);
-        AlarmDBAssistant dbHelper = new AlarmDBAssistant(this);
-        currentAlarm = dbHelper.getAlarm(alarmID);
+        currentAlarm = AlarmManagerHelper.getAlarm(this, alarmID);
         if (currentAlarm == null){
             return;
         }
@@ -73,13 +71,15 @@ public class AlarmScreen extends Activity {
                 // if it is found in DB, disable it and update db, or snooze or what ever
                 if (currentAlarm != null) {
                     // if the alarm is not weekly then do not disable it
-                    if (!currentAlarm.isWeekly())
+                    if (!currentAlarm.isWeekly()) {
                         currentAlarm.setEnabled(false);
-                    AlarmManagerHelper.createOrModifyAlarmPendingIntent(getApplicationContext(), currentAlarm);
+                        AlarmManagerHelper.modifyAlarm(getApplicationContext(), currentAlarm);
+                    }
+
+                    AlarmManagerHelper.resetAlarm(getApplicationContext(), currentAlarm);
                 }
 				mPlayer.stop();
                 finish();
-                return;
 			}
 		});
 

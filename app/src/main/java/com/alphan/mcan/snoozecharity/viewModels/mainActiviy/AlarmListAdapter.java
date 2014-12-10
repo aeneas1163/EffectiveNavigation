@@ -19,7 +19,6 @@ import android.widget.ToggleButton;
 
 import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
-import com.alphan.mcan.snoozecharity.data.persistence.AlarmDBAssistant;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 
 import java.util.List;
@@ -62,17 +61,17 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
 
 		ToggleButton btnToggle = (ToggleButton) view.findViewById(R.id.alarm_item_toggle);
 		btnToggle.setChecked(model.isEnabled());
-		btnToggle.setTag(Long.valueOf(model.getId()));
+		btnToggle.setTag(model.getId());
 		btnToggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 model.setEnabled(isChecked);
-                AlarmManagerHelper.createOrModifyAlarmPendingIntent(mContext, model);
+                AlarmManagerHelper.modifyAlarm(mContext, model);
 			}
 		});
 
-		view.setTag(Long.valueOf(model.getId()));
+		view.setTag(model.getId());
 		view.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -108,11 +107,8 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
                 deleteButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        model.setEnabled(false);
-                        AlarmManagerHelper.createOrModifyAlarmPendingIntent(mContext, model);
-                        AlarmDBAssistant dbHelper = new AlarmDBAssistant(mContext);
+                        AlarmManagerHelper.deleteAlarm(mContext, model);
                         remove(model);
-                        dbHelper.deleteAlarm(model.getId());
                         dialog.dismiss();
                     }
                 });
@@ -149,7 +145,7 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
                         model.setTimeMinute(selectedMinute);
                         model.setEnabled(true);
                         AlarmFragment.setRepeatingDays(dialog, model);
-                        AlarmManagerHelper.createOrModifyAlarmPendingIntent(mContext, model);
+                        AlarmManagerHelper.modifyAlarm(mContext, model);
                         notifyDataSetChanged();
                         dialog.dismiss();
                     }

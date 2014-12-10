@@ -19,7 +19,6 @@ import android.widget.ToggleButton;
 
 import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
-import com.alphan.mcan.snoozecharity.data.persistence.AlarmDBAssistant;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 
 import java.util.Iterator;
@@ -37,13 +36,11 @@ public class AlarmFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Bundle args = getArguments();
+        //Bundle args = getArguments();
 
         View rootView = inflater.inflate(R.layout.fragment_section_alarm, container, false);
 
-        final AlarmDBAssistant dbHelper = new AlarmDBAssistant(getActivity());
-        List<AlarmDataModel> alarms =  dbHelper.getAlarms();
-
+        List<AlarmDataModel> alarms =  AlarmManagerHelper.getAlarms(getActivity());
         // filter snooze alarms out:
         for (Iterator<AlarmDataModel> alarmIterator  = alarms.iterator(); alarmIterator.hasNext();) {
             AlarmDataModel alarm = alarmIterator.next();
@@ -55,9 +52,7 @@ public class AlarmFragment extends Fragment{
 
         final ListView alarmListView = (ListView) rootView.findViewById(R.id.alarm_list);
 
-        if (alarms != null) {
-            alarmListView.setAdapter(alarmListAdapter);
-        }
+        alarmListView.setAdapter(alarmListAdapter);
 
 
         rootView.findViewById(R.id.set_alarm_button)
@@ -106,11 +101,11 @@ public class AlarmFragment extends Fragment{
                                 AlarmDataModel alarmData = new AlarmDataModel("Test Alarm", selectedHour, selectedMinute, ringtoneUri);
                                 alarmData.setEnabled(true);
                                 AlarmFragment.setRepeatingDays(dialog, alarmData);
-                                AlarmManagerHelper.createOrModifyAlarmPendingIntent(getActivity(), alarmData);
+                                AlarmManagerHelper.createNewAlarm(getActivity(), alarmData);
 
-                                // if this is the first alarm then set up the adapter which will autoatically add
+                                // if this is the first alarm then set up the adapter which will automatically add
                                 // first alarm to the list
-                                List<AlarmDataModel> alarms =  dbHelper.getAlarms();
+                                List<AlarmDataModel> alarms =  AlarmManagerHelper.getAlarms(getActivity());
                                 if (alarmListView.getAdapter() == null && alarms.size() == 1) {
 
                                     AlarmListAdapter alarmListAdapter = new AlarmListAdapter(getActivity(), alarms);

@@ -60,37 +60,69 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
     /**
      DB alarm access methods
      */
-    public long addAlarm(AlarmDataModel model) {
+    public Boolean addAlarmToDB(AlarmDataModel model) {
+        if (model.getId() != -1)
+            return false; // only new alarms can be added
+
+        //insert and update id
         ContentValues values = generateAlarmContentValues(model);
-        long addResult = getWritableDatabase().insert(AlarmModelContract.Alarm.TABLE_NAME, null, values);
-        return addResult;
+        model.setId(getWritableDatabase().insert(AlarmModelContract.Alarm.TABLE_NAME, null, values));
+
+        // check for success
+        if (model.getId() == -1)
+            return false;
+        else
+            return true;
     }
 
-    public AlarmDataModel getAlarm(long id) {
+    public boolean removeAlarmFromDB(AlarmDataModel model) {
+        if (model.getId() == -1)
+            return false;
+
+        int effectedRows = getWritableDatabase().delete(AlarmModelContract.Alarm.TABLE_NAME,
+                AlarmModelContract.Alarm._ID + " = ?", new String[] { String.valueOf(model.getId()) });
+
+        model.setId(-1);
+
+        // check success
+        if (effectedRows != 0)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean updateAlarmInDB(AlarmDataModel model) {
+        if (model.getId() == -1) // use add in this case
+            return false;
+
+        // update rows of DB
+        ContentValues values = generateAlarmContentValues(model);
+        int changedRows =  getWritableDatabase().update(AlarmModelContract.Alarm.TABLE_NAME, values,
+                AlarmModelContract.Alarm._ID + " = ?", new String[] { String.valueOf(model.getId()) });
+
+        // check for success
+        if (changedRows != 0)
+            return true;
+        else
+            return false;
+    }
+
+    public AlarmDataModel getAlarmFromDB(long id) {
         if (id == -1)
             return null;
 
+        AlarmDataModel alarm = null;
         SQLiteDatabase db = this.getReadableDatabase();
         String select = "SELECT * FROM " + AlarmModelContract.Alarm.TABLE_NAME + " WHERE " + AlarmModelContract.Alarm._ID + " = " + id;
         Cursor c = db.rawQuery(select, null);
         if (c.moveToNext())
-            return generateAlarmModel(c);
-        else
-            return null;
+            alarm = generateAlarmModel(c);
 
+        c.close();
+        return alarm;
     }
 
-    public long updateAlarm(AlarmDataModel model) {
-        ContentValues values = generateAlarmContentValues(model);
-        return getWritableDatabase().update(AlarmModelContract.Alarm.TABLE_NAME,
-                values, AlarmModelContract.Alarm._ID + " = ?", new String[] { String.valueOf(model.getId()) });
-    }
-
-    public int deleteAlarm(long id) {
-        return getWritableDatabase().delete(AlarmModelContract.Alarm.TABLE_NAME, AlarmModelContract.Alarm._ID + " = ?", new String[] { String.valueOf(id) });
-    }
-
-    public List<AlarmDataModel> getAlarms() {
+    public List<AlarmDataModel> getAlarmsInDB() {
         SQLiteDatabase db = this.getReadableDatabase();
         String select = "SELECT * FROM " + AlarmModelContract.Alarm.TABLE_NAME;
         Cursor c = db.rawQuery(select, null);
@@ -98,11 +130,9 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         List<AlarmDataModel> alarmList = new ArrayList<AlarmDataModel>();
         while (c.moveToNext())
             alarmList.add(generateAlarmModel(c));
-        if (!alarmList.isEmpty()) {
-            return alarmList;
-        }
 
-        return null;
+        c.close();
+        return alarmList;
     }
 
 
