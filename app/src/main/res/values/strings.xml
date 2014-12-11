@@ -28,6 +28,7 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Delete Alarm</string>
     <string name="dismiss">Dismiss</string>
+    <string name="snooze">Snooze</string>
     <string name="set_ringtone">Set Alarm Ringtone</string>
 
     <string name="alarm_repeat">REPEAT</string>

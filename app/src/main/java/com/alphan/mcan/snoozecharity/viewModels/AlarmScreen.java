@@ -36,26 +36,25 @@ public class AlarmScreen extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//Setup layout
-		this.setContentView(R.layout.activity_alarm_screen);
 
-
+        // get an check received alarm:
         long alarmID = getIntent().getLongExtra(AlarmManagerHelper.ID, -1);
         currentAlarm = AlarmManagerHelper.getAlarm(this, alarmID);
-        if (currentAlarm == null){
+        if (currentAlarm == null || currentAlarm.getId() == -1 || !currentAlarm.isEnabled())
             return;
-        }
         String name = currentAlarm.getName();
         int timeHour = currentAlarm.getTimeHour();
         int timeMinute = currentAlarm.getTimeMinute();
 
+        // get alarm sound
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
         String strRingtonePreference = preference.getString("ringtone_pref", "DEFAULT_SOUND");
         Uri tone = Settings.System.DEFAULT_ALARM_ALERT_URI;
         if (!strRingtonePreference.equalsIgnoreCase("DEFAULT_SOUND"))
-        {
             tone = Uri.parse( strRingtonePreference);
-        }
+
+        // setup layout
+        this.setContentView(R.layout.activity_alarm_screen);
 
         TextView tvName = (TextView) findViewById(R.id.alarm_screen_name);
 		tvName.setText(name + " -ID: " + alarmID);
@@ -63,7 +62,7 @@ public class AlarmScreen extends Activity {
 		TextView tvTime = (TextView) findViewById(R.id.alarm_screen_time);
 		tvTime.setText(String.format("%02d : %02d", timeHour, timeMinute));
 		
-		Button dismissButton = (Button) findViewById(R.id.alarm_screen_button);
+		Button dismissButton = (Button) findViewById(R.id.alarm_screen_dismiss_button);
 		dismissButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -73,15 +72,76 @@ public class AlarmScreen extends Activity {
                     // if the alarm is not weekly then do not disable it
                     if (!currentAlarm.isWeekly()) {
                         currentAlarm.setEnabled(false);
-                        AlarmManagerHelper.modifyAlarm(getApplicationContext(), currentAlarm);
+                        AlarmManagerHelper.modifyAlarm(view.getContext(), currentAlarm);
                     }
 
-                    AlarmManagerHelper.resetAlarm(getApplicationContext(), currentAlarm);
+                    AlarmManagerHelper.resetAlarm(view.getContext(), currentAlarm);
                 }
 				mPlayer.stop();
+
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+
+                if (mWakeLock != null && mWakeLock.isHeld()) {
+                    mWakeLock.release();
+                }
                 finish();
 			}
 		});
+
+
+        Button snoozeButton = (Button) findViewById(R.id.alarm_screen_snooze_button);
+        snoozeButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                // if it is found in DB, disable it and update db, or snooze or what ever
+                if (currentAlarm != null) {
+                    // if the alarm is not weekly then do not disable it
+                    if (!currentAlarm.isWeekly()) {
+                        currentAlarm.setEnabled(false);
+                        AlarmManagerHelper.modifyAlarm(getApplicationContext(), currentAlarm);
+                    }
+                    AlarmManagerHelper.resetAlarm(getApplicationContext(), currentAlarm);
+
+
+                    // create a snoozing alarm for 1 min
+                    SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(view.getContext());
+                    String strRingtonePreference = preference.getString("ringtone_pref", "DEFAULT_SOUND");
+                    Uri ringtoneUri = Settings.System.DEFAULT_ALARM_ALERT_URI;
+                    if (!strRingtonePreference.equalsIgnoreCase("DEFAULT_SOUND"))
+                    {
+                        ringtoneUri = Uri.parse( strRingtonePreference);
+                    }
+                    AlarmDataModel snoozeAlarm = new AlarmDataModel("Snooze Alarm", currentAlarm.getTimeHour(), currentAlarm.getTimeMinute(), ringtoneUri);
+                    snoozeAlarm.setEnabled(true);
+                    snoozeAlarm.setSnoozeAlarm(true);
+                    snoozeAlarm.setMessage("SNOOZE OVER!");
+                    if (currentAlarm.getTimeMinute() == 59) {
+                        snoozeAlarm.setTimeHour(currentAlarm.getTimeHour()+1);
+                        snoozeAlarm.setTimeMinute(0);
+                    } else {
+                        snoozeAlarm.setTimeHour(currentAlarm.getTimeHour());
+                        snoozeAlarm.setTimeMinute(currentAlarm.getTimeMinute()+1);
+                    }
+                    AlarmManagerHelper.createNewAlarm(view.getContext(), snoozeAlarm);
+
+                }
+                mPlayer.stop();
+
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+
+                if (mWakeLock != null && mWakeLock.isHeld()) {
+                    mWakeLock.release();
+                }
+                finish();
+            }
+        });
 
 		//Play alarm tone
 		mPlayer = new MediaPlayer();

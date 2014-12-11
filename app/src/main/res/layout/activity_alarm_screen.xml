@@ -41,16 +41,36 @@
         android:layout_centerHorizontal="true"
         android:text="Alarm name"/>
 
-    <Button
-        android:id="@+id/alarm_screen_button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_below="@+id/alarm_screen_name"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="106dp"
-        android:text="@string/dismiss"
-        android:textSize="38dp"
-        />
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+
+        <Button
+            android:id="@+id/alarm_screen_snooze_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:text="@string/snooze"
+            android:textSize="38dp" />
+
+        <Button
+            android:id="@+id/alarm_screen_dismiss_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:text="@string/dismiss"
+            android:textSize="38dp" />
+
+    </LinearLayout>
+
     </LinearLayout>
 
     <View

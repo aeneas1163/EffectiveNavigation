@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import static com.alphan.mcan.snoozecharity.services.DialogService.startActionRingAlarm;
+
+import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
@@ -25,10 +27,23 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
-    private void handleAlarmIntent(final Context context, Intent intent) {
+    private void handleAlarmIntent(final Context context, final Intent intent) {
         long alarmID = intent.getLongExtra(AlarmManagerHelper.ID, -1);
-        startActionRingAlarm(context, alarmID);
+        if ( !isValidAlarm(context, alarmID))
+            return;
 
+        //TODO: move rescheduling of the next alarm here so we do not have to do it on the receiver
+        startActionRingAlarm(context, alarmID);
+    }
+
+    private boolean isValidAlarm(final Context context, final long alarmID) {
+        AlarmDataModel receivedAlarm = AlarmManagerHelper.getAlarm(context, alarmID);
+        if (receivedAlarm == null)
+            return false;
+        //TODO: check time of the received alarm versus current time, handle if it is too different.
+        if (receivedAlarm.isEnabled())
+            return true;
+        return false;
     }
 
     private void handleDonationCheckIntent(Context context, Intent intent) {
