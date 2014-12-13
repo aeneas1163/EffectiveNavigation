@@ -2,7 +2,9 @@ package com.alphan.mcan.snoozecharity.viewModels.mainActiviy;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -93,6 +95,7 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
             public void onClick(View view) {
 
                 final Dialog dialog = new Dialog(mContext);
+                dialog.setCanceledOnTouchOutside(true);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.alarm_setter_dialog);
 
@@ -101,11 +104,10 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
                 alarm_name.setText(model.getName());
 
                 final TimePicker tp = (TimePicker) dialog.findViewById(R.id.timePicker);
-
+                final SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(mContext);
+                tp.setIs24HourView(preference.getBoolean("24hour_option", true));
                 tp.setCurrentHour(model.getTimeHour());
                 tp.setCurrentMinute(model.getTimeMinute());
-
-                tp.setIs24HourView(true);
 
                 Button okButton = (Button) dialog.findViewById(R.id.setterOk);
 

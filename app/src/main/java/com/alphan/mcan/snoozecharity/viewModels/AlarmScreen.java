@@ -119,12 +119,13 @@ public class AlarmScreen extends Activity {
                     snoozeAlarm.setEnabled(true);
                     snoozeAlarm.setSnoozeAlarm(true);
                     snoozeAlarm.setMessage("SNOOZE OVER!");
-                    if (currentAlarm.getTimeMinute() == 59) {
+                    int snooze_duration = Integer.parseInt(preference.getString("snooze_duration","5"));
+                    if (currentAlarm.getTimeMinute() >= 60 - snooze_duration) {
                         snoozeAlarm.setTimeHour(currentAlarm.getTimeHour()+1);
-                        snoozeAlarm.setTimeMinute(0);
+                        snoozeAlarm.setTimeMinute((currentAlarm.getTimeMinute()+ snooze_duration)%60);
                     } else {
                         snoozeAlarm.setTimeHour(currentAlarm.getTimeHour());
-                        snoozeAlarm.setTimeMinute(currentAlarm.getTimeMinute()+1);
+                        snoozeAlarm.setTimeMinute(currentAlarm.getTimeMinute()+ snooze_duration);
                     }
                     AlarmManagerHelper.createNewAlarm(view.getContext(), snoozeAlarm);
 

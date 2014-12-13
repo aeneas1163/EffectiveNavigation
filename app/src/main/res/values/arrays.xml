@@ -2,15 +2,17 @@
 <resources>
 
     <string-array name="entries_list_preference">
-        <item>Alpha Option 01</item>
-        <item>Beta Option 02</item>
-        <item>Charlie Option 03</item>
+        <item>1 Minute</item>
+        <item>3 Minutes</item>
+        <item>5 Minutes</item>
+        <item>10 Minutes</item>
     </string-array>
 
     <string-array name="entryvalues_list_preference">
-        <item>Alpha</item>
-        <item>Beta</item>
-        <item>Charlie</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
     </string-array>
 
 </resources>

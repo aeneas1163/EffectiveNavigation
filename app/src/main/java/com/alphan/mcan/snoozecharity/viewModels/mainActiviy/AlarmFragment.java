@@ -64,12 +64,13 @@ public class AlarmFragment extends Fragment{
 
                         final Dialog dialog = new Dialog(getActivity());
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+                        dialog.setCanceledOnTouchOutside(true);
                         dialog.setContentView(R.layout.alarm_setter_dialog);
 
                         final TimePicker tp = (TimePicker) dialog.findViewById(R.id.timePicker);
 
-                        tp.setIs24HourView(true);
+                        final SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                        tp.setIs24HourView(preference.getBoolean("24hour_option", true));
 
                         Button okButton = (Button) dialog.findViewById(R.id.setterOk);
 
@@ -94,7 +95,7 @@ public class AlarmFragment extends Fragment{
                             public void onClick(View view) {
                                 int selectedHour = tp.getCurrentHour();
                                 int selectedMinute = tp.getCurrentMinute();
-                                SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
                                 String strRingtonePreference = preference.getString("ringtone_pref", "DEFAULT_SOUND");
                                 Uri ringtoneUri = Settings.System.DEFAULT_ALARM_ALERT_URI;
                                 if (!strRingtonePreference.equalsIgnoreCase("DEFAULT_SOUND"))

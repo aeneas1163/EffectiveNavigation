@@ -13,25 +13,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:orientation="horizontal"
-        android:layout_marginBottom="15dp">
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/alarm_name"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/alarm_default_name"/>
+            android:paddingLeft="16dp"
+            android:maxLength="12"
+            android:textSize="20sp"
+            android:text="@string/alarm_default_name"
+            android:background="#00000000"
+            android:inputType="textCapWords"
+            android:imeOptions="actionDone"/>
 
         <ImageButton
             android:id="@+id/deleteAlarm"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:src="@drawable/delete"
             android:visibility="invisible"
             android:clickable="false"/>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@color/android_blue"/>
 
     <TimePicker
         android:id="@+id/timePicker"

@@ -206,7 +206,17 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
         if (!alarmSet)
             if (!alarm.isWeekly()) { // if the time is less than now, then the alarm should be for tomorrow
                 if (alarm.getTimeHour() < nowHour || (alarm.getTimeHour() == nowHour && alarm.getTimeMinute() < nowMinute)) {
-                    calendar.set(Calendar.DAY_OF_WEEK, nowDay + 1);
+                    // if it is for saturday, we should make it next week sunday
+                    if (nowDay == Calendar.SATURDAY)
+                    {
+                        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+                        calendar.add(Calendar.WEEK_OF_YEAR, 1);
+                    }
+                    // if it is any other day, we should not advance the week
+                    else
+                    {
+                        calendar.add(Calendar.DAY_OF_WEEK, 1);
+                    }
                     setPendingAndroidAlarm(context, calendar, pIntent);
                     alarmSet = true;
                 }

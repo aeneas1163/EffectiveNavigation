@@ -50,6 +50,12 @@
 
     <string name="dialog_title_edittext_preference">Enter your favorite animal</string>
 
+    <string name="hour_option_title">Hour Mode</string>
+
+    <string name="hour24">24 Hour</string>
+
+    <string name="am_pm">AM/PM</string>
+
     <string name="title_checkbox_preference">Checkbox preference</string>
 
     <string name="summary_checkbox_preference">This is a checkbox</string>
@@ -62,11 +68,11 @@
 
     <string name="preference_attributes">Preference attributes</string>
 
-    <string name="title_list_preference">List preference</string>
+    <string name="title_list_preference">Snooze Duration</string>
 
-    <string name="summary_list_preference">An example that uses a list dialog</string>
+    <string name="summary_list_preference">Choose Snooze Duration</string>
 
-    <string name="dialog_title_list_preference">Choose one</string>
+    <string name="dialog_title_list_preference">Choose Snooze Duration</string>
 
     <string name="title_screen_preference">Screen preference</string>
 
