@@ -6,13 +6,14 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
@@ -34,6 +35,7 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
 
 	@Override
 	public View getView(final int position, View view, ViewGroup parent) {
+//        Log.e("view","entered pos: " + position);
 
 		if (view == null) {
 			LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -60,35 +62,43 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
 		updateTextColor((TextView) view.findViewById(R.id.alarm_item_saturday), model.getRepeatingDay(AlarmDataModel.SAT));
 
 		ToggleButton btnToggle = (ToggleButton) view.findViewById(R.id.alarm_item_toggle);
-		btnToggle.setChecked(model.isEnabled());
 		btnToggle.setTag(model.getId());
 		btnToggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                Log.e("togglebutton","entered pos: " + position + "with checked: "+ isChecked);
                 model.setEnabled(isChecked);
                 AlarmManagerHelper.modifyAlarm(mContext, model);
+//                Log.e("togglebutton","exited pos: " + position);
 			}
 		});
 
-		view.setTag(model.getId());
-		view.setOnClickListener(new OnClickListener() {
+        btnToggle.setChecked(model.isEnabled());
 
-			@Override
-			public void onClick(View view) {
 
-			}
-		});
+//		view.setTag(model.getId());
+//		view.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View view) {
+//
+//			}
+//		});
 
         // edit alarm dialog when the item is long clicked
-		view.setOnLongClickListener(new OnLongClickListener() {
+		view.setOnClickListener(new OnClickListener() {
 
             @Override
-            public boolean onLongClick(View view) {
+            public void onClick(View view) {
 
                 final Dialog dialog = new Dialog(mContext);
-
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.alarm_setter_dialog);
+
+                final TextView alarm_name = (TextView) dialog.findViewById(R.id.alarm_name);
+
+                alarm_name.setText(model.getName());
 
                 final TimePicker tp = (TimePicker) dialog.findViewById(R.id.timePicker);
 
@@ -99,7 +109,7 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
 
                 Button okButton = (Button) dialog.findViewById(R.id.setterOk);
 
-                Button deleteButton = (Button) dialog.findViewById(R.id.deleteAlarm);
+                ImageButton deleteButton = (ImageButton) dialog.findViewById(R.id.deleteAlarm);
 
                 deleteButton.setVisibility(Button.VISIBLE);
                 deleteButton.setClickable(true);
@@ -141,6 +151,7 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
                     public void onClick(View view) {
                         int selectedHour = tp.getCurrentHour();
                         int selectedMinute = tp.getCurrentMinute();
+                        model.setName(alarm_name.getText().toString());
                         model.setTimeHour(selectedHour);
                         model.setTimeMinute(selectedMinute);
                         model.setEnabled(true);
@@ -177,10 +188,10 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
 //                        dbHelper.deleteAlarm(model.getId());
 //                    }});
 //                adb.show();
-                return true;
             }
         });
 
+//        Log.e("view","exited pos: " + position);
 		return view;
 	}
 

@@ -1,10 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/alarm_setter"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minWidth="300dp"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:orientation="horizontal"
+        android:layout_marginBottom="15dp">
+
+        <EditText
+            android:id="@+id/alarm_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/alarm_default_name"/>
+
+        <ImageButton
+            android:id="@+id/deleteAlarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/delete"
+            android:visibility="invisible"
+            android:clickable="false"/>
+
+    </LinearLayout>
 
     <TimePicker
         android:id="@+id/timePicker"
@@ -158,15 +185,6 @@
             android:orientation="horizontal"/>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/deleteAlarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/delete"
-        android:layout_marginTop="15dp"
-        android:visibility="invisible"
-        android:clickable="false"/>
 
     <LinearLayout
         android:layout_width="match_parent"

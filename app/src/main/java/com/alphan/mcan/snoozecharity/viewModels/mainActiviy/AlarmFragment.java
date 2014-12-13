@@ -10,10 +10,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
@@ -61,6 +63,7 @@ public class AlarmFragment extends Fragment{
                     public void onClick(View view) {
 
                         final Dialog dialog = new Dialog(getActivity());
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
                         dialog.setContentView(R.layout.alarm_setter_dialog);
 
@@ -98,7 +101,9 @@ public class AlarmFragment extends Fragment{
                                 {
                                     ringtoneUri = Uri.parse( strRingtonePreference);
                                 }
-                                AlarmDataModel alarmData = new AlarmDataModel("Test Alarm", selectedHour, selectedMinute, ringtoneUri);
+
+                                TextView alarm_name = (TextView) dialog.findViewById(R.id.alarm_name);
+                                AlarmDataModel alarmData = new AlarmDataModel(alarm_name.getText().toString(), selectedHour, selectedMinute, ringtoneUri);
                                 alarmData.setEnabled(true);
                                 AlarmFragment.setRepeatingDays(dialog, alarmData);
                                 AlarmManagerHelper.createNewAlarm(getActivity(), alarmData);
@@ -106,6 +111,13 @@ public class AlarmFragment extends Fragment{
                                 // if this is the first alarm then set up the adapter which will automatically add
                                 // first alarm to the list
                                 List<AlarmDataModel> alarms =  AlarmManagerHelper.getAlarms(getActivity());
+
+                                // filter snooze alarms out:
+                                for (Iterator<AlarmDataModel> alarmIterator  = alarms.iterator(); alarmIterator.hasNext();) {
+                                    AlarmDataModel alarm = alarmIterator.next();
+                                    if (alarm.isSnoozeAlarm())
+                                        alarmIterator.remove();
+                                }
                                 if (alarmListView.getAdapter() == null && alarms.size() == 1) {
 
                                     AlarmListAdapter alarmListAdapter = new AlarmListAdapter(getActivity(), alarms);
@@ -122,8 +134,8 @@ public class AlarmFragment extends Fragment{
                                         if (alarms != null){
 
                                             for (AlarmDataModel alarm_iter : alarms) {
-
-                                                currentAdapter.add(alarm_iter);
+                                                if (!alarm_iter.isSnoozeAlarm())
+                                                    currentAdapter.add(alarm_iter);
                                             }
                                         }
 
@@ -145,7 +157,7 @@ public class AlarmFragment extends Fragment{
                             }
                         });
 
-                        dialog.setTitle("Set Alarm");
+                        //dialog.setTitle("Set Alarm");
 
                         dialog.show();
                     }

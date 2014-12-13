@@ -24,6 +24,7 @@
     <string name="demo_collection">Demo Collection</string>
     <string name="app_preferences">App Preferences</string>
     <string name="set_alarm">Create new alarm</string>
+    <string name="alarm_default_name">Alarm</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete Alarm</string>
