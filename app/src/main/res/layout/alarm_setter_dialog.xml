@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:paddingLeft="16dp"
-            android:maxLength="12"
+            android:maxLength="11"
             android:textSize="20sp"
             android:text="@string/alarm_default_name"
             android:background="#00000000"

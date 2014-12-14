@@ -206,7 +206,7 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
 
 	private void updateTextColor(TextView view, boolean isOn) {
 		if (isOn) {
-			view.setTextColor(Color.GREEN);
+			view.setTextColor(view.getResources().getColor(R.color.android_yellow));
 		} else {
 			view.setTextColor(Color.GRAY);
 		}

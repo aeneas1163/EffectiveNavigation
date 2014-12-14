@@ -65,7 +65,7 @@ public class SettingsFragment extends Fragment{
                         {
                             ringtoneUri = Uri.parse( strRingtonePreference);
                         }
-                        AlarmDataModel alarmData = new AlarmDataModel("WAAAAKE UPPP!!", hour, minute + 1, ringtoneUri);
+                        AlarmDataModel alarmData = new AlarmDataModel("WAAAKE UP!!", hour, minute + 1, ringtoneUri);
                         alarmData.setEnabled(true);
                         AlarmManagerHelper.createNewAlarm(getActivity(), alarmData);
                     }
