@@ -151,6 +151,7 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
                 okButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        clear();
                         int selectedHour = tp.getCurrentHour();
                         int selectedMinute = tp.getCurrentMinute();
                         model.setName(alarm_name.getText().toString());
@@ -159,6 +160,12 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
                         model.setEnabled(true);
                         AlarmFragment.setRepeatingDays(dialog, model);
                         AlarmManagerHelper.modifyAlarm(mContext, model);
+                        List<AlarmDataModel> alarms =  AlarmManagerHelper.getAlarms(mContext);
+                        if (alarms != null){
+                            for (AlarmDataModel alarm_iter : alarms) {
+                                add(alarm_iter);
+                            }
+                        }
                         notifyDataSetChanged();
                         dialog.dismiss();
                     }
