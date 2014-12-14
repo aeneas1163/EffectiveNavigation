@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.alphan.mcan.snoozecharity.R;
 
@@ -25,8 +24,6 @@ public class ClockFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_section_clock, container, false);
 
-        ((TextView) rootView.findViewById(R.id.clock)).setText(
-                getString(R.string.clock_section_text, args.getInt(ARG_SECTION_NUMBER)));
         return rootView;
     }
 }
