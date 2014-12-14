@@ -43,12 +43,6 @@ public class AlarmFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_section_alarm, container, false);
 
         List<AlarmDataModel> alarms =  AlarmManagerHelper.getAlarms(getActivity());
-        // filter snooze alarms out:
-        for (Iterator<AlarmDataModel> alarmIterator  = alarms.iterator(); alarmIterator.hasNext();) {
-            AlarmDataModel alarm = alarmIterator.next();
-            if (alarm.isSnoozeAlarm())
-                alarmIterator.remove();
-        }
 
         AlarmListAdapter alarmListAdapter = new AlarmListAdapter(getActivity(), alarms);
 
@@ -112,13 +106,6 @@ public class AlarmFragment extends Fragment{
                                 // if this is the first alarm then set up the adapter which will automatically add
                                 // first alarm to the list
                                 List<AlarmDataModel> alarms =  AlarmManagerHelper.getAlarms(getActivity());
-
-                                // filter snooze alarms out:
-                                for (Iterator<AlarmDataModel> alarmIterator  = alarms.iterator(); alarmIterator.hasNext();) {
-                                    AlarmDataModel alarm = alarmIterator.next();
-                                    if (alarm.isSnoozeAlarm())
-                                        alarmIterator.remove();
-                                }
                                 if (alarmListView.getAdapter() == null && alarms.size() == 1) {
 
                                     AlarmListAdapter alarmListAdapter = new AlarmListAdapter(getActivity(), alarms);

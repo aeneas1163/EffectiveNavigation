@@ -11,13 +11,16 @@ import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.data.persistence.AlarmDBAssistant;
 
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 
 /**
- * An {@link android.app.AlarmManager} helper class used to set intents using this service to
- * set and cancel alarms. This is also responsible for restarting alarms on reboot
- * <p/>
+ * An {@link android.app.AlarmManager} helper class used to set new alarms, modify existing alarms
+ * as well as resetting alarms. Access to existing alarms is done over this fella as well.
+ * In addition this also handles resetting alarms in case device reboots.
  */
 public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to local-broadcast receiver?
     public AlarmManagerHelper() {
@@ -67,6 +70,7 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
         return modified;
     }
 
+    // cancel pending intent for the given alarm if there is one, and set the next alarm for it
     public static boolean resetAlarm(Context context, AlarmDataModel comingAlarm) {
         if (comingAlarm.getId() == -1)
             return false;
@@ -91,14 +95,36 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
             return false;
     }
 
+    // acquire the alarm with the given ID, can return null!!
     public static AlarmDataModel getAlarm(Context context, long iD) {
         AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
         return dbHelper.getAlarmFromDB(iD);
     }
 
+    // get alarms in DB, filters snooze alarms out.
     public static List<AlarmDataModel> getAlarms(Context context) {
         AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
-        return dbHelper.getAlarmsInDB();
+
+        // filter snooze alarms out:
+        List<AlarmDataModel> alarms = dbHelper.getAlarmsInDB();
+        for (Iterator<AlarmDataModel> alarmIterator  = alarms.iterator(); alarmIterator.hasNext();) {
+            AlarmDataModel alarm = alarmIterator.next();
+            if (alarm.isSnoozeAlarm())
+                alarmIterator.remove();
+        }
+
+        // sort alarms
+        Collections.sort(alarms, new Comparator<AlarmDataModel>() {
+            @Override
+            public int compare(AlarmDataModel alarm1, AlarmDataModel alarm2) {
+                int totalMinutes1 = (alarm1.getTimeHour()*60) + alarm1.getTimeMinute();
+                int totalMinutes2 = (alarm2.getTimeHour()*60) + alarm2.getTimeMinute();
+
+                return totalMinutes1 - totalMinutes2;
+            }
+        });
+
+        return alarms;
     }
 
 
