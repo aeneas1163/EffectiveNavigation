@@ -33,14 +33,14 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name="com.alphan.mcan.snoozecharity.SnoozeApplication"
+        android:name=".SnoozeApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/MainTheme" >
         <activity
-            android:name="com.alphan.mcan.snoozecharity.viewModels.MainActivity"
+            android:name=".viewModels.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,30 +48,35 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.alphan.mcan.snoozecharity.viewModels.CharityCollectionActivity"
+            android:name=".viewModels.CharityCollectionActivity"
             android:label="@string/demo_collection"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
-            android:name="com.alphan.mcan.snoozecharity.viewModels.AppPreferencesActivity"
+            android:name=".viewModels.AppPreferencesActivity"
             android:label="@string/app_preferences"
-            android:theme="@style/AppPreferencesTheme"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppPreferencesTheme" />
         <activity
-            android:name="com.alphan.mcan.snoozecharity.viewModels.AlarmScreen"
-            android:label="@string/alarm_screen"
-            android:theme="@style/AlarmTheme"
+            android:name=".viewModels.AlarmScreen"
             android:excludeFromRecents="true"
-            android:screenOrientation="portrait"/>
+            android:label="@string/alarm_screen"
+            android:screenOrientation="portrait"
+            android:theme="@style/AlarmTheme" />
 
-        <receiver android:name="com.alphan.mcan.snoozecharity.services.AlarmBroadcastReceiver" />
-        <receiver android:name="com.alphan.mcan.snoozecharity.services.AlarmManagerHelper" >
+        <receiver android:name=".services.AlarmBroadcastReceiver" />
+        <receiver android:name=".services.AlarmManagerHelper" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <service
-            android:name="com.alphan.mcan.snoozecharity.services.DialogService"
+            android:name=".services.DialogService"
+            android:exported="false" >
+        </service>
+        <service
+            android:name=".services.AlarmRingService"
+            android:enabled="false"
             android:exported="false" >
         </service>
     </application>

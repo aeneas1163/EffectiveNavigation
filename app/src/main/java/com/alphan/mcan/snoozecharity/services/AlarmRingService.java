@@ -9,8 +9,27 @@ public class AlarmRingService extends Service {
     }
 
     @Override
+    public void onCreate() {
+        //TODO:
+        throw new UnsupportedOperationException("Not yet Implemented.!");
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        //TODO:
+        throw new UnsupportedOperationException("Not yet Implemented.!");
+        //return START_NOT_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        //TODO
+        throw new UnsupportedOperationException("Not yet Implemented.!");
+        //super.onDestroy();
+    }
+
+    @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return null; //you can not bind to this service
     }
 }
