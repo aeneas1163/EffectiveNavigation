@@ -71,7 +71,7 @@
         </receiver>
 
         <service
-            android:name=".services.DialogService"
+            android:name=".services.DialogServiceDEPRECATED"
             android:exported="false" >
         </service>
         <service

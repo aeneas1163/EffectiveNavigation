@@ -6,22 +6,19 @@ import android.content.Intent;
 
 import com.alphan.mcan.snoozecharity.viewModels.AlarmScreen;
 
-public class DialogService extends IntentService {
+public class DialogServiceDEPRECATED extends IntentService {
 
     private static final String ACTION_RING_ALARM = "com.alphan.mcan.snoozecharity.services.action.RING.ALARM";
 
-    public DialogService() {
-        super("DialogService");
+    public DialogServiceDEPRECATED() {
+        super("DialogServiceDEPRECATED");
     }
 
     /**
-     * Starts this service to perform action ACTION_RING_ALARM with the given parameters. If
-     * the service is already performing a task this action will be queued.
-     *
-     * @see IntentService
+     * DO NOT USE THIS CLASS, ALARMRINGSERVICE WILL REPLACE THIS!
      */
     public static void startActionRingAlarm(Context context, long alarmID) {
-        Intent intent = new Intent(context, DialogService.class);
+        Intent intent = new Intent(context, DialogServiceDEPRECATED.class);
         intent.setAction(ACTION_RING_ALARM);
         intent.putExtra(AlarmManagerHelper.ID, alarmID);
         context.startService(intent);

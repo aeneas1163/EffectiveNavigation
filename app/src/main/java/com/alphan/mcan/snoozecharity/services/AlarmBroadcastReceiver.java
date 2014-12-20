@@ -3,7 +3,6 @@ package com.alphan.mcan.snoozecharity.services;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import com.alphan.mcan.snoozecharity.services.DialogService;
 
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 
@@ -33,7 +32,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             return;
 
         //TODO: move rescheduling of the next alarm here so we do not have to do it on the receiver
-        DialogService.startActionRingAlarm(context, alarmID);
+        DialogServiceDEPRECATED.startActionRingAlarm(context, alarmID);
     }
 
     private boolean isValidAlarm(final Context context, final long alarmID) {
