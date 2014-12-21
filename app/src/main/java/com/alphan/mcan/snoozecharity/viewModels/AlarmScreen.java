@@ -106,27 +106,10 @@ public class AlarmScreen extends Activity {
                     }
                     AlarmManagerHelper.resetAlarm(getApplicationContext(), currentAlarm);
 
-
                     // create a snoozing alarm for 1 min
                     SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(view.getContext());
-                    String strRingtonePreference = preference.getString("ringtone_pref", "DEFAULT_SOUND");
-                    Uri ringtoneUri = Settings.System.DEFAULT_ALARM_ALERT_URI;
-                    if (!strRingtonePreference.equalsIgnoreCase("DEFAULT_SOUND"))
-                    {
-                        ringtoneUri = Uri.parse( strRingtonePreference);
-                    }
-                    AlarmDataModel snoozeAlarm = new AlarmDataModel("Snooze Alarm", currentAlarm.getTimeHour(), currentAlarm.getTimeMinute(), ringtoneUri);
-                    snoozeAlarm.setEnabled(true);
-                    snoozeAlarm.setSnoozeAlarm(true);
-                    snoozeAlarm.setMessage("SNOOZE OVER!");
                     int snooze_duration = Integer.parseInt(preference.getString("snooze_duration","5"));
-                    if (currentAlarm.getTimeMinute() >= 60 - snooze_duration) {
-                        snoozeAlarm.setTimeHour(currentAlarm.getTimeHour()+1);
-                        snoozeAlarm.setTimeMinute((currentAlarm.getTimeMinute()+ snooze_duration)%60);
-                    } else {
-                        snoozeAlarm.setTimeHour(currentAlarm.getTimeHour());
-                        snoozeAlarm.setTimeMinute(currentAlarm.getTimeMinute()+ snooze_duration);
-                    }
+                    AlarmDataModel snoozeAlarm = AlarmDataModel.createSnoozingAlarm(currentAlarm, snooze_duration, true);
                     AlarmManagerHelper.createNewAlarm(view.getContext(), snoozeAlarm);
 
                 }

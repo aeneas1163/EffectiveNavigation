@@ -44,6 +44,32 @@ public class AlarmDataModel {
                             //    data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
                             // }
 
+    public static AlarmDataModel createSnoozingAlarm(AlarmDataModel alarmToSnooze, int snoozeDuration_InMinutes,
+                                                     Boolean snoozeFromNow) {
+        // basic model
+        AlarmDataModel snoozeAlarm = new AlarmDataModel();
+        snoozeAlarm.setName(alarmToSnooze.getName());
+        snoozeAlarm.setMessage(alarmToSnooze.getMessage());
+        snoozeAlarm.setAlarmTone(alarmToSnooze.getAlarmTone());
+        snoozeAlarm.setEnabled(true);
+        snoozeAlarm.setSnoozeAlarm(true);
+        if (!snoozeFromNow) { // if we are not snoozing from now on use time of the alarm supplied instead
+            snoozeAlarm.setTimeHour(alarmToSnooze.getTimeHour());
+            snoozeAlarm.setTimeMinute(alarmToSnooze.getTimeMinute());
+        }
+
+        // shift time
+        if (snoozeAlarm.getTimeMinute() >= 60 - snoozeDuration_InMinutes) {
+            snoozeAlarm.setTimeHour(snoozeAlarm.getTimeHour()+1);
+            snoozeAlarm.setTimeMinute((snoozeAlarm.getTimeMinute()+ snoozeDuration_InMinutes)%60);
+        } else {
+            snoozeAlarm.setTimeHour(snoozeAlarm.getTimeHour());
+            snoozeAlarm.setTimeMinute(snoozeAlarm.getTimeMinute()+ snoozeDuration_InMinutes);
+        }
+
+        return snoozeAlarm;
+    }
+
     public AlarmDataModel() {
         repeatingDays = new boolean[7];
         Arrays.fill(repeatingDays, false);
