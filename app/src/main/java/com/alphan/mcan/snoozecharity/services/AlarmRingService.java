@@ -1,6 +1,7 @@
 package com.alphan.mcan.snoozecharity.services;
 
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -8,18 +9,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.util.Log;
 
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 
-import java.util.Calendar;
+import java.io.IOException;
 
 public class AlarmRingService extends Service {
 
@@ -37,12 +36,14 @@ public class AlarmRingService extends Service {
     // alarm members:
     private AlarmDataModel ringingAlarm = null;
     private PendingIntent timeOutIntent = null;
+    private Notification alarmNotification = null;
 
+    // interactive members
     private Vibrator alarmVibrator = null;
     private final long[] vibrationPattern = new long[]{0, 100, 1000};  //TODO: make vibration pattern setting based?
     // without a delay, Vibrate for 100 milliseconds, Sleep for 1000 milliseconds
     private MediaPlayer alarmMediaPlayer = null;
-    private PowerManager.WakeLock wakeLock = null;
+    private PowerManager.WakeLock wakeLock = null; //TODO: this is possibly not needed here
 
     // for logging and stuff
     public final String TAG = this.getClass().getSimpleName();
@@ -118,6 +119,8 @@ public class AlarmRingService extends Service {
         alarmMediaPlayer = new MediaPlayer();
         alarmMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
         alarmMediaPlayer.setLooping(true);
+        alarmMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK
+                                                            | PowerManager.ACQUIRE_CAUSES_WAKEUP);
 
         // prepare wakelock
         PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
@@ -148,7 +151,7 @@ public class AlarmRingService extends Service {
         else if (action.equals(TIME_OUT_ALARM))
             handleActionTimeOutAlarm(alarmID);
         else
-            Log.d(TAG, "received unrecognized intent: " + action);
+            Log.w(TAG, "received unrecognized intent: " + action);
 
         // means if we are terminated for whatever reason system should not restart this service
         return START_NOT_STICKY;
@@ -169,13 +172,13 @@ public class AlarmRingService extends Service {
 
     private synchronized void handleActionSnoozeAlarm(long alarmID, int snoozeDurationInMinutes) {
         if (ringingAlarm == null || ringingAlarm.getId() != alarmID) {
-            Log.d(TAG, ringingAlarm == null
+            Log.i(TAG, ringingAlarm == null
                     ? "received snooze request while there is no ringing alarm! received ID:" + alarmID
                     : "received snooze request for an alarm which is not ringing! received ID:"+ alarmID);
             return; // do nothing since snooze request is not valid
         }
 
-        createAndPostSnoozeAlarm();
+        createAndPostSnoozeAlarm(snoozeDurationInMinutes);
         dismissCurrent(DismissReasons.SNOOZE);
         endService();
     }
@@ -184,7 +187,7 @@ public class AlarmRingService extends Service {
         if (ringingAlarm == null) {
             endService();
         } else if (ringingAlarm .getId() != alarmID) {
-            Log.d(TAG, "received dismiss request for alarm which is not ringing! ID-" + alarmID);
+            Log.i(TAG, "received dismiss request for alarm which is not ringing! ID-" + alarmID);
             return;
         } else {
             dismissCurrent(DismissReasons.DISMISS);
@@ -195,7 +198,7 @@ public class AlarmRingService extends Service {
         if (ringingAlarm == null) {
             endService();
         } else if (ringingAlarm .getId() != alarmID) {
-            Log.d(TAG, "received dismiss request for alarm which is not ringing! ID-" + alarmID);
+            Log.i(TAG, "received dismiss request for alarm which is not ringing! ID-" + alarmID);
             return;
         } else {
             dismissCurrent(DismissReasons.TIMEOUT);
@@ -203,17 +206,55 @@ public class AlarmRingService extends Service {
     }
 
     private void startRinging(long alarmID) {
-        throw new UnsupportedOperationException("Not yet Implemented.!");
 
+        // get alarm to ring
+        ringingAlarm = AlarmManagerHelper.getAlarm(this, alarmID);
+        if (ringingAlarm == null) {
+            Log.w(TAG, "Alarm not found, can not ring!");
+            endService();
+            return;
+        }
+
+        // set time out for alarm
+        int timeOutDurationInMin = 5; //TODO: make this setting based
+        timeOutIntent = startTimeOutAlarmPendingIntent(this, alarmID, timeOutDurationInMin);
+
+        // create notification
+        alarmNotification = createNotification(ringingAlarm);
+        startForeground((int)ringingAlarm.getId(), alarmNotification);
+
+        // trigger vibration
+        if (alarmVibrator != null)
+            alarmVibrator.vibrate(vibrationPattern, 0);
+
+
+        // prepare media player
+        alarmMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mP) {
+                mP.start();
+            }});
+
+        alarmMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mP, int what, int extra) {
+                Log.d(TAG, "MediaPlayer issue: " + what + "-" + extra);
+                endService();
+                return false;
+            }});
+
+        try {
+            alarmMediaPlayer.setDataSource(this, ringingAlarm.getAlarmTone());
+        } catch (IOException e) {
+            endService();
+            Log.d(TAG, "MediaPlayer input issue!");
+            return;
+        }
+    }
+
+    private Notification createNotification(AlarmDataModel alarmToNotify) {
+        throw new UnsupportedOperationException("Not yet Implemented.!");
         // TODO:
-        // 1 validity check, endService() if it fails
-        // 2 get alarm from db
-        // 3 set ringingAlarm =
-        // 4 create PendingIntent for timeout (dismiss intent)
-        // 5 trigger media player
-        // 6 trigger vibrator
-        // 7 create notification
-        // 8 bring to foreground
     }
 
     private void dismissCurrent(DismissReasons reason) {
@@ -230,16 +271,20 @@ public class AlarmRingService extends Service {
         // endService() if needed (based on reason)
     }
 
-    private void createAndPostSnoozeAlarm() {
+    private void createAndPostSnoozeAlarm(int snoozeDurationInMinutes) {
         if (ringingAlarm == null) {
             Log.d(TAG, "invalid internal state: Tried to snooze an alarm which is not ringing!");
             return;
         }
-        // get snooze duration & create snooze alarm
-        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
-        int snoozeDuration_InMinutes = Integer.parseInt(preference.getString("snooze_duration","5"));
-        AlarmDataModel snoozeAlarm = AlarmDataModel.createSnoozingAlarm(ringingAlarm, snoozeDuration_InMinutes, true);
 
+        // update snooze duration
+        if (snoozeDurationInMinutes == -1) { // if snooze duration is invalid update from settings
+            SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
+            snoozeDurationInMinutes = Integer.parseInt(preference.getString("snooze_duration", "5"));
+        }
+
+        // create snooze alarm and push
+        AlarmDataModel snoozeAlarm = AlarmDataModel.createSnoozingAlarm(ringingAlarm, snoozeDurationInMinutes, true);
         AlarmManagerHelper.createNewAlarm(this, snoozeAlarm);
     }
 
@@ -254,19 +299,6 @@ public class AlarmRingService extends Service {
         // 5 update/remove notification (based on reason)
         // 6 remove from foreground
         // 7 this.stopSelf();
-    }
-
-    @Override
-    public void onDestroy() {
-        //TODO
-        throw new UnsupportedOperationException("Not yet Implemented.!");
-        //super.onDestroy();
-
-        //TODO: Ringing stuff
-        //alarmVibrator.vibrate(pattern, 0);
-        //alarmMediaPlater.setDataSource(this, tone);
-        //alarmMediaPlater.prepare();
-        //alarmMediaPlater.start();
     }
 
     @Override
