@@ -2,6 +2,7 @@ package com.alphan.mcan.snoozecharity.services;
 
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -37,6 +38,7 @@ public class AlarmRingService extends Service {
     private AlarmDataModel ringingAlarm = null;
     private PendingIntent timeOutIntent = null;
     private Notification alarmNotification = null;
+    private int alarmNotificationID = -1;
 
     // interactive members
     private Vibrator alarmVibrator = null;
@@ -227,14 +229,12 @@ public class AlarmRingService extends Service {
         if (alarmVibrator != null)
             alarmVibrator.vibrate(vibrationPattern, 0);
 
-
         // prepare media player
         alarmMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mP) {
                 mP.start();
             }});
-
         alarmMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mP, int what, int extra) {
@@ -250,25 +250,67 @@ public class AlarmRingService extends Service {
             Log.d(TAG, "MediaPlayer input issue!");
             return;
         }
+        alarmMediaPlayer.prepareAsync();
     }
 
+    private void dismissCurrent(DismissReasons reason) {
+
+        // remove ringing alarm
+        ringingAlarm = null;
+        if (timeOutIntent != null)
+            timeOutIntent.cancel();
+        timeOutIntent = null;
+
+        // stop vibration & media player
+        if (alarmMediaPlayer != null)
+            alarmMediaPlayer.stop();
+        if (alarmVibrator != null)
+            alarmVibrator.cancel();
+
+        stopForeground(false);
+
+        // based on reason for dismiss update/remove notification and endService if needed
+        switch (reason) {
+            case SNOOZE:
+                updateSnoozeNotification(alarmNotification);
+                endService();
+                break;
+            case TIMEOUT:
+                updateMissedAlarmNotification(alarmNotification);
+                endService();
+                break;
+            case NEW_ALARM:
+                updateMissedAlarmNotification(alarmNotification);
+                break;
+            case DISMISS:
+                dismissAlarmNotification(alarmNotification);
+                endService();
+                break;
+        }
+
+    }
+
+    // notification management:
     private Notification createNotification(AlarmDataModel alarmToNotify) {
         throw new UnsupportedOperationException("Not yet Implemented.!");
         // TODO:
     }
 
-    private void dismissCurrent(DismissReasons reason) {
+    private void updateSnoozeNotification(Notification currentNotification){
         throw new UnsupportedOperationException("Not yet Implemented.!");
-
         // TODO:
-        // 1 validity check
-        // 3 remove ringingAlarm
-        // 4 cancel PendingIntent for auto cancel if needed (based on reason)
-        // 5 stop media player
-        // 6 stop vibrator
-        // 7 update/remove notification (based on reason)
-        // 6 remove from foreground
-        // endService() if needed (based on reason)
+    }
+
+    private void updateMissedAlarmNotification(Notification currentNotification) {
+        throw new UnsupportedOperationException("Not yet Implemented.!");
+        // TODO:
+    }
+
+    private void dismissAlarmNotification(Notification currentNotification) {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        throw new UnsupportedOperationException("Not yet Implemented.!");
+        // TODO:
     }
 
     private void createAndPostSnoozeAlarm(int snoozeDurationInMinutes) {
