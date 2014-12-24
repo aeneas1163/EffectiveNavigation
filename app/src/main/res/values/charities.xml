@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="charity_array">
+        <item>UNICEF GERMANY</item>
+        <item>GREENPEACE</item>
+        <item>GIVE WELL</item>
+        <item>AID FOR AFRICA</item>
+    </string-array>
+
+    <string-array name="charity_description_array">
+        <item>Unicef in Germany</item>
+        <item>Well known Greenpeace</item>
+        <item>Charity about water</item>
+        <item>To help Africa</item>
+    </string-array>
+
+    <string-array name="charity_paypal_array">
+        <item>mail@unicef.de</item>
+        <item>1@2.3</item>
+        <item>2@2.3</item>
+        <item>3@2.3</item>
+    </string-array>
+</resources>

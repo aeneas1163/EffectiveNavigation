@@ -3,6 +3,7 @@ package com.alphan.mcan.snoozecharity.viewModels;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -93,6 +94,11 @@ public class AlarmScreen extends Activity {
 
 
         Button snoozeButton = (Button) findViewById(R.id.alarm_screen_snooze_button);
+
+        int charityIndex = preference.getInt(CharityCollectionActivity.DemoObjectFragment.ARG_INDEX, 0);
+        Resources res = getResources();
+        String[] charities = res.getStringArray(R.array.charity_array);
+        snoozeButton.setText("Snooze for " + charities[charityIndex]);
         snoozeButton.setOnClickListener(new OnClickListener() {
 
             @Override

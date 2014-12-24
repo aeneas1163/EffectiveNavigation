@@ -22,17 +22,44 @@
     android:background="@drawable/orta">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="?android:attr/actionBarSize"
         android:orientation="vertical">
 
-        <AnalogClock
-            android:id="@+id/analogClock1"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="?android:attr/actionBarSize"
-            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.3"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <AnalogClock
+                android:id="@+id/analogClock1"
+                android:scaleX="1.3"
+                android:scaleY="1.3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+        </LinearLayout>
 
     </LinearLayout>
 </FrameLayout>

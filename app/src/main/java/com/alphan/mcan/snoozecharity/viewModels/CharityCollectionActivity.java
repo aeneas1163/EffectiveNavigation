@@ -17,8 +17,12 @@
 package com.alphan.mcan.snoozecharity.viewModels;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -30,6 +34,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.alphan.mcan.snoozecharity.R;
@@ -59,7 +64,7 @@ public class CharityCollectionActivity extends FragmentActivity {
         // 
         // ViewPager and its adapters use support library fragments, so we must use
         // getSupportFragmentManager.
-        mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
+        mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager(), this);
 
         // Set up action bar.
         final ActionBar actionBar = getActionBar();
@@ -108,15 +113,18 @@ public class CharityCollectionActivity extends FragmentActivity {
      */
     public static class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
 
-        public DemoCollectionPagerAdapter(FragmentManager fm) {
+        private Context _context;
+
+        public DemoCollectionPagerAdapter(FragmentManager fm, Context c) {
             super(fm);
+            _context = c;
         }
 
         @Override
         public Fragment getItem(int i) {
             Fragment fragment = new DemoObjectFragment();
             Bundle args = new Bundle();
-            args.putInt(DemoObjectFragment.ARG_OBJECT, i + 1); // Our object is just an integer :-P
+            args.putInt(DemoObjectFragment.ARG_INDEX, i); // Our object is just an integer :-P
             fragment.setArguments(args);
             return fragment;
         }
@@ -124,12 +132,16 @@ public class CharityCollectionActivity extends FragmentActivity {
         @Override
         public int getCount() {
             // For this contrived example, we have a 100-object collection.
-            return 100;
+            Resources res = _context.getResources();
+            String[] charities = res.getStringArray(R.array.charity_array);
+            return charities.length;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return "OBJECT " + (position + 1);
+            Resources res = _context.getResources();
+            String[] charities = res.getStringArray(R.array.charity_array);
+            return charities[position];
         }
     }
 
@@ -138,15 +150,37 @@ public class CharityCollectionActivity extends FragmentActivity {
      */
     public static class DemoObjectFragment extends Fragment {
 
-        public static final String ARG_OBJECT = "object";
+        public static final String ARG_INDEX = "charityindex";
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_charity_object, container, false);
             Bundle args = getArguments();
-            ((TextView) rootView.findViewById(R.id.charity_object)).setText(
-                    Integer.toString(args.getInt(ARG_OBJECT)));
+            Resources res = getActivity().getResources();
+            String[] charityDesc = res.getStringArray(R.array.charity_description_array);
+            String[] charities = res.getStringArray(R.array.charity_array);
+
+            final int index = args.getInt(ARG_INDEX);
+
+            ((TextView) rootView.findViewById(R.id.donation_description)).setText(
+                    charityDesc[index]);
+            Button selectButton = ((Button) rootView.findViewById(R.id.select_charity));
+
+            selectButton.setText("Select " + charities[index]);
+
+            selectButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+                    SharedPreferences.Editor editor = settings.edit();
+
+                    editor.putInt(ARG_INDEX, index);
+
+                    editor.commit();
+                }
+            });
             return rootView;
         }
     }

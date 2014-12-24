@@ -20,9 +20,9 @@
     <string name="clock_section_text">Woww! An awesome clock in section %1d </string>
     <string name="alarm_section_text">Cool alarm functionality in section %1d </string>
 
-    <string name="demo_external_activity">Dummy Preferences</string>
-    <string name="demo_collection">Demo Collection</string>
-    <string name="app_preferences">App Preferences</string>
+    <string name="demo_external_activity">Settings</string>
+    <string name="demo_collection">Donation Selection</string>
+    <string name="app_preferences">Settings</string>
     <string name="set_alarm">Create new alarm</string>
     <string name="alarm_default_name">Alarm</string>
     <string name="ok">OK</string>
@@ -30,7 +30,7 @@
     <string name="delete">Delete Alarm</string>
     <string name="dismiss">Dismiss</string>
     <string name="snooze">Snooze</string>
-    <string name="set_ringtone">Set Alarm Ringtone</string>
+    <string name="set_ringtone">Ringtones</string>
 
     <string name="alarm_repeat">REPEAT</string>
 
@@ -56,11 +56,11 @@
 
     <string name="am_pm">AM/PM</string>
 
-    <string name="title_checkbox_preference">Checkbox preference</string>
+    <string name="vibration_checkbox_preference">Vibration</string>
 
-    <string name="summary_checkbox_preference">This is a checkbox</string>
+    <string name="summary_vibraion_preference">Set vibration on/off</string>
 
-    <string name="inline_preferences">In-line preferences</string>
+    <string name="inline_preferences">Alarm Clock Preferences</string>
 
     <string name="dialog_based_preferences">Dialog-based preferences</string>
 
@@ -70,7 +70,7 @@
 
     <string name="title_list_preference">Snooze Duration</string>
 
-    <string name="summary_list_preference">Choose Snooze Duration</string>
+    <string name="summary_ringtone_preference">Choose Alarm Ringtone</string>
 
     <string name="dialog_title_list_preference">Choose Snooze Duration</string>
 
