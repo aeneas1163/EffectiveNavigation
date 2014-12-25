@@ -8,10 +8,10 @@
     </string-array>
 
     <string-array name="charity_description_array">
-        <item>Unicef in Germany</item>
-        <item>Well known Greenpeace</item>
-        <item>Charity about water</item>
-        <item>To help Africa</item>
+        <item>The United Nations Children\'s Fund (UNICEF is a United Nations Program headquartered in New York City that provides long-term humanitarian and developmental assistance to children and mothers in developing countries. It is one of the members of the United Nations Development Group and its Executive Committee.</item>
+        <item>Greenpeace is a non-governmental environmental organization with offices in over forty countries. Greenpeace states its goal is to "ensure the ability of the Earth to nurture life in all its diversity" and focuses its campaigning on world wide issues such as climate change, deforestation, overfishing, commercial whaling, genetic engineering, and anti-nuclear issues. It uses direct action, lobbying, and research to achieve its goals.</item>
+        <item>GiveWell is an American non-profit charity evaluator and effective altruism-focused organization. GiveWell recommends several charities per year. In 2014, its top recommendations were the Against Malaria Foundation, GiveDirectly, the Schistosomiasis Control Initiative, and the Deworm the World Initiative.</item>
+        <item>Aid for Africa is a charity alliance of U.S.-based nonprofits and their African partners working to help children, families, and communities throughout Sub-Saharan Africa. Aid for Africa members are all dedicated to solving the complex, inter-related challenges facing Africa. They realize that, they can be even more powerful when they approach Africa\'s issues as a group.</item>
     </string-array>
 
     <string-array name="charity_paypal_array">
@@ -20,4 +20,12 @@
         <item>2@2.3</item>
         <item>3@2.3</item>
     </string-array>
+
+    <string-array name="charity_image_array">
+        <item>@drawable/unicef</item>
+        <item>@drawable/greenpeace</item>
+        <item>@drawable/givewell</item>
+        <item>@drawable/aidforafrica</item>
+    </string-array>
+
 </resources>

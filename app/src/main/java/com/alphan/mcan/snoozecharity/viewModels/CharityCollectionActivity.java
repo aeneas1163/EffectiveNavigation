@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -35,6 +36,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alphan.mcan.snoozecharity.R;
@@ -169,6 +171,14 @@ public class CharityCollectionActivity extends FragmentActivity {
 
             selectButton.setText("Select " + charities[index]);
 
+            TypedArray imgs = getResources().obtainTypedArray(R.array.charity_image_array);
+
+            ImageView imageView = (ImageView) rootView.findViewById(R.id.charity_imageview);
+
+            imageView.setImageResource(imgs.getResourceId(index, -1));
+
+            imgs.recycle();
+
             selectButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -179,6 +189,8 @@ public class CharityCollectionActivity extends FragmentActivity {
                     editor.putInt(ARG_INDEX, index);
 
                     editor.commit();
+
+                    getActivity().onBackPressed();
                 }
             });
             return rootView;
