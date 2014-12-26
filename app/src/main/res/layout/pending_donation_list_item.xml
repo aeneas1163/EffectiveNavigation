@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="4dp" >
+
+        <Button
+            android:id="@+id/donation_pay_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/pay_now"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+        <TextView
+            android:id="@+id/charity_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignBottom="@id/donation_pay_button"
+            android:layout_marginLeft="4dp"
+            android:gravity="center|left"
+            android:text="Charity Goes Here"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/donation_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/charity_name"
+            android:layout_alignBottom="@+id/donation_pay_button"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:gravity="center|right"
+            android:layout_toLeftOf="@+id/donation_pay_button"
+            android:layout_toRightOf="@+id/charity_name"
+            android:text="50 €"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/donation_db_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/charity_name"
+            android:layout_alignBottom="@id/charity_name"
+            android:layout_toLeftOf="@+id/alarm_item_toggle"
+            android:layout_toRightOf="@+id/alarm_item_saturday"
+            android:text="Donation DB ID"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+
+    </RelativeLayout>
+
+</FrameLayout>

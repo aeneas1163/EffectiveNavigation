@@ -17,6 +17,12 @@
 <resources>
     <string name="app_name">Snooze FTW</string>
 
+    <string name="money_sign">€</string>
+
+    <string name="pay_now">Give Now!</string>
+
+    <string name="pending_donations_label">Your Pending Donations:</string>
+
     <string name="clock_section_text">Woww! An awesome clock in section %1d </string>
     <string name="alarm_section_text">Cool alarm functionality in section %1d </string>
 
@@ -60,7 +66,9 @@
 
     <string name="summary_vibraion_preference">Set vibration on/off</string>
 
-    <string name="inline_preferences">Alarm Clock Preferences</string>
+    <string name="alarm_clock_preferences">Alarm Clock Preferences</string>
+
+    <string name="donation_preferences">Donation Preferences</string>
 
     <string name="dialog_based_preferences">Dialog-based preferences</string>
 
@@ -68,11 +76,19 @@
 
     <string name="preference_attributes">Preference attributes</string>
 
-    <string name="title_list_preference">Snooze Duration</string>
+    <string name="snooze_preference">Snooze Duration</string>
+
+    <string name="donation_preference">Donation per Snooze</string>
+
+    <string name="payment_preference">Donation Payment Amount</string>
 
     <string name="summary_ringtone_preference">Choose Alarm Ringtone</string>
 
-    <string name="dialog_title_list_preference">Choose Snooze Duration</string>
+    <string name="snooze_duration_preference_title">Choose Snooze Duration</string>
+
+    <string name="donation_preference_title">Choose Amount per Snooze</string>
+
+    <string name="payment_preference_title">Choose Amount for Donation Payment</string>
 
     <string name="title_screen_preference">Screen preference</string>
 

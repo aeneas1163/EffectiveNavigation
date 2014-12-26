@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
+import com.alphan.mcan.snoozecharity.data.model.DonationDataModel;
 import com.alphan.mcan.snoozecharity.data.persistence.AlarmDBAssistant;
 
 import java.util.Calendar;
@@ -88,11 +89,7 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
 
         //try to delete the alarm from db
         AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
-        boolean deleted = dbHelper.removeAlarmFromDB(deletedAlarm);
-        if (deleted)
-            return true;
-        else
-            return false;
+        return dbHelper.removeAlarmFromDB(deletedAlarm);
     }
 
     // acquire the alarm with the given ID, can return null!!
@@ -289,6 +286,60 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
         intent.putExtra(INTENT_TYPE, DONATION_INTENT);
 
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    // ALARM METHODS:
+    // add a completely new alarm and properly set it
+    public static boolean addToPendingDonation(Context context, int charityIndex, double amount) {
+        //try to add alarm to db
+        AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
+        DonationDataModel model = dbHelper.getPendingDonationByCharityIndex(charityIndex);
+        if(model != null)
+        {
+            model.increasePendingAmount(amount);
+            return dbHelper.updatePendingDonation(model);
+        }
+        else {
+            model = new DonationDataModel(charityIndex, amount);
+            return dbHelper.addPendingDonation(model);
+        }
+    }
+
+    // modify an existing alarm and set it
+    private static boolean modifyPendingDonation(Context context, DonationDataModel modifiedPendingDonation) {
+        //try to modify the alarm in db
+        AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
+        return dbHelper.updatePendingDonation(modifiedPendingDonation);
+    }
+
+    // remove an existing alarm
+    private static boolean deletePendingDonation(Context context, DonationDataModel deletedPendingDonation) {
+        //try to delete the alarm from db
+        AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
+        return dbHelper.deletePendingDonation(deletedPendingDonation);
+    }
+
+    // acquire the alarm with the given ID, can return null!!
+    private static DonationDataModel getPendingDonation(Context context, int id) {
+        AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
+        return dbHelper.getPendingDonationByCharityIndex(id);
+    }
+
+    // get alarms in DB, filters snooze alarms out.
+    public static List<DonationDataModel> getPendingDonations(Context context) {
+        AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
+
+        // filter snooze alarms out:
+        List<DonationDataModel> pendingDonations = dbHelper.getPendingDonations();
+        // sort alarms
+        Collections.sort(pendingDonations, new Comparator<DonationDataModel>() {
+            @Override
+            public int compare(DonationDataModel pendon1, DonationDataModel pendon2) {
+                return ((int)(pendon2.getPendingAmount()*100 - pendon1.getPendingAmount()*100));
+            }
+        });
+
+        return pendingDonations;
     }
 
 }

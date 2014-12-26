@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="@string/inline_preferences">
+        android:title="@string/alarm_clock_preferences">
 
         <RingtonePreference android:key="ringtone_pref"
             android:title="@string/set_ringtone"
@@ -13,24 +13,52 @@
 
         <ListPreference
             android:key="snooze_duration"
-            android:title="@string/title_list_preference"
+            android:title="@string/snooze_preference"
             android:summary="%s"
-            android:entries="@array/entries_list_preference"
-            android:entryValues="@array/entryvalues_list_preference"
-            android:dialogTitle="@string/dialog_title_list_preference"
+            android:entries="@array/snooze_minute_text_array"
+            android:entryValues="@array/snooze_minute_value_array"
+            android:dialogTitle="@string/snooze_duration_preference_title"
             android:defaultValue="5"/>
 
         <SwitchPreference
             android:key="24hour_option"
             android:title="@string/hour_option_title"
             android:switchTextOn="@string/hour24"
-            android:switchTextOff="@string/am_pm"/>
+            android:switchTextOff="@string/am_pm"
+            android:defaultValue="true"/>
 
         <CheckBoxPreference
             android:key="vibration_pref"
             android:title="@string/vibration_checkbox_preference"
             android:summary="@string/summary_vibraion_preference"
             android:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/donation_preferences">
+
+
+        <ListPreference
+            android:key="donation_snooze_amount"
+            android:title="@string/donation_preference"
+            android:summary="%s"
+            android:entries="@array/donation_amount_text_array"
+            android:entryValues="@array/donation_amount_value_array"
+            android:dialogTitle="@string/donation_preference_title"
+            android:defaultValue="20"/>
+
+        <ListPreference
+            android:key="donation_payment_amount"
+            android:title="@string/payment_preference"
+            android:summary="%s"
+            android:entries="@array/payment_amount_text_array"
+            android:entryValues="@array/payment_amount_value_array"
+            android:dialogTitle="@string/payment_preference_title"
+            android:defaultValue="10"/>
+
+
+
+
 
     </PreferenceCategory>
 

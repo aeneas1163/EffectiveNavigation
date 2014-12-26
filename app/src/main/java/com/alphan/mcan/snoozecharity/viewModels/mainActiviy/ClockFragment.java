@@ -5,8 +5,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.alphan.mcan.snoozecharity.R;
+import com.alphan.mcan.snoozecharity.data.model.DonationDataModel;
+import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
+
+import java.util.List;
 
 /**
  * A dummy fragment representing a section of the app, but that simply displays dummy text.
@@ -23,6 +28,17 @@ public class ClockFragment extends Fragment {
         Bundle args = getArguments();
 
         View rootView = inflater.inflate(R.layout.fragment_section_clock, container, false);
+
+        List<DonationDataModel> donations =  AlarmManagerHelper.getPendingDonations(getActivity());
+
+        if (donations.isEmpty())
+            rootView.findViewById(R.id.pending_donation_textview).setVisibility(View.GONE);
+
+        DonationListAdapter donationListAdapter = new DonationListAdapter(getActivity(), donations);
+
+        final ListView donationListView = (ListView) rootView.findViewById(R.id.pending_donation_list);
+
+        donationListView.setAdapter(donationListAdapter);
 
         return rootView;
     }

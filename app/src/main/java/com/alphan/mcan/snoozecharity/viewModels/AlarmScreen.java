@@ -95,16 +95,19 @@ public class AlarmScreen extends Activity {
 
         Button snoozeButton = (Button) findViewById(R.id.alarm_screen_snooze_button);
 
-        int charityIndex = preference.getInt(CharityCollectionActivity.DemoObjectFragment.ARG_INDEX, 0);
+        final int charityIndex = preference.getInt(CharityCollectionActivity.DemoObjectFragment.ARG_INDEX, 0);
+        final double donationAmount = (Double.parseDouble(preference.getString("donation_snooze_amount", "20")))/100;
         Resources res = getResources();
         String[] charities = res.getStringArray(R.array.charity_array);
-        snoozeButton.setText("Snooze for " + charities[charityIndex]);
+        snoozeButton.setText("Snooze [ " + String.format("%.2f", donationAmount) + res.getString(R.string.money_sign) + " to " + charities[charityIndex] + "]");
         snoozeButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 // if it is found in DB, disable it and update db, or snooze or what ever
                 if (currentAlarm != null) {
+                    // add snooze donation to charity db
+                    AlarmManagerHelper.addToPendingDonation(getApplicationContext(), charityIndex, donationAmount);
                     // if the alarm is not weekly then do not disable it
                     if (!currentAlarm.isWeekly()) {
                         currentAlarm.setEnabled(false);
@@ -141,7 +144,7 @@ public class AlarmScreen extends Activity {
 				mPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
 				mPlayer.setLooping(true);
 				mPlayer.prepare();
-				mPlayer.start();
+//				mPlayer.start();
 			}
 
 		} catch (Exception e) {

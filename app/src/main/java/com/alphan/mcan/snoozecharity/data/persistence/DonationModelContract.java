@@ -9,10 +9,16 @@ import android.provider.BaseColumns;
  */
 public final class DonationModelContract {
 
-    public static abstract class Donation implements BaseColumns { //this adds the ID column
-        public static final String TABLE_NAME = "donation";
+    public static abstract class PendingDonation implements BaseColumns { //this adds the ID column
+        public static final String TABLE_NAME = "pendingdonation";
+        public static final String COLUMN_NAME_CHARITY_INDEX = "charityindex";
         public static final String COLUMN_NAME_DONATION_AMOUNT = "amount";
-        public static final String COLUMN_NAME_DONATION_SUBMITTED = "isSubmitted";
-        public static final String COLUMN_NAME_DONATION_SUBMIT_DATE = "submitDate";
+    }
+
+    public static abstract class PaidDonation implements BaseColumns { //this adds the ID column
+        public static final String TABLE_NAME = "paiddonation";
+        public static final String COLUMN_NAME_CHARITY_INDEX = "charityindex";
+        public static final String COLUMN_NAME_DONATION_AMOUNT = "amount";
+        public static final String COLUMN_NAME_DONATION_DATE = "donationDate";
     }
 }

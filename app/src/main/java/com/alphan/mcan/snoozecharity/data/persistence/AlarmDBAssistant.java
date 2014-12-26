@@ -37,8 +37,17 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_SNOOZE_ALARM + " BOOLEAN," +
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_ENABLED + " BOOLEAN" + " )";
 
+    private static final String SQL_CREATE_PENDING_DONATION_TABLE =
+            "CREATE TABLE " + DonationModelContract.PendingDonation.TABLE_NAME + " (" +
+                    DonationModelContract.PendingDonation._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    DonationModelContract.PendingDonation.COLUMN_NAME_CHARITY_INDEX + " INTEGER," +
+                    DonationModelContract.PendingDonation.COLUMN_NAME_DONATION_AMOUNT + " REAL" + " )";
+
     private static final String SQL_DELETE_ALARM_TABLE =
             "DROP TABLE IF EXISTS " + AlarmModelContract.Alarm.TABLE_NAME;
+
+    private static final String SQL_DELETE_PENDING_DONATION_TABLE =
+            "DROP TABLE IF EXISTS " + DonationModelContract.PendingDonation.TABLE_NAME;
 
     public AlarmDBAssistant(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -47,11 +56,13 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ALARM_TABLE);
+        db.execSQL(SQL_CREATE_PENDING_DONATION_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQL_DELETE_ALARM_TABLE);
+        db.execSQL(SQL_DELETE_PENDING_DONATION_TABLE);
         onCreate(db);
         //TODO: Not sure what the hell this one does, search a bit?
     }
@@ -139,41 +150,85 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
     /**
      DB donation access methods
      */
-    public long addDonation(DonationDataModel donation) {
-        //TODO
-        throw new UnsupportedOperationException("Not Implemented!");
+    public Boolean addPendingDonation(DonationDataModel donation) {
+        if (donation.getId() != -1)
+            return false; // only new donations can be added
+
+        //insert and update id
+        ContentValues values = generatePendingDonationContentValues(donation);
+        donation.setId(getWritableDatabase().insert(DonationModelContract.PendingDonation.TABLE_NAME, null, values));
+
+        // check for success
+        if (donation.getId() == -1)
+            return false;
+        else
+            return true;
     }
 
-    public DonationDataModel getDonation(long id) {
-        //TODO
-        throw new UnsupportedOperationException("Not Implemented!");
+    public DonationDataModel getPendingDonationByCharityIndex(int id) {
+        if (id == -1)
+            return null;
+
+        DonationDataModel donation = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String select = "SELECT * FROM " + DonationModelContract.PendingDonation.TABLE_NAME + " WHERE " + DonationModelContract.PendingDonation.COLUMN_NAME_CHARITY_INDEX+ " = " + id;
+        Cursor c = db.rawQuery(select, null);
+        if (c.moveToNext())
+            donation = generatePendingDonationModel(c);
+
+        c.close();
+        return donation;
     }
 
-    public long updateDonation(DonationDataModel model) {
-        //TODO
-        throw new UnsupportedOperationException("Not Implemented!");
+    public boolean updatePendingDonation(DonationDataModel model) {
+        if (model.getId() == -1) // use add in this case
+            return false;
+
+        // update rows of DB
+        ContentValues values = generatePendingDonationContentValues(model);
+        int changedRows =  getWritableDatabase().update(DonationModelContract.PendingDonation.TABLE_NAME, values,
+                DonationModelContract.PendingDonation._ID + " = ?", new String[] { String.valueOf(model.getId()) });
+
+        // check for success
+        if (changedRows != 0)
+            return true;
+        else
+            return false;
     }
 
-    public int deleteDonation(long id) {
-        //TODO
-        throw new UnsupportedOperationException("Not Implemented!");
+    public boolean deletePendingDonation(DonationDataModel model) {
+        if (model.getId() == -1)
+            return false;
+
+        int effectedRows = getWritableDatabase().delete(DonationModelContract.PendingDonation.TABLE_NAME,
+                DonationModelContract.PendingDonation._ID + " = ?", new String[] { String.valueOf(model.getId()) });
+
+        model.setId(-1);
+
+        // check success
+        if (effectedRows != 0)
+            return true;
+        else
+            return false;
     }
 
-    public List<DonationDataModel> getDonations() {
-        List<DonationDataModel> pendingDonations = getPendingDonations();
-        pendingDonations.addAll(getSubmittedDonations());
-        return pendingDonations;
+    public List<DonationDataModel> getPendingDonations() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String select = "SELECT * FROM " + DonationModelContract.PendingDonation.TABLE_NAME;
+        Cursor c = db.rawQuery(select, null);
+
+        List<DonationDataModel> pendingDonationList = new ArrayList<DonationDataModel>();
+        while (c.moveToNext())
+            pendingDonationList.add(generatePendingDonationModel(c));
+
+        c.close();
+        return pendingDonationList;
     }
 
     public List<DonationDataModel> getSubmittedDonations() {
         //TODO
         throw new UnsupportedOperationException("Not Implemented!");
     }
-    public List<DonationDataModel> getPendingDonations() {
-        //TODO
-        throw new UnsupportedOperationException("Not Implemented!");
-    }
-
 
     /**
      DB charity access methods
@@ -245,14 +300,25 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
     }
 
 
-    private DonationDataModel generateDonationModel(Cursor c) {
-        //TODO
-        throw new UnsupportedOperationException("Not Implemented!");
+    private DonationDataModel generatePendingDonationModel(Cursor c) {
+
+        long id = c.getLong(c.getColumnIndex(DonationModelContract.PendingDonation._ID));
+        int charityIndex = c.getInt(c.getColumnIndex(DonationModelContract.PendingDonation.COLUMN_NAME_CHARITY_INDEX));
+        double amount = c.getDouble(c.getColumnIndex(DonationModelContract.PendingDonation.COLUMN_NAME_DONATION_AMOUNT));
+
+        DonationDataModel model = new DonationDataModel(charityIndex, amount);
+        model.setId(id);
+
+        return model;
     }
 
-    private ContentValues generateDonationContentValues(DonationDataModel model) {
-        //TODO
-        throw new UnsupportedOperationException("Not Implemented!");
+    private ContentValues generatePendingDonationContentValues(DonationDataModel donation) {
+        ContentValues values = new ContentValues();
+
+        values.put(DonationModelContract.PendingDonation.COLUMN_NAME_CHARITY_INDEX, donation.getCharityIndex());
+        values.put(DonationModelContract.PendingDonation.COLUMN_NAME_DONATION_AMOUNT, donation.getPendingAmount());
+
+        return values;
     }
 
 
