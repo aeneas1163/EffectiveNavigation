@@ -23,6 +23,10 @@
 
     <string name="pending_donations_label">Your Pending Donations:</string>
 
+    <string name="paid_donations_label">Your Contributions So Far:</string>
+
+    <string name="about_us">About Us</string>
+
     <string name="clock_section_text">Woww! An awesome clock in section %1d </string>
     <string name="alarm_section_text">Cool alarm functionality in section %1d </string>
 

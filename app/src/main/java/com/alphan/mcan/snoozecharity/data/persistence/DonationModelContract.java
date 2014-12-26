@@ -19,6 +19,6 @@ public final class DonationModelContract {
         public static final String TABLE_NAME = "paiddonation";
         public static final String COLUMN_NAME_CHARITY_INDEX = "charityindex";
         public static final String COLUMN_NAME_DONATION_AMOUNT = "amount";
-        public static final String COLUMN_NAME_DONATION_DATE = "donationDate";
+        public static final String COLUMN_NAME_DONATION_DATE = "donationdate";
     }
 }

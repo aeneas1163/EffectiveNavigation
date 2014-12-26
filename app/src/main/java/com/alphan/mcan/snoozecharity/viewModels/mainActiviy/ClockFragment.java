@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.alphan.mcan.snoozecharity.R;
-import com.alphan.mcan.snoozecharity.data.model.DonationDataModel;
+import com.alphan.mcan.snoozecharity.data.model.PendingDonationDataModel;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class ClockFragment extends Fragment {
 
     public static final String ARG_SECTION_NUMBER = "section_number";
 
-    private DonationListAdapter donationListAdapter;
+    private PendingDonationListAdapter pendingDonationListAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,16 +31,13 @@ public class ClockFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_section_clock, container, false);
 
-        List<DonationDataModel> donations =  AlarmManagerHelper.getPendingDonations(getActivity());
+        List<PendingDonationDataModel> donations =  AlarmManagerHelper.getPendingDonations(getActivity());
 
-        if (donations.isEmpty())
-            rootView.findViewById(R.id.pending_donation_textview).setVisibility(View.GONE);
-
-        donationListAdapter = new DonationListAdapter(getActivity(), donations);
+        pendingDonationListAdapter = new PendingDonationListAdapter(getActivity(), donations);
 
         final ListView donationListView = (ListView) rootView.findViewById(R.id.pending_donation_list);
 
-        donationListView.setAdapter(donationListAdapter);
+        donationListView.setAdapter(pendingDonationListAdapter);
 
         return rootView;
     }
@@ -48,11 +45,17 @@ public class ClockFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (donationListAdapter != null)
+        if (pendingDonationListAdapter != null)
         {
-            donationListAdapter.clear();
-            List<DonationDataModel> donations =  AlarmManagerHelper.getPendingDonations(getActivity());
-            donationListAdapter.addAll(donations);
+            pendingDonationListAdapter.clear();
+            List<PendingDonationDataModel> donations =  AlarmManagerHelper.getPendingDonations(getActivity());
+
+            if (donations.isEmpty())
+                getActivity().findViewById(R.id.pending_donation_textview).setVisibility(View.GONE);
+            else
+                getActivity().findViewById(R.id.pending_donation_textview).setVisibility(View.VISIBLE);
+
+            pendingDonationListAdapter.addAll(donations);
         }
 
     }

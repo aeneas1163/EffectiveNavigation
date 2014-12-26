@@ -4,13 +4,13 @@ package com.alphan.mcan.snoozecharity.data.model;
  * Created by mcni on 11/24/14.
  * TODO
  */
-public class DonationDataModel {
+public class PendingDonationDataModel {
 
     private long id;
     private int charityIndex;
     private Double pendingAmount;
 
-    public DonationDataModel(int chaIndx, Double amount) {
+    public PendingDonationDataModel(int chaIndx, Double amount) {
         charityIndex = chaIndx;
         pendingAmount = amount;
         id = -1;

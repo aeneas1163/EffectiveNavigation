@@ -18,29 +18,84 @@
     android:id="@+id/settings_frag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sag" >
+    android:background="@drawable/sag">
 
-    <LinearLayout android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
 
-        <Button android:id="@+id/demo_collection_button"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/demo_collection"/>
-
-        <Button android:id="@+id/demo_external_activity"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/demo_external_activity" />
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <Button android:id="@+id/demo_alarm"
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="fake alarm in 1 minute" />
+            android:layout_height="0dp"
+            android:layout_weight="3.5"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/paid_donation_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:layout_marginLeft="20dp"
+                android:text="@string/paid_donations_label"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <ListView
+                android:id="@+id/paid_donation_list"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="3.5"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/demo_collection_button"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/demo_collection" />
+
+            <Button
+                android:id="@+id/demo_external_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/demo_external_activity" />
+
+            <Button
+                android:id="@+id/demo_alarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="fake alarm in 1 minute" />
+
+            <Button
+                android:id="@+id/about_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_us" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

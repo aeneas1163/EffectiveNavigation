@@ -14,11 +14,11 @@
         <item>Aid for Africa is a charity alliance of U.S.-based nonprofits and their African partners working to help children, families, and communities throughout Sub-Saharan Africa. Aid for Africa members are all dedicated to solving the complex, inter-related challenges facing Africa. They realize that, they can be even more powerful when they approach Africa\'s issues as a group.</item>
     </string-array>
 
-    <string-array name="charity_paypal_array">
-        <item>mail@unicef.de</item>
-        <item>1@2.3</item>
-        <item>2@2.3</item>
-        <item>3@2.3</item>
+    <string-array name="charity_website_array">
+        <item>www.unicef.org</item>
+        <item>www.greenpeace.org</item>
+        <item>www.givewell.org</item>
+        <item>www.aidforafrica.org</item>
     </string-array>
 
     <string-array name="charity_image_array">
