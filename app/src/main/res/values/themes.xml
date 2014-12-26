@@ -3,6 +3,8 @@
 
     <color name="transparent_black">#AA000000</color>
 
+    <color name="transparent">#00000000</color>
+
     <color name="android_blue">#33B5E5</color>
 
     <color name="android_yellow">#FFBB33</color>
