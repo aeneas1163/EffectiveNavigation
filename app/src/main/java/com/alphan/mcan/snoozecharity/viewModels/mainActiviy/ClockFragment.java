@@ -22,6 +22,8 @@ public class ClockFragment extends Fragment {
 
     public static final String ARG_SECTION_NUMBER = "section_number";
 
+    private DonationListAdapter donationListAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,12 +36,24 @@ public class ClockFragment extends Fragment {
         if (donations.isEmpty())
             rootView.findViewById(R.id.pending_donation_textview).setVisibility(View.GONE);
 
-        DonationListAdapter donationListAdapter = new DonationListAdapter(getActivity(), donations);
+        donationListAdapter = new DonationListAdapter(getActivity(), donations);
 
         final ListView donationListView = (ListView) rootView.findViewById(R.id.pending_donation_list);
 
         donationListView.setAdapter(donationListAdapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (donationListAdapter != null)
+        {
+            donationListAdapter.clear();
+            List<DonationDataModel> donations =  AlarmManagerHelper.getPendingDonations(getActivity());
+            donationListAdapter.addAll(donations);
+        }
+
     }
 }

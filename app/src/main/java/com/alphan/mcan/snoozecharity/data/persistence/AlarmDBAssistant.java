@@ -77,8 +77,10 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
 
         //insert and update id
         ContentValues values = generateAlarmContentValues(model);
-        model.setId(getWritableDatabase().insert(AlarmModelContract.Alarm.TABLE_NAME, null, values));
+        SQLiteDatabase db = this.getWritableDatabase();
+        model.setId(db.insert(AlarmModelContract.Alarm.TABLE_NAME, null, values));
 
+        db.close();
         // check for success
         if (model.getId() == -1)
             return false;
@@ -90,11 +92,12 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         if (model.getId() == -1)
             return false;
 
-        int effectedRows = getWritableDatabase().delete(AlarmModelContract.Alarm.TABLE_NAME,
+        SQLiteDatabase db = this.getWritableDatabase();
+        int effectedRows = db.delete(AlarmModelContract.Alarm.TABLE_NAME,
                 AlarmModelContract.Alarm._ID + " = ?", new String[] { String.valueOf(model.getId()) });
 
         model.setId(-1);
-
+        db.close();
         // check success
         if (effectedRows != 0)
             return true;
@@ -108,9 +111,11 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
 
         // update rows of DB
         ContentValues values = generateAlarmContentValues(model);
-        int changedRows =  getWritableDatabase().update(AlarmModelContract.Alarm.TABLE_NAME, values,
+        SQLiteDatabase db = this.getWritableDatabase();
+        int changedRows =  db.update(AlarmModelContract.Alarm.TABLE_NAME, values,
                 AlarmModelContract.Alarm._ID + " = ?", new String[] { String.valueOf(model.getId()) });
 
+        db.close();
         // check for success
         if (changedRows != 0)
             return true;
@@ -130,6 +135,7 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
             alarm = generateAlarmModel(c);
 
         c.close();
+        db.close();
         return alarm;
     }
 
@@ -143,6 +149,7 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
             alarmList.add(generateAlarmModel(c));
 
         c.close();
+        db.close();
         return alarmList;
     }
 
@@ -156,8 +163,10 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
 
         //insert and update id
         ContentValues values = generatePendingDonationContentValues(donation);
-        donation.setId(getWritableDatabase().insert(DonationModelContract.PendingDonation.TABLE_NAME, null, values));
+        SQLiteDatabase db = this.getWritableDatabase();
+        donation.setId(db.insert(DonationModelContract.PendingDonation.TABLE_NAME, null, values));
 
+        db.close();
         // check for success
         if (donation.getId() == -1)
             return false;
@@ -177,6 +186,7 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
             donation = generatePendingDonationModel(c);
 
         c.close();
+        db.close();
         return donation;
     }
 
@@ -184,11 +194,13 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         if (model.getId() == -1) // use add in this case
             return false;
 
+        SQLiteDatabase db = this.getWritableDatabase();
         // update rows of DB
         ContentValues values = generatePendingDonationContentValues(model);
-        int changedRows =  getWritableDatabase().update(DonationModelContract.PendingDonation.TABLE_NAME, values,
+        int changedRows =  db.update(DonationModelContract.PendingDonation.TABLE_NAME, values,
                 DonationModelContract.PendingDonation._ID + " = ?", new String[] { String.valueOf(model.getId()) });
 
+        db.close();
         // check for success
         if (changedRows != 0)
             return true;
@@ -199,12 +211,12 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
     public boolean deletePendingDonation(DonationDataModel model) {
         if (model.getId() == -1)
             return false;
-
-        int effectedRows = getWritableDatabase().delete(DonationModelContract.PendingDonation.TABLE_NAME,
+        SQLiteDatabase db = this.getWritableDatabase();
+        int effectedRows = db.delete(DonationModelContract.PendingDonation.TABLE_NAME,
                 DonationModelContract.PendingDonation._ID + " = ?", new String[] { String.valueOf(model.getId()) });
 
         model.setId(-1);
-
+        db.close();
         // check success
         if (effectedRows != 0)
             return true;
@@ -222,6 +234,7 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
             pendingDonationList.add(generatePendingDonationModel(c));
 
         c.close();
+        db.close();
         return pendingDonationList;
     }
 
