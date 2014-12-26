@@ -144,7 +144,7 @@ public class AlarmScreen extends Activity {
 				mPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
 				mPlayer.setLooping(true);
 				mPlayer.prepare();
-//				mPlayer.start();
+				mPlayer.start();
 			}
 
 		} catch (Exception e) {
