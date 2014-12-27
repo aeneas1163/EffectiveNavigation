@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Snooze FTW</string>
+    <string name="about_us">Hakkımızda</string>
+    <string name="alarm_clock_preferences">Alarm Seçenekleri</string>
+    <string name="alarm_repeat">TEKRARLA</string>
+    <string name="app_preferences">Ayarlar</string>
+    <string name="cancel">İptal</string>
+    <string name="delete">Alarmı Sil</string>
+    <string name="demo_collection">Bağış Kurum Seçimi</string>
+    <string name="demo_external_activity">Ayarlar</string>
+    <string name="dismiss">İptal</string>
+    <string name="donation_history">Bağış Geçmişi</string>
+    <string name="donation_preference">Erteleme başına bagış miktarı</string>
+    <string name="donation_preference_title">Erteleme başına bağış miktarını seçin</string>
+    <string name="donation_preferences">Bağış Seçenekleri</string>
+    <string name="friday_short">CUM</string>
+    <string name="hour24">24 Saat</string>
+    <string name="hour_option_title">Saat Modu</string>
+    <string name="monday_short">PZT</string>
+    <string name="money_sign">TL</string>
+    <string name="ok">Tamam</string>
+    <string name="paid_donations_label">Toplam Bağışlarınız:</string>
+    <string name="pay_now">Bağışla!</string>
+    <string name="payment_preference">Bağış Ödeme Miktarı</string>
+    <string name="payment_preference_title">Bağış Ödeme Miktarını Seçin</string>
+    <string name="pending_donations_label">Ödeme Bekleyen Bağışlarınız:</string>
+    <string name="saturday_short">CMT</string>
+    <string name="set_alarm">Yeni Alarm</string>
+    <string name="set_ringtone">Alarm Sesleri</string>
+    <string name="snooze">Ertele</string>
+    <string name="snooze_duration_preference_title">Erteleme Süresini Seçin</string>
+    <string name="snooze_preference">Erteleme Süresi</string>
+    <string name="summary_ringtone_preference">Alarm Sesinizi Seçin</string>
+    <string name="summary_vibraion_preference">Titreşimi Ayarlayın</string>
+    <string name="sunday_short">PAZ</string>
+    <string name="thursday_short">PER</string>
+    <string name="tuesday_short">SAL</string>
+    <string name="vibration_checkbox_preference">Titreşim</string>
+    <string name="wednesday_short">ÇAR</string>
+    <string name="donation_history_title">Bağış Geçmişiniz</string>
+    <string name="select_charity_button_text">%1$s Seçin</string>
+    <string name="snooze_button_text">Ertele [%2$s %1$s%3$s verin]</string>
+    <string name="donate_dialog_text">Şimdi %2$s %1$s%3$s bağışlamak istiyor musunuz?</string>
+    <string name="no">Hayır</string>
+    <string name="yes">Evet</string>
+</resources>

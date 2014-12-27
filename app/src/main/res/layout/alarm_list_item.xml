@@ -122,6 +122,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:focusable="false"
+            android:textOn="ON"
+            android:textOff="OFF"
             android:layout_alignTop="@+id/alarm_item_time"
             android:layout_alignBottom="@+id/alarm_item_saturday"
             android:background="@drawable/toggle_alarm_on_off_button_indicator"

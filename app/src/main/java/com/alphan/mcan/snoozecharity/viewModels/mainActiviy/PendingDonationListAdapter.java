@@ -45,6 +45,7 @@ public class PendingDonationListAdapter extends ArrayAdapter<PendingDonationData
         final Resources res = mContext.getResources();
         final String[] charities = res.getStringArray(R.array.charity_array);
         final String[] charityWebsites = res.getStringArray(R.array.charity_website_array);
+        final String[] charitiesSnooze = res.getStringArray(R.array.charity_snooze_text);
         charityName.setText(charities[model.getCharityIndex()]);
 
         TextView txtName = (TextView) view.findViewById(R.id.donation_amount);
@@ -59,11 +60,10 @@ public class PendingDonationListAdapter extends ArrayAdapter<PendingDonationData
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder adb = new AlertDialog.Builder(view.getContext());
-                adb.setTitle("Payment");
-                adb.setMessage("Do you want to pay now " + String.format("%.2f", model.getPendingAmount())
-                        + res.getString(R.string.money_sign) + " to " + charities[model.getCharityIndex()] + "?");
-                adb.setNegativeButton("Nah..", null);
-                adb.setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
+                adb.setTitle(res.getString(R.string.pay_now));
+                adb.setMessage(res.getString(R.string.donate_dialog_text, String.format("%.2f", model.getPendingAmount()), charitiesSnooze[model.getCharityIndex()], res.getString(R.string.money_sign)));
+                adb.setNegativeButton(res.getString(R.string.no), null);
+                adb.setPositiveButton(res.getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         AlarmManagerHelper.transferToPaidDonation(mContext, model);

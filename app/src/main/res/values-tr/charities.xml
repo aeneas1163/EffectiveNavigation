@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="charity_array">
+        <item>AÇEV</item>
+        <item>ÇYDD KIZ</item>
+        <item>LÖSEV</item>
+        <item>TEGV</item>
+    </string-array>
+
+    <string-array name="charity_description_array">
+        <item>İyi bir geleceği hazırlamaya erken çocukluk çağında başlıyor ve güvenilir yarınlar için çalışıyoruz. Erken yaş dönemi çocuğun en hızlı geliştiği ve öğrendiği bir dönem. Bu nedenle biz de AÇEV olarak her çocuğu erken yaşlardan başlayarak potansiyelinin en üst seviyesine erişmesi için eğitim yoluyla desteklemeyi hedefliyoruz. </item>
+        <item>Çağdaş Yaşamı Destekleme Derneği\'nin bu projesi ile sosyoekonomik koşulları uygun olmayan ailelerin öğrenimlerine devam edemeyen kız çocuklarına eğitimde fırsat eşitliği sağlanması ve kızlarımızın meslek sahibi, ufku açık "çağdaş birey"ler haline gelmeleri amaçlanmaktadır. </item>
+        <item>Türkiye\'de her yıl 1.000-1.200 yeni lösemili çocuk vakası ortaya çıkıyor. Bu durum bazen dar bütçeli ailelerde ebeveyni lösemili çocuk ile diğer çocukları arasında seçim yapmaya kadar zorluyor. Bu sebeple vakfımız tüm faaliyetlerinde, gelir elde etmenin yanısıra, lösemi hastalığını tanıtmayı, lösemili çocukların ve ailelerinin sıkıntılarını topluma aktarmayı ve bu vesileyle toplumu bilinçlendirmeyi amaçlamaktadır.</item>
+        <item>TEGV\'in amacı; İlköğretim çağı çocuklarımızın Cumhuriyetimizin temel ilke ve değerlerine bağlı, akılcı, sağduyulu, özgüven sahibi, düşünen, sorgulayan, kendi iç yaratıcılığını harekete geçirebilen, barışçı, farklı düşünce ve inançlara saygılı, insan ilişkilerinde cinsiyet, ırk, din, dil farkı gözetmeyen bireyler olarak yetişmesine katkıda bulunacak eğitim programları ile etkinlikler oluşturmak ve uygulamaktır.</item>
+    </string-array>
+
+    <string-array name="charity_web_donation_support">
+        <item>true</item>
+        <item>true</item>
+        <item>true</item>
+        <item>true</item>
+    </string-array>
+
+    <string-array name="charity_website_array">
+        <item>www.acev.org/bagis</item>
+        <item>secure.cydd.org.tr/</item>
+        <item>www.losev.org.tr/bagis/Bagis.aspx</item>
+        <item>sp.tegv.org/</item>
+    </string-array>
+
+    <string-array name="charity_image_array">
+        <item>@drawable/acev</item>
+        <item>@drawable/cyddkiz</item>
+        <item>@drawable/losev</item>
+        <item>@drawable/tegv</item>
+    </string-array>
+
+
+    <string-array name="charity_sms_number">
+        <item>3747</item>
+        <item>5605</item>
+        <item>3406</item>
+        <item>3353</item>
+    </string-array>
+
+    <string-array name="charity_sms_text">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>EGITIM</item>
+    </string-array>
+
+    <string-array name="charity_sms_donation_amount">
+        <item>7</item>
+        <item>10</item>
+        <item>10</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="charity_selection_text">
+        <item>AÇEV\'i</item>
+        <item>ÇYDD KIZ\'ı</item>
+        <item>LÖSEV\'i</item>
+        <item>TEGV\'i</item>
+    </string-array>
+
+    <string-array name="charity_snooze_text">
+        <item>AÇEV\'e</item>
+        <item>ÇYDD KIZ\'a</item>
+        <item>LÖSEV\'e</item>
+        <item>TEGV\'e</item>
+    </string-array>
+
+
+</resources>

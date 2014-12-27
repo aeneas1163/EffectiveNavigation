@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="snooze_minute_text_array">
+        <item>1 Dakika</item>
+        <item>3 Dakika</item>
+        <item>5 Dakika</item>
+        <item>10 Dakika</item>
+    </string-array>
+
+    <string-array name="snooze_minute_value_array">
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="donation_amount_text_array">
+        <item>20 Kuruş</item>
+        <item>30 Kuruş</item>
+        <item>50 Kuruş</item>
+        <item>1 Lira</item>
+        <item>2 Lira</item>
+    </string-array>
+
+    <string-array name="donation_amount_value_array">
+        <item>20</item>
+        <item>30</item>
+        <item>50</item>
+        <item>100</item>
+        <item>200</item>
+    </string-array>
+
+
+    <string-array name="payment_amount_text_array">
+        <item>5 Lira</item>
+        <item>10 Lira</item>
+        <item>15 Lira</item>
+        <item>20 Lira</item>
+    </string-array>
+
+    <string-array name="payment_amount_value_array">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </string-array>
+
+</resources>

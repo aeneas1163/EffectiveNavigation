@@ -14,6 +14,13 @@
         <item>Aid for Africa is a charity alliance of U.S.-based nonprofits and their African partners working to help children, families, and communities throughout Sub-Saharan Africa. Aid for Africa members are all dedicated to solving the complex, inter-related challenges facing Africa. They realize that, they can be even more powerful when they approach Africa\'s issues as a group.</item>
     </string-array>
 
+    <string-array name="charity_web_donation_support">
+        <item>true</item>
+        <item>true</item>
+        <item>false</item>
+        <item>true</item>
+    </string-array>
+
     <string-array name="charity_website_array">
         <item>www.unicef.org</item>
         <item>www.greenpeace.org</item>
@@ -26,6 +33,41 @@
         <item>@drawable/greenpeace</item>
         <item>@drawable/givewell</item>
         <item>@drawable/aidforafrica</item>
+    </string-array>
+
+    <string-array name="charity_sms_number">
+        <item>0000</item>
+        <item>0000</item>
+        <item>0000</item>
+        <item>0000</item>
+    </string-array>
+
+    <string-array name="charity_sms_text">
+        <item>donation</item>
+        <item>donation</item>
+        <item>donation</item>
+        <item>donation</item>
+    </string-array>
+
+    <string-array name="charity_sms_donation_amount">
+        <item>5</item>
+        <item>5</item>
+        <item>5</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="charity_selection_text">
+        <item>UNICEF GERMANY</item>
+        <item>GREENPEACE</item>
+        <item>GIVE WELL</item>
+        <item>AID FOR AFRICA</item>
+    </string-array>
+
+    <string-array name="charity_snooze_text">
+        <item>UNICEF GERMANY</item>
+        <item>GREENPEACE</item>
+        <item>GIVE WELL</item>
+        <item>AID FOR AFRICA</item>
     </string-array>
 
 </resources>

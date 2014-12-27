@@ -3,6 +3,7 @@ package com.alphan.mcan.snoozecharity.viewModels;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -24,6 +25,8 @@ import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 
+import java.util.Locale;
+
 public class AlarmScreen extends Activity {
 	
 	public final String TAG = this.getClass().getSimpleName();
@@ -37,6 +40,13 @@ public class AlarmScreen extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        Locale locale = new Locale("tr");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
 
         // get an check received alarm:
         long alarmID = getIntent().getLongExtra(AlarmManagerHelper.ID, -1);
@@ -99,7 +109,8 @@ public class AlarmScreen extends Activity {
         final double donationAmount = (Double.parseDouble(preference.getString("donation_snooze_amount", "20")))/100;
         Resources res = getResources();
         String[] charities = res.getStringArray(R.array.charity_array);
-        snoozeButton.setText("Snooze [ " + String.format("%.2f", donationAmount) + res.getString(R.string.money_sign) + " to " + charities[charityIndex] + "]");
+        String[] charitiesSnooze = res.getStringArray(R.array.charity_snooze_text);
+        snoozeButton.setText(res.getString(R.string.snooze_button_text, String.format("%.2f", donationAmount), charitiesSnooze[charityIndex], res.getString(R.string.money_sign)));
         snoozeButton.setOnClickListener(new OnClickListener() {
 
             @Override

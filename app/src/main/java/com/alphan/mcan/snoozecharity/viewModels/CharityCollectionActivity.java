@@ -161,7 +161,7 @@ public class CharityCollectionActivity extends FragmentActivity {
             Bundle args = getArguments();
             Resources res = getActivity().getResources();
             String[] charityDesc = res.getStringArray(R.array.charity_description_array);
-            String[] charities = res.getStringArray(R.array.charity_array);
+            String[] charitiesSelectionText = res.getStringArray(R.array.charity_selection_text);
 
             final int index = args.getInt(ARG_INDEX);
 
@@ -169,7 +169,7 @@ public class CharityCollectionActivity extends FragmentActivity {
                     charityDesc[index]);
             Button selectButton = ((Button) rootView.findViewById(R.id.select_charity));
 
-            selectButton.setText("Select " + charities[index]);
+            selectButton.setText(res.getString(R.string.select_charity_button_text, charitiesSelectionText[index]));
 
             TypedArray imgs = getResources().obtainTypedArray(R.array.charity_image_array);
 

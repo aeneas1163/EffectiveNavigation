@@ -3,6 +3,7 @@ package com.alphan.mcan.snoozecharity.viewModels.mainActiviy;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -75,7 +76,9 @@ public class SettingsFragment extends Fragment{
 
                         donationList.setAdapter(paidDonations);
 
-                        builder.setTitle("Your Donation History:")
+                        Resources res = view.getResources();
+
+                        builder.setTitle(res.getString(R.string.donation_history_title))
                                 .setCancelable(false)
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
