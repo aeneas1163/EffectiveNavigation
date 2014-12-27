@@ -19,11 +19,13 @@
 
     <string name="money_sign">€</string>
 
-    <string name="pay_now">Give Now!</string>
+    <string name="pay_now">Donate!</string>
 
     <string name="pending_donations_label">Your Pending Donations:</string>
 
-    <string name="paid_donations_label">Your Contributions So Far:</string>
+    <string name="paid_donations_label">Your Total Contributions So Far:</string>
+
+    <string name="donation_history">Donation History</string>
 
     <string name="about_us">About Us</string>
 
@@ -31,7 +33,7 @@
     <string name="alarm_section_text">Cool alarm functionality in section %1d </string>
 
     <string name="demo_external_activity">Settings</string>
-    <string name="demo_collection">Donation Selection</string>
+    <string name="demo_collection">Charity Selection</string>
     <string name="app_preferences">Settings</string>
     <string name="set_alarm">Create new alarm</string>
     <string name="alarm_default_name">Alarm</string>
@@ -54,12 +56,6 @@
 
     <string name="alarm_screen">WAAAAAKE UPPP!</string>
 
-    <string name="title_edittext_preference">Edit text preference</string>
-
-    <string name="summary_edittext_preference">An example that uses an edit text dialog</string>
-
-    <string name="dialog_title_edittext_preference">Enter your favorite animal</string>
-
     <string name="hour_option_title">Hour Mode</string>
 
     <string name="hour24">24 Hour</string>
@@ -73,12 +69,6 @@
     <string name="alarm_clock_preferences">Alarm Clock Preferences</string>
 
     <string name="donation_preferences">Donation Preferences</string>
-
-    <string name="dialog_based_preferences">Dialog-based preferences</string>
-
-    <string name="launch_preferences">Launch preferences</string>
-
-    <string name="preference_attributes">Preference attributes</string>
 
     <string name="snooze_preference">Snooze Duration</string>
 

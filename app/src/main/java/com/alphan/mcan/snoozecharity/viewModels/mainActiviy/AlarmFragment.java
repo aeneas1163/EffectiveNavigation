@@ -150,6 +150,26 @@ public class AlarmFragment extends Fragment{
             }
         });
 
+//        rootView.findViewById(R.id.demo_alarm)
+//                .setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        final Calendar c = Calendar.getInstance();
+//                        int hour = c.get(Calendar.HOUR_OF_DAY);
+//                        int minute = c.get(Calendar.MINUTE);
+//                        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
+//                        String strRingtonePreference = preference.getString("ringtone_pref", "DEFAULT_SOUND");
+//                        Uri ringtoneUri = Settings.System.DEFAULT_ALARM_ALERT_URI;
+//                        if (!strRingtonePreference.equalsIgnoreCase("DEFAULT_SOUND"))
+//                        {
+//                            ringtoneUri = Uri.parse( strRingtonePreference);
+//                        }
+//                        AlarmDataModel alarmData = new AlarmDataModel("WAAAKE UP!!", hour, minute + 1, ringtoneUri);
+//                        alarmData.setEnabled(true);
+//                        AlarmManagerHelper.createNewAlarm(getActivity(), alarmData);
+//                    }
+//                });
+
 
         rootView.findViewById(R.id.set_alarm_button)
                 .setOnClickListener(new View.OnClickListener() {

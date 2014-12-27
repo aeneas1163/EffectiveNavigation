@@ -58,8 +58,11 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
 		btnToggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                model.setEnabled(isChecked);
-                AlarmManagerHelper.modifyAlarm(mContext, model);
+                // update the model & database only if the current condition of the alarm is different
+                if (model.isEnabled() != isChecked) {
+                    model.setEnabled(isChecked);
+                    AlarmManagerHelper.modifyAlarm(mContext, model);
+                }
 			}
 		});
 

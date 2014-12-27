@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="24dp"
                 android:text="@string/paid_donations_label"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -83,11 +83,11 @@
                 android:text="@string/demo_external_activity" />
 
             <Button
-                android:id="@+id/demo_alarm"
+                android:id="@+id/donation_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="fake alarm in 1 minute" />
+                android:text="@string/donation_history" />
 
             <Button
                 android:id="@+id/about_button"

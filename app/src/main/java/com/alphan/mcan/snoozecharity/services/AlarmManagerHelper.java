@@ -6,13 +6,16 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 
+import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.data.model.PaidDonationDataModel;
 import com.alphan.mcan.snoozecharity.data.model.PendingDonationDataModel;
 import com.alphan.mcan.snoozecharity.data.persistence.AlarmDBAssistant;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -374,6 +377,58 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
         });
 
         return paidDonations;
+    }
+
+    // get alarms in DB, filters snooze alarms out.
+    public static List<PaidDonationDataModel> getTotalDonations(Context context) {
+        AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
+
+        // filter snooze alarms out:
+        List<PaidDonationDataModel> paidDonations = dbHelper.getPaidDonations();
+
+        List<PaidDonationDataModel> totalPaidDonations = new ArrayList<PaidDonationDataModel>();
+
+        Resources res = context.getResources();
+        String[] charities = res.getStringArray(R.array.charity_array);
+
+        for (int i = 0; i < charities.length; i++)
+        {
+            totalPaidDonations.add(new PaidDonationDataModel(i, 0.0, ""));
+        }
+
+
+        for (PaidDonationDataModel donationIter : paidDonations)
+        {
+            for (PaidDonationDataModel totalIter: totalPaidDonations)
+            {
+                if (donationIter.getCharityIndex() == totalIter.getCharityIndex())
+                {
+                    Double previousTotal = totalIter.getPaidAmount();
+                    totalIter.setPaidAmount(previousTotal + donationIter.getPaidAmount());
+                }
+            }
+        }
+
+        Iterator<PaidDonationDataModel> totalIter = totalPaidDonations.iterator();
+
+        while (totalIter.hasNext())
+        {
+            PaidDonationDataModel  current = totalIter.next();
+            if (current.getPaidAmount() == 0.0)
+            {
+                totalIter.remove();
+            }
+        }
+
+        // sort alarms
+        Collections.sort(totalPaidDonations, new Comparator<PaidDonationDataModel>() {
+            @Override
+            public int compare(PaidDonationDataModel pendon1, PaidDonationDataModel pendon2) {
+                return ((int)(pendon2.getPaidAmount()*100 - pendon1.getPaidAmount()*100));
+            }
+        });
+
+        return totalPaidDonations;
     }
 
 }
