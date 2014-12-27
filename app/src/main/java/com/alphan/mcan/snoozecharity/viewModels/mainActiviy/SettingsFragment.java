@@ -80,7 +80,7 @@ public class SettingsFragment extends Fragment{
 
                         builder.setTitle(res.getString(R.string.donation_history_title))
                                 .setCancelable(false)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                .setPositiveButton(res.getString(R.string.ok), new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         //do things
                                     }
