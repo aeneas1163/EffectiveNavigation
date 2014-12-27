@@ -51,4 +51,9 @@ public class PaidDonationListAdapter extends ArrayAdapter<PaidDonationDataModel>
 
         return view;
     }
+
+    @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
 }

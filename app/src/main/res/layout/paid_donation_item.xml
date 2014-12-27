@@ -8,7 +8,7 @@
         android:layout_marginRight="4dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="4dp" >
+        android:layout_marginLeft="4dp">
 
         <TextView
             android:id="@+id/donation_date"
@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_marginRight="4dp"
             android:text="Date Here"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 
@@ -38,7 +39,7 @@
             android:layout_alignTop="@+id/paid_charity_name"
             android:layout_alignBottom="@+id/donation_date"
             android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
+            android:layout_marginRight="8dp"
             android:gravity="center|right"
             android:layout_toLeftOf="@+id/donation_date"
             android:layout_toRightOf="@+id/paid_charity_name"
