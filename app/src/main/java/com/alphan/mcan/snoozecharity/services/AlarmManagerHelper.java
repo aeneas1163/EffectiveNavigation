@@ -372,7 +372,7 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
         Collections.sort(paidDonations, new Comparator<PaidDonationDataModel>() {
             @Override
             public int compare(PaidDonationDataModel pendon1, PaidDonationDataModel pendon2) {
-                return ((int)(pendon2.getPaidAmount()*100 - pendon1.getPaidAmount()*100));
+                return ((int) (pendon1.getId() - pendon2.getId()));
             }
         });
 
