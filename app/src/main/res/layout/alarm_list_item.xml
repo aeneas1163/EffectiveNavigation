@@ -17,42 +17,43 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="2dp"
             android:text="00:00"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textSize="28sp" />
 
         <TextView
             android:id="@+id/alarm_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/alarm_item_time"
-            android:layout_alignBottom="@+id/alarm_item_time"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="4dp"
+            android:singleLine="true"
             android:layout_toLeftOf="@+id/alarm_item_toggle"
-            android:layout_toRightOf="@+id/alarm_item_saturday"
+            android:layout_toRightOf="@+id/alarm_item_time"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:id="@+id/alarm_donation_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/alarm_item_saturday"
-            android:layout_alignBottom="@+id/alarm_item_saturday"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@+id/alarm_item_toggle"
-            android:layout_toRightOf="@+id/alarm_item_saturday"
-            android:text="Alarm Comment"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+        <!--<TextView-->
+            <!--android:id="@+id/alarm_donation_name"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignTop="@+id/alarm_item_saturday"-->
+            <!--android:layout_alignBottom="@+id/alarm_item_saturday"-->
+            <!--android:layout_marginLeft="8dp"-->
+            <!--android:layout_marginRight="8dp"-->
+            <!--android:layout_toLeftOf="@+id/alarm_item_toggle"-->
+            <!--android:layout_toRightOf="@+id/alarm_item_saturday"-->
+            <!--android:text="Alarm Comment"-->
+            <!--android:textAppearance="?android:attr/textAppearanceSmall" />-->
 
         <TextView
             android:id="@+id/alarm_item_sunday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/alarm_item_time"
+            android:layout_alignLeft="@+id/alarm_item_name"
+            android:layout_below="@+id/alarm_item_name"
             android:text="S"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -61,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/alarm_item_sunday"
-            android:layout_below="@+id/alarm_item_time"
+            android:layout_below="@+id/alarm_item_name"
             android:layout_marginLeft="4dp"
             android:text="M"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -71,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/alarm_item_monday"
-            android:layout_below="@+id/alarm_item_time"
+            android:layout_below="@+id/alarm_item_name"
             android:layout_marginLeft="4dp"
             android:text="T"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -81,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/alarm_item_tuesday"
-            android:layout_below="@+id/alarm_item_time"
+            android:layout_below="@+id/alarm_item_name"
             android:layout_marginLeft="4dp"
             android:text="W"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -91,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/alarm_item_wednesday"
-            android:layout_below="@+id/alarm_item_time"
+            android:layout_below="@+id/alarm_item_name"
             android:layout_marginLeft="4dp"
             android:text="T"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -101,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/alarm_item_thursday"
-            android:layout_below="@+id/alarm_item_time"
+            android:layout_below="@+id/alarm_item_name"
             android:layout_marginLeft="4dp"
             android:text="F"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -111,7 +112,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/alarm_item_friday"
-            android:layout_below="@+id/alarm_item_time"
+            android:layout_below="@+id/alarm_item_name"
             android:layout_marginLeft="4dp"
             android:text="S"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -124,7 +125,7 @@
             android:focusable="false"
             android:textOn="ON"
             android:textOff="OFF"
-            android:layout_alignTop="@+id/alarm_item_time"
+            android:layout_alignParentTop="true"
             android:layout_alignBottom="@+id/alarm_item_saturday"
             android:background="@drawable/toggle_alarm_on_off_button_indicator"
             android:text="ToggleButton"/>

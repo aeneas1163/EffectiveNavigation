@@ -22,10 +22,10 @@
     </string-array>
 
     <string-array name="charity_website_array">
-        <item>www.unicef.org</item>
-        <item>www.greenpeace.org</item>
-        <item>www.givewell.org</item>
-        <item>www.aidforafrica.org</item>
+        <item>http://www.unicef.org</item>
+        <item>http://www.greenpeace.org</item>
+        <item>http://www.givewell.org</item>
+        <item>http://www.aidforafrica.org</item>
     </string-array>
 
     <string-array name="charity_image_array">

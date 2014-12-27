@@ -89,5 +89,12 @@
     <string name="donate_dialog_text">Do you want to donate now %1$s%3$s to %2$s?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="summary_payment_option">Warning: Operator charges may apply with SMS</string>
+    <string name="payment_option_title">Payment Option</string>
+    <string name="sms" translatable="false">SMS</string>
+    <string name="web" translatable="false">WEB</string>
+    <string name="donate_sure_check">Are you sure?</string>
+    <string name="donate_sure_text">Your pending amount for %2$s is %1$s%3$s. SMS will donate %4$s%3$s. Are you sure you want to continue?</string>
+    <string name="donate_dialog_text_sms"> <b> Do you want to donate now %1$s%3$s to %2$s? </b> \n\n[<i>When SMS screen is shown, just click Send Button!</i>]</string>
 
 </resources>

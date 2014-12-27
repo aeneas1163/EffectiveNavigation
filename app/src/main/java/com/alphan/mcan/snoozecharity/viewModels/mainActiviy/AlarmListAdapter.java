@@ -42,8 +42,8 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
 		TextView txtName = (TextView) view.findViewById(R.id.alarm_item_name);
 		txtName.setText(model.getName());
 
-        TextView donationName = (TextView) view.findViewById(R.id.alarm_donation_name);
-        donationName.setText("Alarm DB ID: " + model.getId());
+//        TextView donationName = (TextView) view.findViewById(R.id.alarm_donation_name);
+//        donationName.setText("Alarm DB ID: " + model.getId());
 
 		updateTextColor((TextView) view.findViewById(R.id.alarm_item_sunday), model.getRepeatingDay(AlarmDataModel.SUN));
 		updateTextColor((TextView) view.findViewById(R.id.alarm_item_monday), model.getRepeatingDay(AlarmDataModel.MON));

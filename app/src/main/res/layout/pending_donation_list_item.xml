@@ -45,16 +45,16 @@
             android:text="50 €"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:id="@+id/donation_db_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/charity_name"
-            android:layout_alignBottom="@id/charity_name"
-            android:layout_toLeftOf="@+id/alarm_item_toggle"
-            android:layout_toRightOf="@+id/alarm_item_saturday"
-            android:text="Donation DB ID"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+        <!--<TextView-->
+            <!--android:id="@+id/donation_db_id"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignLeft="@id/charity_name"-->
+            <!--android:layout_alignBottom="@id/charity_name"-->
+            <!--android:layout_toLeftOf="@+id/alarm_item_toggle"-->
+            <!--android:layout_toRightOf="@+id/alarm_item_saturday"-->
+            <!--android:text="Donation DB ID"-->
+            <!--android:textAppearance="?android:attr/textAppearanceSmall" />-->
 
 
 

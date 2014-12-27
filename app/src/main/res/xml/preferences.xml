@@ -47,14 +47,22 @@
             android:dialogTitle="@string/donation_preference_title"
             android:defaultValue="20"/>
 
-        <ListPreference
-            android:key="donation_payment_amount"
-            android:title="@string/payment_preference"
-            android:summary="%s"
-            android:entries="@array/payment_amount_text_array"
-            android:entryValues="@array/payment_amount_value_array"
-            android:dialogTitle="@string/payment_preference_title"
-            android:defaultValue="10"/>
+        <!--<ListPreference-->
+            <!--android:key="donation_payment_amount"-->
+            <!--android:title="@string/payment_preference"-->
+            <!--android:summary="%s"-->
+            <!--android:entries="@array/payment_amount_text_array"-->
+            <!--android:entryValues="@array/payment_amount_value_array"-->
+            <!--android:dialogTitle="@string/payment_preference_title"-->
+            <!--android:defaultValue="10"/>-->
+
+        <SwitchPreference
+            android:key="payment_option"
+            android:summary="@string/summary_payment_option"
+            android:title="@string/payment_option_title"
+            android:switchTextOn="@string/sms"
+            android:switchTextOff="@string/web"
+            android:defaultValue="true"/>
 
 
 

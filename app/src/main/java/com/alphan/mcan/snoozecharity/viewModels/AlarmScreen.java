@@ -108,7 +108,6 @@ public class AlarmScreen extends Activity {
         final int charityIndex = preference.getInt(CharityCollectionActivity.DemoObjectFragment.ARG_INDEX, 0);
         final double donationAmount = (Double.parseDouble(preference.getString("donation_snooze_amount", "20")))/100;
         Resources res = getResources();
-        String[] charities = res.getStringArray(R.array.charity_array);
         String[] charitiesSnooze = res.getStringArray(R.array.charity_snooze_text);
         snoozeButton.setText(res.getString(R.string.snooze_button_text, String.format("%.2f", donationAmount), charitiesSnooze[charityIndex], res.getString(R.string.money_sign)));
         snoozeButton.setOnClickListener(new OnClickListener() {

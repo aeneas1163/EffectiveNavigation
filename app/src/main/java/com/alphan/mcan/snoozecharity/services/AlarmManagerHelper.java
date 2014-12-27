@@ -212,7 +212,7 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
             if (alarm.getRepeatingDay(dayOfWeek - 1) && dayOfWeek >= nowDay &&
                     !(dayOfWeek == nowDay && alarm.getTimeHour() < nowHour) &&
                     !(dayOfWeek == nowDay && alarm.getTimeHour() == nowHour && alarm.getTimeMinute() <= nowMinute)) {
-                calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+                calendar.add(Calendar.DAY_OF_WEEK, dayOfWeek - nowDay);
                 setPendingAndroidAlarm(context, calendar, pIntent);
                 alarmSet = true;
                 break;
@@ -232,8 +232,8 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
 
         // if alarm is still not set, check if it is a non-repeating one time alarm
         if (!alarmSet)
-            if (!alarm.isWeekly()) { // if the time is less than now, then the alarm should be for tomorrow
-                if (alarm.getTimeHour() < nowHour || (alarm.getTimeHour() == nowHour && alarm.getTimeMinute() < nowMinute)) {
+            if (!alarm.isWeekly()) { // if the time is less than or equal to now, then the alarm should be for tomorrow
+                if (alarm.getTimeHour() < nowHour || (alarm.getTimeHour() == nowHour && alarm.getTimeMinute() <= nowMinute)) {
                     // if it is for saturday, we should make it next week sunday
                     if (nowDay == Calendar.SATURDAY)
                     {
@@ -360,6 +360,29 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
         if (dbHelper.addPaidDonation(paidModel) && dbHelper.deletePendingDonation(pendingModel))
             return paidModel;
         return null;
+    }
+
+    public static Double addPaidSMSDonation(Context context, PendingDonationDataModel pendingModel, Double smsAmount) {
+        AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
+        Calendar calendar = Calendar.getInstance();
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String formattedDate = df.format(calendar.getTime());
+        PaidDonationDataModel paidModel =  new PaidDonationDataModel(pendingModel.getCharityIndex(), smsAmount , formattedDate);
+        Double pendingAmount = pendingModel.getPendingAmount();
+
+        if (smsAmount >= pendingAmount)
+        {
+            if (dbHelper.addPaidDonation(paidModel) && dbHelper.deletePendingDonation(pendingModel))
+                return 0.0;
+        }
+        else {
+            pendingModel.setPendingAmount(pendingAmount - smsAmount);
+            if (dbHelper.addPaidDonation(paidModel) && dbHelper.updatePendingDonation(pendingModel))
+                return pendingAmount - smsAmount;
+
+        }
+        return 0.0;
     }
 
     // get alarms in DB, filters snooze alarms out.
