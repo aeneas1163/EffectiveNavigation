@@ -40,13 +40,20 @@
     <string name="wednesday_short">ÇAR</string>
     <string name="donation_history_title">Bağış Geçmişiniz</string>
     <string name="select_charity_button_text">%1$s Seçin</string>
-    <string name="snooze_button_text">Ertele [%2$s %1$s%3$s verin]</string>
-    <string name="donate_dialog_text">Şimdi %2$s %1$s%3$s bağışlamak istiyor musunuz?</string>
+    <string name="snooze_button_text">Ertele [%2$s %1$s %3$s verin]</string>
+    <string name="donate_dialog_text">Şimdi %2$s %1$s %3$s bağışlamak istiyor musunuz?</string>
     <string name="no">Hayır</string>
     <string name="yes">Evet</string>
     <string name="summary_payment_option">Uyarı: Operatörler SMS gönderi ücreti alabilir.</string>
     <string name="payment_option_title">Ödeme biçimi</string>
     <string name="donate_sure_check">Emin Misiniz?</string>
-    <string name="donate_sure_text">%2$s ödeme bekleyen bağış miktarınız %1$s%3$s. SMS sizin için %4$s%3$s bağışlayacak. Devam etmek istiyor musunuz?</string>
-    <string name="donate_dialog_text_sms"><b>Şimdi %2$s %1$s%3$s bağışlamak istiyor musunuz?</b> \n\n[<i>SMS ekranı açıldığında, Gönder tuşuna basmanız yeterli!</i>]</string>
+    <string name="donate_sure_text">%2$s ödeme bekleyen bağış miktarınız %1$s %3$s. SMS sizin için %4$s %3$s bağışlayacak. Devam etmek istiyor musunuz?</string>
+    <string name="donate_dialog_text_sms"><b>Şimdi %2$s %1$s %3$s bağışlamak istiyor musunuz?</b> \n\n[<i>SMS ekranı açıldığında, Gönder tuşuna basmanız yeterli!</i>]</string>
+    <string name="single_letter_friday">C</string>
+    <string name="single_letter_monday">P</string>
+    <string name="single_letter_saturday">C</string>
+    <string name="single_letter_sunday">P</string>
+    <string name="single_letter_thursday">P</string>
+    <string name="single_letter_tuesday">S</string>
+    <string name="single_letter_wednesday">Ç</string>
 </resources>

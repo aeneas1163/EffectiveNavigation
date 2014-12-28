@@ -1,7 +1,8 @@
 package com.alphan.mcan.snoozecharity.viewModels.mainActiviy;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,7 +41,6 @@ public class AlarmFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //Bundle args = getArguments();
 
         View rootView = inflater.inflate(R.layout.fragment_section_alarm, container, false);
 
@@ -55,12 +55,13 @@ public class AlarmFragment extends Fragment{
         alarmListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> adapterView, View view, int position, long l) {
+
                 final AlarmDataModel model = (AlarmDataModel) adapterView.getItemAtPosition(position);
                 final Context mContext = getActivity();
-                final Dialog dialog = new Dialog(mContext);
-                dialog.setCanceledOnTouchOutside(true);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.alarm_setter_dialog);
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                final View dialog = inflater.inflate(R.layout.alarm_setter_dialog, null);
+
 
                 final TextView alarm_name = (TextView) dialog.findViewById(R.id.alarm_name);
 
@@ -72,21 +73,7 @@ public class AlarmFragment extends Fragment{
                 tp.setCurrentHour(model.getTimeHour());
                 tp.setCurrentMinute(model.getTimeMinute());
 
-                Button okButton = (Button) dialog.findViewById(R.id.setterOk);
 
-                ImageButton deleteButton = (ImageButton) dialog.findViewById(R.id.deleteAlarm);
-
-                deleteButton.setVisibility(Button.VISIBLE);
-                deleteButton.setClickable(true);
-
-                deleteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        AlarmManagerHelper.deleteAlarm(mContext, model);
-                        alarmListAdapter.remove(model);
-                        dialog.dismiss();
-                    }
-                });
 
                 CheckBox satView = (CheckBox) dialog.findViewById(R.id.alarm_repeat_check);
 
@@ -96,7 +83,6 @@ public class AlarmFragment extends Fragment{
                     AlarmFragment.enableToggleRepeat(dialog);
                     updateRepeatingDays(dialog, model);
                 }
-
 
                 satView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -111,9 +97,9 @@ public class AlarmFragment extends Fragment{
 
                 });
 
-                okButton.setOnClickListener(new View.OnClickListener() {
+                dialogBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(DialogInterface dialogInterface, int i) {
                         alarmListAdapter.clear();
                         int selectedHour = tp.getCurrentHour();
                         int selectedMinute = tp.getCurrentMinute();
@@ -123,30 +109,39 @@ public class AlarmFragment extends Fragment{
                         model.setEnabled(true);
                         AlarmFragment.setRepeatingDays(dialog, model);
                         AlarmManagerHelper.modifyAlarm(mContext, model);
-                        List<AlarmDataModel> alarms =  AlarmManagerHelper.getAlarms(mContext);
-                        if (alarms != null){
+                        List<AlarmDataModel> alarms = AlarmManagerHelper.getAlarms(mContext);
+                        if (alarms != null) {
                             for (AlarmDataModel alarm_iter : alarms) {
                                 alarmListAdapter.add(alarm_iter);
                             }
                         }
                         alarmListAdapter.notifyDataSetChanged();
-                        dialog.dismiss();
                     }
                 });
 
-                Button cancelButton = (Button) dialog.findViewById(R.id.setterCancel);
+                dialogBuilder.setNegativeButton(R.string.cancel, null);
 
-                cancelButton.setOnClickListener(new View.OnClickListener() {
+                dialogBuilder.setView(dialog);
+
+                final AlertDialog dialogToLaunch = dialogBuilder.create();
+
+                ImageButton deleteButton = (ImageButton) dialog.findViewById(R.id.deleteAlarm);
+
+                deleteButton.setVisibility(Button.VISIBLE);
+                deleteButton.setClickable(true);
+
+                deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        adapterView.clearFocus();
-                        dialog.dismiss();
+                        AlarmManagerHelper.deleteAlarm(mContext, model);
+                        alarmListAdapter.remove(model);
+                        dialogToLaunch.dismiss();
                     }
                 });
 
-                dialog.setTitle("Edit Alarm");
-
-                dialog.show();
+                dialogToLaunch.setCanceledOnTouchOutside(true);
+                dialogToLaunch.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialogToLaunch.show();
             }
         });
 
@@ -176,17 +171,14 @@ public class AlarmFragment extends Fragment{
                     @Override
                     public void onClick(View view) {
 
-                        final Dialog dialog = new Dialog(getActivity());
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog.setCanceledOnTouchOutside(true);
-                        dialog.setContentView(R.layout.alarm_setter_dialog);
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+                        LayoutInflater inflater = getActivity().getLayoutInflater();
+                        final View dialog = inflater.inflate(R.layout.alarm_setter_dialog, null);
 
                         final TimePicker tp = (TimePicker) dialog.findViewById(R.id.timePicker);
 
                         final SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
                         tp.setIs24HourView(preference.getBoolean("24hour_option", true));
-
-                        Button okButton = (Button) dialog.findViewById(R.id.setterOk);
 
                         CheckBox satView = (CheckBox)dialog.findViewById(R.id.alarm_repeat_check);
 
@@ -204,9 +196,9 @@ public class AlarmFragment extends Fragment{
 
                         });
 
-                        okButton.setOnClickListener(new View.OnClickListener() {
+                        dialogBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(View view) {
+                            public void onClick(DialogInterface dialogInterface, int i) {
                                 int selectedHour = tp.getCurrentHour();
                                 int selectedMinute = tp.getCurrentMinute();
 
@@ -250,31 +242,27 @@ public class AlarmFragment extends Fragment{
                                         currentAdapter.notifyDataSetChanged();
                                     }
                                 }
-
-
-                                dialog.dismiss();
                             }
                         });
 
-                        Button cancelButton = (Button) dialog.findViewById(R.id.setterCancel);
+                        dialogBuilder.setNegativeButton(R.string.cancel, null);
 
-                        cancelButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                dialog.dismiss();
-                            }
-                        });
 
-                        //dialog.setTitle("Set Alarm");
+                        dialogBuilder.setView(dialog);
 
-                        dialog.show();
+                        final AlertDialog dialogToLaunch = dialogBuilder.create();
+
+                        dialogToLaunch.setCanceledOnTouchOutside(true);
+                        dialogToLaunch.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+                        dialogToLaunch.show();
                     }
                 });
 
         return rootView;
     }
 
-    public static void enableToggleRepeat(Dialog dialog) {
+    public static void enableToggleRepeat(View dialog) {
         ToggleButton togSunday = ((ToggleButton)dialog.findViewById(R.id.toggle_sunday));
         ToggleButton togMonday = ((ToggleButton)dialog.findViewById(R.id.toggle_monday));
         ToggleButton togTuesday = ((ToggleButton)dialog.findViewById(R.id.toggle_tuesday));
@@ -305,7 +293,7 @@ public class AlarmFragment extends Fragment{
         togSaturday.setChecked(false);
     }
 
-    public static void disableToggleRepeat(Dialog dialog) {
+    public static void disableToggleRepeat(View dialog) {
         ToggleButton togSunday = ((ToggleButton)dialog.findViewById(R.id.toggle_sunday));
         ToggleButton togMonday = ((ToggleButton)dialog.findViewById(R.id.toggle_monday));
         ToggleButton togTuesday = ((ToggleButton)dialog.findViewById(R.id.toggle_tuesday));
@@ -336,7 +324,7 @@ public class AlarmFragment extends Fragment{
         togSaturday.setChecked(false);
     }
 
-    public static void setRepeatingDays(Dialog dialog, AlarmDataModel alarmData) {
+    public static void setRepeatingDays(View dialog, AlarmDataModel alarmData) {
         alarmData.setWeeklyRepeat(((CheckBox)dialog.findViewById(R.id.alarm_repeat_check)).isChecked());
         alarmData.setRepeatingDay(0, ((ToggleButton)dialog.findViewById(R.id.toggle_sunday)).isChecked());
         alarmData.setRepeatingDay(1, ((ToggleButton)dialog.findViewById(R.id.toggle_monday)).isChecked());
@@ -347,7 +335,7 @@ public class AlarmFragment extends Fragment{
         alarmData.setRepeatingDay(6, ((ToggleButton)dialog.findViewById(R.id.toggle_saturday)).isChecked());
     }
 
-    public static void updateRepeatingDays(Dialog dialog, AlarmDataModel alarmData) {
+    public static void updateRepeatingDays(View dialog, AlarmDataModel alarmData) {
         ((ToggleButton)dialog.findViewById(R.id.toggle_sunday)).setChecked(alarmData.getRepeatingDay(0));
         ((ToggleButton)dialog.findViewById(R.id.toggle_monday)).setChecked(alarmData.getRepeatingDay(1));
         ((ToggleButton)dialog.findViewById(R.id.toggle_tuesday)).setChecked(alarmData.getRepeatingDay(2));
