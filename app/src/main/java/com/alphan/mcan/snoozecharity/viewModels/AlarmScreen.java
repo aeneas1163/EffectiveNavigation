@@ -3,7 +3,6 @@ package com.alphan.mcan.snoozecharity.viewModels;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -25,8 +24,6 @@ import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 
-import java.util.Locale;
-
 public class AlarmScreen extends Activity {
 	
 	public final String TAG = this.getClass().getSimpleName();
@@ -40,13 +37,6 @@ public class AlarmScreen extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-        Locale locale = new Locale("tr");
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
 
         // get an check received alarm:
         long alarmID = getIntent().getLongExtra(AlarmManagerHelper.ID, -1);

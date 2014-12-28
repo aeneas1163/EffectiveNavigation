@@ -18,7 +18,6 @@ package com.alphan.mcan.snoozecharity.viewModels;
 
 import android.app.ActionBar;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
@@ -27,8 +26,6 @@ import android.support.v4.view.ViewPager;
 import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 import com.alphan.mcan.snoozecharity.viewModels.mainActiviy.AppSectionsPagerAdapter;
-
-import java.util.Locale;
 
 public class MainActivity extends FragmentActivity{
 
@@ -55,13 +52,6 @@ public class MainActivity extends FragmentActivity{
         initAppPreferences();
         initViewPager();
         initActionBar();
-
-        Locale locale = new Locale("tr");
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
 
         mViewPager.setCurrentItem(1);
     }

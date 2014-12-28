@@ -44,7 +44,7 @@
     <string name="donate_dialog_text">Şimdi %2$s %1$s %3$s bağışlamak istiyor musunuz?</string>
     <string name="no">Hayır</string>
     <string name="yes">Evet</string>
-    <string name="summary_payment_option">Uyarı: Operatörler SMS gönderi ücreti alabilir.</string>
+    <string name="summary_payment_option">Uyarı: Operatörler SMS gönderim ücreti alabilir.</string>
     <string name="payment_option_title">Ödeme biçimi</string>
     <string name="donate_sure_check">Emin Misiniz?</string>
     <string name="donate_sure_text">%2$s ödeme bekleyen bağış miktarınız %1$s %3$s. SMS sizin için %4$s %3$s bağışlayacak. Devam etmek istiyor musunuz?</string>
@@ -56,4 +56,8 @@
     <string name="single_letter_thursday">P</string>
     <string name="single_letter_tuesday">S</string>
     <string name="single_letter_wednesday">Ç</string>
+    <string name="no_donations_yet">Henüz bir bağış yapmadınız.</string>
+    <string name="about_us_message">Bu kar amacı gütmeyen uygulama iki dahi insan tarafından yapılmıştır: Mehmet Can ve Alphan. \n\nEğer uygulamamızı beğendiyseniz, lütfen aşağıdaki tuşa tıklayarak oylayın. \n\n\nÖnemli Uyarı: Bağış kurumları bizim haberimiz olmadan SMS numaralarını değiştirebilir. Böyle bir durumu farkettiyseniz veya bizimle iletişime geçmek isterseniz snoozecharity@gmail.com adresinden bize ulaşabilirsiniz.</string>
+    <string name="rate_us">Uygulamayı oylayın :)</string>
+    <string name="could_not_open_market">Google Play marketi açamadık, lütfen Google Play uygulamasını indirin.</string>
 </resources>
