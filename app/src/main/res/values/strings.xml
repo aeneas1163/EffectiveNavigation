@@ -86,7 +86,7 @@
     <string name="donation_history_title">Your Donation History:</string>
     <string name="select_charity_button_text">Select %1$s</string>
     <string name="snooze_button_text">Snooze [%1$s%3$s to %2$s]</string>
-    <string name="donate_dialog_text">Do you want to donate now %1$s%3$s to %2$s?</string>
+    <string name="donate_dialog_text">Do you want to donate now %1$s%3$s to %2$s? </string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="summary_payment_option">Warning: Operators may charge for SMS</string>
@@ -94,7 +94,7 @@
     <string name="sms" translatable="false">SMS</string>
     <string name="web" translatable="false">WEB</string>
     <string name="donate_sure_check">Are you sure?</string>
-    <string name="donate_sure_text">Your pending amount for %2$s is %1$s%3$s. SMS will donate %4$s%3$s. Are you sure you want to continue?</string>
+    <string name="donate_sure_text_sms">Your pending amount for %2$s is %1$s%3$s. SMS will donate %4$s%3$s. Are you sure you want to continue? \n\n[<i>When SMS screen is shown, just click Send Button!</i>]</string>
     <string name="donate_dialog_text_sms"> <b> Do you want to donate now %1$s%3$s to %2$s? </b> \n\n[<i>When SMS screen is shown, just click Send Button!</i>]</string>
     <string name="single_letter_sunday">S</string>
     <string name="single_letter_monday">M</string>
@@ -110,5 +110,6 @@
     <string name="could_not_open_market">Could not open Android market, please install the market app.</string>
     <string name="username" translatable="false">snoozecharity@gmail.com</string>
     <string name="password" translatable="false">mcan.2014alphan</string>
+    <string name="donate_dialog_text_web">Do you want to donate now %1$s%3$s to %2$s? \n\n[<i>When web page is shown, just enter your information and make a donation!</i>]</string>
 
 </resources>

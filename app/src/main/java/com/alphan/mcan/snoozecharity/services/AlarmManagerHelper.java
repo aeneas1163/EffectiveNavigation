@@ -371,7 +371,7 @@ public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to lo
         PaidDonationDataModel paidModel =  new PaidDonationDataModel(pendingModel.getCharityIndex(), smsAmount , formattedDate);
         Double pendingAmount = pendingModel.getPendingAmount();
 
-        if (smsAmount >= pendingAmount)
+        if (smsAmount.doubleValue() >= pendingAmount.doubleValue())
         {
             if (dbHelper.addPaidDonation(paidModel) && dbHelper.deletePendingDonation(pendingModel))
                 return 0.0;

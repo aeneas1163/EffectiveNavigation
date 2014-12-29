@@ -55,7 +55,7 @@ public class PendingDonationListAdapter extends ArrayAdapter<PendingDonationData
             view = inflater.inflate(R.layout.pending_donation_list_item, parent, false);
         }
 
-        final PendingDonationDataModel model =  getItem(position);
+        final PendingDonationDataModel model = getItem(position);
 
         TextView charityName = (TextView) view.findViewById(R.id.charity_name);
         final Resources res = mContext.getResources();
@@ -89,53 +89,43 @@ public class PendingDonationListAdapter extends ArrayAdapter<PendingDonationData
                 SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(mContext);
                 final Boolean isSMS = preference.getBoolean("payment_option", true);
                 adb.setTitle(res.getString(R.string.pay_now));
-                if (isSMS)
-                    adb.setMessage(res.getString(R.string.donate_dialog_text_sms, String.format("%.2f", pendingAmount), charitySnooze[charityIndex], res.getString(R.string.money_sign)));
-                else
-                    adb.setMessage(res.getString(R.string.donate_dialog_text, String.format("%.2f", pendingAmount), charitySnooze[charityIndex], res.getString(R.string.money_sign)));
+                if (isSMS) {
+                    if (pendingAmount.doubleValue() == currentSMSAmount.doubleValue())
+                        adb.setMessage(res.getString(R.string.donate_dialog_text_sms, String.format("%.2f", pendingAmount), charitySnooze[charityIndex], res.getString(R.string.money_sign)));
+                    else
+                        adb.setMessage(res.getString(R.string.donate_sure_text_sms, String.format("%.2f", pendingAmount), charitySnooze[charityIndex], res.getString(R.string.money_sign), String.format("%.2f", currentSMSAmount)));
+                } else
+                    adb.setMessage(res.getString(R.string.donate_dialog_text_web, String.format("%.2f", pendingAmount), charitySnooze[charityIndex], res.getString(R.string.money_sign)));
                 adb.setNegativeButton(res.getString(R.string.no), null);
                 adb.setPositiveButton(res.getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (isSMS || !Boolean.parseBoolean(charityWEBsupport[charityIndex])) {
-                            if (pendingAmount < currentSMSAmount)
-                            {
-                                AlertDialog.Builder areYouSureDialog = new AlertDialog.Builder(mContext);
-                                areYouSureDialog.setTitle(res.getString(R.string.donate_sure_check));
-                                areYouSureDialog.setMessage(res.getString(R.string.donate_sure_text, String.format("%.2f", pendingAmount), charitySnooze[charityIndex], res.getString(R.string.money_sign), String.format("%.2f", currentSMSAmount)));
-                                areYouSureDialog.setNegativeButton(res.getString(R.string.no), null);
-                                areYouSureDialog.setPositiveButton(res.getString(R.string.yes), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-                                        sendIntent.setData(Uri.parse("sms:" + charitySMSnumber[charityIndex] + "?body=" + charitySMStext[charityIndex]));
-                                        mContext.startActivity(sendIntent);
-                                        AlarmManagerHelper.addPaidSMSDonation(mContext, model, currentSMSAmount);
-                                        remove(model);
-                                        notifyDataSetChanged();
-                                        sendMail(currentSMSAmount, charities[charityIndex]);
-                                    }
-                                });
-                                areYouSureDialog.show();
-                            }
-                            else {
+                            if (pendingAmount < currentSMSAmount) {
+
+                                Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+                                sendIntent.setData(Uri.parse("sms:" + charitySMSnumber[charityIndex] + "?body=" + charitySMStext[charityIndex]));
+                                mContext.startActivity(sendIntent);
+                                AlarmManagerHelper.addPaidSMSDonation(mContext, model, currentSMSAmount);
+                                remove(model);
+                                notifyDataSetChanged();
+                                sendMail(currentSMSAmount, charities[charityIndex]);
+
+                            } else {
                                 Intent sendIntent = new Intent(Intent.ACTION_VIEW);
                                 sendIntent.setData(Uri.parse("sms:" + charitySMSnumber[charityIndex] + "?body=" + charitySMStext[charityIndex]));
                                 mContext.startActivity(sendIntent);
                                 Double leftoverAmount = AlarmManagerHelper.addPaidSMSDonation(mContext, model, currentSMSAmount);
-                                if (pendingAmount == currentSMSAmount)
-                                {
+                                if (pendingAmount.doubleValue() == currentSMSAmount.doubleValue()) {
                                     remove(model);
-                                }
-                                else {
+                                } else {
                                     model.setPendingAmount(leftoverAmount);
                                 }
                                 notifyDataSetChanged();
                                 sendMail(currentSMSAmount, charities[charityIndex]);
                             }
 
-                        }
-                        else {
+                        } else {
                             AlarmManagerHelper.transferToPaidDonation(mContext, model);
                             remove(model);
                             notifyDataSetChanged();
@@ -162,7 +152,7 @@ public class PendingDonationListAdapter extends ArrayAdapter<PendingDonationData
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         String formattedDate = df.format(calendar.getTime());
 
-        String text = charity + " " + String.format("%.2f",amount) + " " + mContext.getString(R.string.money_sign) + " " + formattedDate;
+        String text = charity + " " + String.format("%.2f", amount) + " " + mContext.getString(R.string.money_sign) + " " + formattedDate;
 
         try {
             Message message = createMessage(mContext.getString(R.string.username), text, text, session);
