@@ -43,8 +43,8 @@ public class PaidDonationListAdapter extends ArrayAdapter<PaidDonationDataModel>
         TextView txtName = (TextView) view.findViewById(R.id.paid_donation_amount);
         txtName.setText(String.format("%.2f", model.getPaidAmount()) + res.getString(R.string.money_sign));
 
-        TextView donationName = (TextView) view.findViewById(R.id.paid_donation_db_id);
-        donationName.setText("Donation DB ID: " + model.getId());
+//        TextView donationName = (TextView) view.findViewById(R.id.paid_donation_db_id);
+//        donationName.setText("Donation DB ID: " + model.getId());
 
         TextView donationDate = (TextView) view.findViewById(R.id.donation_date);
         donationDate.setText(model.getPaymentDate());

@@ -1,15 +1,18 @@
 package com.alphan.mcan.snoozecharity.viewModels.mainActiviy;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.PaidDonationDataModel;
@@ -70,23 +73,27 @@ public class SettingsFragment extends Fragment{
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         List<PaidDonationDataModel> donationsMade =  AlarmManagerHelper.getPaidDonations(getActivity());
 
-                        ListView donationList = new ListView(getActivity());
-
-                        PaidDonationListAdapter paidDonations = new PaidDonationListAdapter(getActivity(), donationsMade);
-
-                        donationList.setAdapter(paidDonations);
-
                         Resources res = view.getResources();
+
+                        if (donationsMade.isEmpty())
+                        {
+                            builder.setMessage(res.getString(R.string.no_donations_yet));
+                        }
+                        else {
+
+                            ListView donationList = new ListView(getActivity());
+
+                            PaidDonationListAdapter paidDonations = new PaidDonationListAdapter(getActivity(), donationsMade);
+
+                            donationList.setAdapter(paidDonations);
+
+                            builder.setView(donationList);
+                        }
 
                         builder.setTitle(res.getString(R.string.donation_history_title))
                                 .setCancelable(false)
-                                .setPositiveButton(res.getString(R.string.ok), new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        //do things
-                                    }
-                                });
+                                .setPositiveButton(res.getString(R.string.ok), null);
 
-                        builder.setView(donationList);
                         AlertDialog alert = builder.create();
                         alert.show();
                     }
@@ -96,10 +103,27 @@ public class SettingsFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder adb = new AlertDialog.Builder(view.getContext());
-                adb.setTitle("MCan?");
-                adb.setMessage("Asagidakilerden hangisi MCan'in herhangi bir t aninda saglik durumudur?");
-                adb.setNegativeButton("Hasta", null);
-                adb.setPositiveButton("Cok Hasta", null);
+
+                final Resources res = view.getResources();
+                adb.setTitle(res.getString(R.string.about_us));
+                adb.setMessage(res.getString(R.string.about_us_message));
+                adb.setNegativeButton(res.getString(R.string.cancel), null);
+                adb.setPositiveButton(res.getString(R.string.rate_us), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        //Try Google play
+                        intent.setData(Uri.parse("market://details?id=" + res.getString(R.string.app_id)));
+                        if (!MyStartActivity(intent)) {
+                            //Market (Google play) app seems not installed, let's try to open a webbrowser
+                            intent.setData(Uri.parse("https://play.google.com/store/apps/details?" + res.getString(R.string.app_id)));
+                            if (!MyStartActivity(intent)) {
+                                //Well if this also fails, we have run out of options, inform the user.
+                                Toast.makeText(getActivity(), res.getString(R.string.could_not_open_market), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
                 adb.show();
             }
         });
@@ -119,6 +143,18 @@ public class SettingsFragment extends Fragment{
             else
                 getActivity().findViewById(R.id.paid_donation_textview).setVisibility(View.VISIBLE);
             totalDonationListAdapter.addAll(donations);
+        }
+    }
+
+    private boolean MyStartActivity(Intent aIntent) {
+        try
+        {
+            startActivity(aIntent);
+            return true;
+        }
+        catch (ActivityNotFoundException e)
+        {
+            return false;
         }
     }
 }

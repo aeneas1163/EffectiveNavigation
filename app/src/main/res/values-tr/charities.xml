@@ -22,10 +22,10 @@
     </string-array>
 
     <string-array name="charity_website_array">
-        <item>www.acev.org/bagis</item>
-        <item>secure.cydd.org.tr/</item>
-        <item>www.losev.org.tr/bagis/Bagis.aspx</item>
-        <item>sp.tegv.org/</item>
+        <item>http://www.acev.org/bagis</item>
+        <item>https://secure.cydd.org.tr/</item>
+        <item>http://www.losev.org.tr/bagis/Bagis.aspx</item>
+        <item>http://sp.tegv.org/</item>
     </string-array>
 
     <string-array name="charity_image_array">
