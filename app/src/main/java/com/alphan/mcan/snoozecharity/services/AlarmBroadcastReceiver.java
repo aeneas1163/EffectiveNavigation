@@ -28,15 +28,18 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
     private void handleAlarmIntent(final Context context, final Intent intent) {
         long alarmID = intent.getLongExtra(AlarmManagerHelper.ID, -1);
-        if ( !isValidAlarm(context, alarmID))
+        AlarmDataModel receivedAlarm = AlarmManagerHelper.getAlarm(context, alarmID);
+        if ( !isValidAlarm(receivedAlarm))
             return;
 
-        //TODO: move rescheduling of the next alarm here so we do not have to do it on the receiver
-        DialogServiceDEPRECATED.startActionRingAlarm(context, alarmID);
+        //reschedule next alarm:
+        //TODO: below causes an infinite loop as it can set the alarm for now, implement a method that created next alarm
+        //AlarmManagerHelper.resetAlarm(context, receivedAlarm);
+
+        AlarmRingService.startRingAlarmIntent(context, alarmID);
     }
 
-    private boolean isValidAlarm(final Context context, final long alarmID) {
-        AlarmDataModel receivedAlarm = AlarmManagerHelper.getAlarm(context, alarmID);
+    private boolean isValidAlarm(AlarmDataModel receivedAlarm) {
         if (receivedAlarm == null)
             return false;
         //TODO: check time of the received alarm versus current time, handle if it is too different.

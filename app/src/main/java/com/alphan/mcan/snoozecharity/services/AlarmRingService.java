@@ -15,9 +15,11 @@ import android.os.PowerManager;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
+import com.alphan.mcan.snoozecharity.R;
 
 import java.io.IOException;
 
@@ -36,14 +38,16 @@ public class AlarmRingService extends Service {
 
     // alarm members:
     private AlarmDataModel ringingAlarm = null;
+    private AlarmDataModel snoozeAlarm = null;
+    private int defaultSnoozeDuration = -1;
     private PendingIntent timeOutIntent = null;
     private Notification alarmNotification = null;
     private int alarmNotificationID = -1;
 
     // interactive members
     private Vibrator alarmVibrator = null;
-    private final long[] vibrationPattern = new long[]{0, 100, 1000};  //TODO: make vibration pattern setting based?
-    // without a delay, Vibrate for 100 milliseconds, Sleep for 1000 milliseconds
+    private final long[] vibrationPattern = new long[]{500, 200, 1000};  //TODO: make vibration pattern setting based?
+    // with half second delay, Vibrate for 200 milliseconds, Sleep for 1000 milliseconds
     private MediaPlayer alarmMediaPlayer = null;
     private PowerManager.WakeLock wakeLock = null; //TODO: this is possibly not needed here
 
@@ -66,11 +70,16 @@ public class AlarmRingService extends Service {
      * alarm for the supplied duration (supplied ID and the ID of the ringing alarm muss match)
      */
     public static void startSnoozeAlarmIntent (Context context, long alarmID, int snoozeDurationInMins) {
+        Intent snoozeIntent = getSnoozeAlarmIntent(context, alarmID, snoozeDurationInMins);
+        context.startService(snoozeIntent);
+    }
+
+    private static Intent getSnoozeAlarmIntent(Context context, long alarmID, int snoozeDurationInMins) {
         Intent intent = new Intent(context, AlarmRingService.class);
         intent.setAction(SNOOZE_ALARM);
         intent.putExtra(AlarmManagerHelper.ID, alarmID);
         intent.putExtra(PARAM_SNOOZE_DURATION ,snoozeDurationInMins);
-        context.startService(intent);
+        return intent;
     }
 
     /**
@@ -78,23 +87,30 @@ public class AlarmRingService extends Service {
      * ringing alarm (supplied ID and the ID of the ringing alarm muss match)
      */
     public static void startDismissAlarmIntent (Context context, long alarmID) {
+        Intent dismissAlarmIntent = getDismissAlarmIntent(context, alarmID);
+        context.startService(dismissAlarmIntent);
+    }
+
+    private static Intent getDismissAlarmIntent (Context context, long alarmID) {
         Intent intent = new Intent(context, AlarmRingService.class);
         intent.setAction(DISMISS_ALARM);
         intent.putExtra(AlarmManagerHelper.ID, alarmID);
-        context.startService(intent);
+        return intent;
     }
 
     /**
      * Helper method to create an pendingIntent for this service which cancels the currently
      * ringing alarm (supplied ID and the ID of the ringing alarm muss match)
      */
-    private static PendingIntent startTimeOutAlarmPendingIntent (Context context, long alarmID, int timeOutDurationInMins) {
+    private static PendingIntent startTimeOutAlarmPendingIntent (Context context, AlarmDataModel alarm,
+                                                                 int timeOutDurationInMins) {
 
         // generate pendingIntent
         Intent intent = new Intent(context, AlarmRingService.class);
         intent.setAction(TIME_OUT_ALARM);
-        intent.putExtra(AlarmManagerHelper.ID, alarmID);
-        PendingIntent pIntent = PendingIntent.getBroadcast(context, (int) alarmID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        intent.putExtra(AlarmManagerHelper.ID, alarm.getId());
+
+        PendingIntent pIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
         // post pendingIntent
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -106,6 +122,12 @@ public class AlarmRingService extends Service {
 
         return pIntent;
     }
+
+    private static int getNotificationID(AlarmDataModel alarm) {
+        //TODO: for snooze alarms get ID of the parent
+        return (int) alarm.getId();
+    }
+
 
     public AlarmRingService() {
     }
@@ -124,6 +146,14 @@ public class AlarmRingService extends Service {
         alarmMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK
                                                             | PowerManager.ACQUIRE_CAUSES_WAKEUP);
 
+        // settings
+        // update snooze duration
+        if (defaultSnoozeDuration == -1) { // if snooze duration is invalid update from settings
+            SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
+            defaultSnoozeDuration = Integer.parseInt(preference.getString("snooze_duration", "5"));
+        }
+
+        //TODO: below can possibly be removed
         // prepare wakelock
         PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
         wakeLock = pm.newWakeLock(( PowerManager.FULL_WAKE_LOCK
@@ -134,13 +164,14 @@ public class AlarmRingService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent == null) { //This should never happen here
-            Log.d(TAG, "Received null intent!");
+            Log.w(TAG, "Received null intent!");
             return START_NOT_STICKY;
         }
 
         // get params
         final long alarmID = intent.getLongExtra(AlarmManagerHelper.ID, -1);
         final int snoozeDurationInMinutes = intent.getIntExtra(PARAM_SNOOZE_DURATION, -1);
+        Log.d(TAG, "Received Intent for AlarmID: " + alarmID);
 
         // handle actions
         final String action = intent.getAction();
@@ -180,9 +211,9 @@ public class AlarmRingService extends Service {
             return; // do nothing since snooze request is not valid
         }
 
+        Log.d(TAG, "Creating snooze alarm in " + snoozeDurationInMinutes + " mins.");
         createAndPostSnoozeAlarm(snoozeDurationInMinutes);
         dismissCurrent(DismissReasons.SNOOZE);
-        endService();
     }
 
     private synchronized void handleActionDismissAlarm(long alarmID) {
@@ -218,21 +249,27 @@ public class AlarmRingService extends Service {
         }
 
         // set time out for alarm
-        int timeOutDurationInMin = 5; //TODO: make this setting based
-        timeOutIntent = startTimeOutAlarmPendingIntent(this, alarmID, timeOutDurationInMin);
+        int timeOutDurationInMin = 3; //TODO: make this setting based
+        timeOutIntent = startTimeOutAlarmPendingIntent(this, ringingAlarm, timeOutDurationInMin);
+        Log.i(TAG, "generated auto time-out for alarm: " + alarmID + " time out int: " + timeOutDurationInMin + " mins.");
 
         // create notification
         alarmNotification = createNotification(ringingAlarm);
-        startForeground((int)ringingAlarm.getId(), alarmNotification);
+        alarmNotificationID = getNotificationID(ringingAlarm);
+        startForeground(alarmNotificationID, alarmNotification);
+        Log.i(TAG, "Notification created, and service moved to foreground with ID: " + alarmNotificationID);
 
         // trigger vibration
-        if (alarmVibrator != null)
+        if (alarmVibrator != null) {
             alarmVibrator.vibrate(vibrationPattern, 0);
+            Log.i(TAG, "Vibration Started!");
+        }
 
         // prepare media player
         alarmMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mP) {
+                Log.i(TAG, "Starting media player!");
                 mP.start();
             }});
         alarmMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
@@ -250,12 +287,16 @@ public class AlarmRingService extends Service {
             Log.d(TAG, "MediaPlayer input issue!");
             return;
         }
+
+        Log.i(TAG, "Preparing media player for alarm!");
         alarmMediaPlayer.prepareAsync();
     }
 
     private void dismissCurrent(DismissReasons reason) {
 
         // remove ringing alarm
+        Log.i(TAG, "dismissing alarm: " + ringingAlarm.getId());
+        AlarmDataModel dismissedAlarm = ringingAlarm;
         ringingAlarm = null;
         if (timeOutIntent != null)
             timeOutIntent.cancel();
@@ -266,24 +307,30 @@ public class AlarmRingService extends Service {
             alarmMediaPlayer.stop();
         if (alarmVibrator != null)
             alarmVibrator.cancel();
+        Log.i(TAG, "Media and Vibrator stopped");
 
-        stopForeground(false);
+        stopForeground(true);
+        Log.i(TAG, "Service moved to background");
 
         // based on reason for dismiss update/remove notification and endService if needed
         switch (reason) {
             case SNOOZE:
-                updateSnoozeNotification(alarmNotification);
+                Log.i(TAG, "Dismissed due SNOOZE: updating snooze notification, and ending service.");
+                updateSnoozeNotification(snoozeAlarm);
                 endService();
                 break;
             case TIMEOUT:
-                updateMissedAlarmNotification(alarmNotification);
+                Log.i(TAG, "Dismissed due TIMEOUT: updating missed alarm notification, and ending service.");
+                updateMissedAlarmNotification(dismissedAlarm);
                 endService();
                 break;
             case NEW_ALARM:
-                updateMissedAlarmNotification(alarmNotification);
+                Log.i(TAG, "Dismissed due NEW_ALARM: updating missed alarm notification.");
+                updateMissedAlarmNotification(dismissedAlarm);
                 break;
             case DISMISS:
-                dismissAlarmNotification(alarmNotification);
+                Log.i(TAG, "Dismissed due DISMISS action: removing notification and ending service.");
+                dismissAlarmNotification();
                 endService();
                 break;
         }
@@ -292,25 +339,95 @@ public class AlarmRingService extends Service {
 
     // notification management:
     private Notification createNotification(AlarmDataModel alarmToNotify) {
-        throw new UnsupportedOperationException("Not yet Implemented.!");
-        // TODO:
+
+        // initial notification
+        NotificationCompat.Builder builder  = new NotificationCompat.Builder(this)
+                .setContentTitle(getString(R.string.app_name))
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setGroup(NotificationCompat.CATEGORY_ALARM)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setAutoCancel(false)
+                .setContentIntent(null); //TODO: this should open alarmActivity;
+
+        // message
+        String notificationMessage = alarmToNotify.getName()
+                + (alarmToNotify.getMessage() != ""
+                ? (" " + alarmToNotify.getMessage())
+                : "Wake Up!");
+        builder.setContentText(notificationMessage);
+
+        // snooze action
+        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
+        int snoozeDuration = Integer.parseInt(preference.getString("snooze_duration","5"));
+        PendingIntent snoozePendingIntent = PendingIntent.getService(this, 0,
+                getSnoozeAlarmIntent(this, alarmToNotify.getId(), snoozeDuration),
+                PendingIntent.FLAG_ONE_SHOT);
+        builder.addAction(R.drawable.clock, "Snooze", snoozePendingIntent); // #0
+
+        // dismiss action
+        PendingIntent dismissPendingIntent = PendingIntent.getService(this, 0,
+                getDismissAlarmIntent(this, alarmToNotify.getId()),
+                PendingIntent.FLAG_ONE_SHOT);
+        builder.addAction(R.drawable.delete, "Dismiss", dismissPendingIntent) ; // #1
+
+        return builder.build();       // throw new UnsupportedOperationException("Not yet Implemented.!");
     }
 
-    private void updateSnoozeNotification(Notification currentNotification){
-        throw new UnsupportedOperationException("Not yet Implemented.!");
-        // TODO:
+    private void updateSnoozeNotification(AlarmDataModel snoozeAlarm){
+        // initial notification
+        NotificationCompat.Builder builder  = new NotificationCompat.Builder(this)
+                .setContentTitle(getString(R.string.app_name))
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setGroup(NotificationCompat.CATEGORY_ALARM)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentIntent(null); //TODO: this should open alarmActivity;
+
+        // dismiss action
+        //TODO: create a pending intent which cancels: snoozeAlarm
+        PendingIntent dismissPendingIntent = null;
+        builder.addAction(R.drawable.delete, "Dismiss", dismissPendingIntent) ; // #1
+
+        // message
+        String formedHour = (snoozeAlarm.getTimeHour() < 10) ? "0" + snoozeAlarm.getTimeHour() : String.valueOf(snoozeAlarm.getTimeHour());
+        String formedMin = (snoozeAlarm.getTimeMinute() < 10) ? "0" + snoozeAlarm.getTimeMinute() : String.valueOf(snoozeAlarm.getTimeMinute());
+        String snoozeMessage = "Snoozed alarm until " + formedHour + ":" + formedMin;
+        builder.setContentText(snoozeMessage);
+
+        // push updated
+        alarmNotification = builder.build();
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(alarmNotificationID, alarmNotification);
     }
 
-    private void updateMissedAlarmNotification(Notification currentNotification) {
-        throw new UnsupportedOperationException("Not yet Implemented.!");
-        // TODO:
+    private void updateMissedAlarmNotification(AlarmDataModel missedAlarm) {
+        // initial notification
+        NotificationCompat.Builder builder  = new NotificationCompat.Builder(this)
+                .setContentTitle(getString(R.string.app_name))
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setGroup(NotificationCompat.CATEGORY_ALARM)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setAutoCancel(true)
+                .setContentIntent(null); //TODO: this should open alarmActivity;
+
+        // message
+        String snoozeMessage = "Missed an alarm from: " + missedAlarm.getTimeHour() + ":" + missedAlarm.getTimeMinute();
+        builder.setContentText(snoozeMessage);
+
+        // push updated
+        alarmNotification = builder.build();
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(alarmNotificationID, alarmNotification);
     }
 
-    private void dismissAlarmNotification(Notification currentNotification) {
+    private void dismissAlarmNotification() {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(alarmNotificationID);
 
-        throw new UnsupportedOperationException("Not yet Implemented.!");
-        // TODO:
+        alarmNotification = null;
+        alarmNotificationID = -1;
     }
 
     private void createAndPostSnoozeAlarm(int snoozeDurationInMinutes) {
@@ -327,20 +444,48 @@ public class AlarmRingService extends Service {
 
         // create snooze alarm and push
         AlarmDataModel snoozeAlarm = AlarmDataModel.createSnoozingAlarm(ringingAlarm, snoozeDurationInMinutes, true);
+        Log.d(TAG, "created snooze alarm: " + snoozeAlarm.getId() + " at: " +
+                snoozeAlarm.getTimeHour() + ":"  + snoozeAlarm.getTimeMinute());
         AlarmManagerHelper.createNewAlarm(this, snoozeAlarm);
+        this.snoozeAlarm = snoozeAlarm;
     }
 
     private void endService() {
-        throw new UnsupportedOperationException("Not yet Implemented.!");
+        Log.i(TAG, "Ending Alarm Service");
 
-        // TODO:
-        // 1 remove ringingAlarm
-        // 2 remove PendingIntent for auto cancel if needed (based on reason)
-        // 3 stop media player
-        // 4 stop vibrator
-        // 5 update/remove notification (based on reason)
-        // 6 remove from foreground
-        // 7 this.stopSelf();
+        // alarm data
+        ringingAlarm = null;
+        if (timeOutIntent != null)
+            timeOutIntent.cancel();
+        timeOutIntent = null;
+        alarmNotification = null;
+        alarmNotificationID = -1;
+        Log.i(TAG, "removed alarm data, timeout, and notification");
+
+        // vibrator and media player
+        if (alarmVibrator != null) {
+            alarmVibrator.cancel();
+            alarmVibrator = null;
+            Log.i(TAG, "removed alarm vibrator");
+        }
+        if (alarmMediaPlayer != null) {
+            alarmMediaPlayer.setOnErrorListener(null);
+            alarmMediaPlayer.setOnPreparedListener(null);
+            alarmMediaPlayer.stop();
+            alarmMediaPlayer.release();
+            alarmMediaPlayer = null;
+            Log.i(TAG, "removed alarm media player");
+        }
+
+        // wakelog
+        if (wakeLock != null && wakeLock.isHeld()) {
+            wakeLock.release();
+            Log.i(TAG, "released wakelock!");
+        }
+        wakeLock = null;
+
+        Log.i(TAG, "Stopped service!");
+        this.stopSelf();
     }
 
     @Override
