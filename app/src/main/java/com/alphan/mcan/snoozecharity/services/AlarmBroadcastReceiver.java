@@ -33,8 +33,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             return;
 
         //reschedule next alarm:
-        //TODO: below causes an infinite loop as it can set the alarm for now, implement a method that created next alarm
-        //AlarmManagerHelper.resetAlarm(context, receivedAlarm);
+        AlarmManagerHelper.resetAlarm(context, receivedAlarm);
 
         AlarmRingService.startRingAlarmIntent(context, alarmID);
     }

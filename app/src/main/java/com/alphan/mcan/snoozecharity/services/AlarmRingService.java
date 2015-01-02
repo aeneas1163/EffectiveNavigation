@@ -43,13 +43,13 @@ public class AlarmRingService extends Service {
     private PendingIntent timeOutIntent = null;
     private Notification alarmNotification = null;
     private int alarmNotificationID = -1;
+    private static final int TIMEOUT_DURATION_IN_MINUTES = 1; //TODO: setting based or something?
 
     // interactive members
     private Vibrator alarmVibrator = null;
     private final long[] vibrationPattern = new long[]{500, 200, 1000};  //TODO: make vibration pattern setting based?
     // with half second delay, Vibrate for 200 milliseconds, Sleep for 1000 milliseconds
     private MediaPlayer alarmMediaPlayer = null;
-    private PowerManager.WakeLock wakeLock = null; //TODO: this is possibly not needed here
 
     // for logging and stuff
     public final String TAG = this.getClass().getSimpleName();
@@ -152,13 +152,6 @@ public class AlarmRingService extends Service {
             SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
             defaultSnoozeDuration = Integer.parseInt(preference.getString("snooze_duration", "5"));
         }
-
-        //TODO: below can possibly be removed
-        // prepare wakelock
-        PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
-        wakeLock = pm.newWakeLock(( PowerManager.FULL_WAKE_LOCK
-                                  | PowerManager.SCREEN_BRIGHT_WAKE_LOCK //TODO: these are possibly not needed
-                                  | PowerManager.ACQUIRE_CAUSES_WAKEUP), TAG);
     }
 
     @Override
@@ -249,9 +242,8 @@ public class AlarmRingService extends Service {
         }
 
         // set time out for alarm
-        int timeOutDurationInMin = 3; //TODO: make this setting based
-        timeOutIntent = startTimeOutAlarmPendingIntent(this, ringingAlarm, timeOutDurationInMin);
-        Log.i(TAG, "generated auto time-out for alarm: " + alarmID + " time out int: " + timeOutDurationInMin + " mins.");
+        timeOutIntent = startTimeOutAlarmPendingIntent(this, ringingAlarm, TIMEOUT_DURATION_IN_MINUTES);
+        Log.i(TAG, "generated auto time-out for alarm: " + alarmID + " time out int: " + TIMEOUT_DURATION_IN_MINUTES + " mins.");
 
         // create notification
         alarmNotification = createNotification(ringingAlarm);
@@ -387,7 +379,7 @@ public class AlarmRingService extends Service {
         // dismiss action
         //TODO: create a pending intent which cancels: snoozeAlarm
         PendingIntent dismissPendingIntent = null;
-        builder.addAction(R.drawable.delete, "Dismiss", dismissPendingIntent) ; // #1
+        builder.addAction(R.drawable.delete, "Cancel Snooze", dismissPendingIntent) ; // #1
 
         // message
         String formedHour = (snoozeAlarm.getTimeHour() < 10) ? "0" + snoozeAlarm.getTimeHour() : String.valueOf(snoozeAlarm.getTimeHour());
@@ -409,6 +401,7 @@ public class AlarmRingService extends Service {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setGroup(NotificationCompat.CATEGORY_ALARM)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setDefaults(Notification.DEFAULT_LIGHTS)
                 .setAutoCancel(true)
                 .setContentIntent(null); //TODO: this should open alarmActivity;
 
@@ -476,13 +469,6 @@ public class AlarmRingService extends Service {
             alarmMediaPlayer = null;
             Log.i(TAG, "removed alarm media player");
         }
-
-        // wakelog
-        if (wakeLock != null && wakeLock.isHeld()) {
-            wakeLock.release();
-            Log.i(TAG, "released wakelock!");
-        }
-        wakeLock = null;
 
         Log.i(TAG, "Stopped service!");
         this.stopSelf();
