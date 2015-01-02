@@ -110,7 +110,7 @@ public class AlarmRingService extends Service {
         intent.setAction(TIME_OUT_ALARM);
         intent.putExtra(AlarmManagerHelper.ID, alarm.getId());
 
-        PendingIntent pIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // post pendingIntent
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -362,13 +362,13 @@ public class AlarmRingService extends Service {
         int snoozeDuration = Integer.parseInt(preference.getString("snooze_duration","5"));
         PendingIntent snoozePendingIntent = PendingIntent.getService(this, 0,
                 getSnoozeAlarmIntent(this, alarmToNotify.getId(), snoozeDuration),
-                PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent.FLAG_UPDATE_CURRENT);
         builder.addAction(R.drawable.clock, "Snooze", snoozePendingIntent); // #0
 
         // dismiss action
         PendingIntent dismissPendingIntent = PendingIntent.getService(this, 0,
                 getDismissAlarmIntent(this, alarmToNotify.getId()),
-                PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent.FLAG_UPDATE_CURRENT);
         builder.addAction(R.drawable.delete, "Dismiss", dismissPendingIntent) ; // #1
 
         return builder.build();       // throw new UnsupportedOperationException("Not yet Implemented.!");
@@ -444,9 +444,9 @@ public class AlarmRingService extends Service {
 
         // create snooze alarm and push
         AlarmDataModel snoozeAlarm = AlarmDataModel.createSnoozingAlarm(ringingAlarm, snoozeDurationInMinutes, true);
+        AlarmManagerHelper.createNewAlarm(this, snoozeAlarm);
         Log.d(TAG, "created snooze alarm: " + snoozeAlarm.getId() + " at: " +
                 snoozeAlarm.getTimeHour() + ":"  + snoozeAlarm.getTimeMinute());
-        AlarmManagerHelper.createNewAlarm(this, snoozeAlarm);
         this.snoozeAlarm = snoozeAlarm;
     }
 
