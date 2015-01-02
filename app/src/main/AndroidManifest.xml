@@ -71,10 +71,6 @@
             </intent-filter>
         </receiver>
 
-        <service
-            android:name=".services.DialogServiceDEPRECATED"
-            android:exported="false" >
-        </service>
         <service android:name=".services.AlarmRingService"
                  android:exported="false" >
         </service>
