@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -93,8 +96,10 @@ public class AlarmScreen extends Activity {
 
         // setup layout
         this.setContentView(R.layout.activity_alarm_screen);
+        TextView tvTitle = (TextView) findViewById(R.id.alarm_screen_title);
+        tvTitle.setText(currentAlarm.getName());
         TextView tvName = (TextView) findViewById(R.id.alarm_screen_name);
-		tvName.setText(currentAlarm.getName() + " -ID: " + alarmID);
+		tvName.setText("Alarm DB ID: " + alarmID);
 		TextView tvTime = (TextView) findViewById(R.id.alarm_screen_time);
 		tvTime.setText(currentAlarm.toString());
 
@@ -111,10 +116,26 @@ public class AlarmScreen extends Activity {
         // snooze button
         Button snoozeButton = (Button) findViewById(R.id.alarm_screen_snooze_button);
         Resources res = getResources();
-        snoozeButton.setText(res.getString(R.string.snooze_button_text));
+
+        final int charityIndex = preference.getInt(CharityCollectionActivity.DemoObjectFragment.ARG_INDEX, 0);
+        final double donationAmount = (Double.parseDouble(preference.getString("donation_snooze_amount", "20")))/100;
+        String[] charitiesSnooze = res.getStringArray(R.array.charity_snooze_text);
+
+        String snoozeWord = res.getString(R.string.snooze);
+        String snoozeSubText = res.getString(R.string.snooze_button_text, String.format("%.2f", donationAmount), charitiesSnooze[charityIndex], res.getString(R.string.money_sign));
+        int n = snoozeWord.length();
+        int m = snoozeSubText.length();
+
+        Spannable span = new SpannableString(snoozeWord + "\n" +  snoozeSubText);
+        //Big font till you find `\n`
+        span.setSpan(new RelativeSizeSpan(1.0f), 0, n, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //Small font from `\n` to the end
+        span.setSpan(new RelativeSizeSpan(0.5f), n, (n+m+1), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        snoozeButton.setText(span);
         snoozeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                AlarmManagerHelper.addToPendingDonation(getApplicationContext(), charityIndex, donationAmount);
                 AlarmRingService.startSnoozeAlarmIntent(view.getContext(), currentAlarm.getId(), snoozeDurationInMinutes);
                 finish();
             }

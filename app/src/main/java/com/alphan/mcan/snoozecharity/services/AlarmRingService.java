@@ -18,8 +18,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.R;
+import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.viewModels.AlarmScreen;
 import com.alphan.mcan.snoozecharity.viewModels.CharityCollectionActivity;
 
@@ -142,7 +142,7 @@ public class AlarmRingService extends Service {
 
         // prepare vibrator
         alarmVibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
-        if (!alarmVibrator.hasVibrator() || preference.getBoolean("vibration_pref", false))
+        if (!alarmVibrator.hasVibrator() || !preference.getBoolean("vibration_pref", false))
             alarmVibrator = null;
 
         // prepare alarm media player
@@ -376,20 +376,20 @@ public class AlarmRingService extends Service {
         String notificationMessage = alarmToNotify.getName()
                 + (alarmToNotify.getMessage() != ""
                 ? (" " + alarmToNotify.getMessage())
-                : "Wake Up!");
+                : getString(R.string.alarm_default_name));
         builder.setContentText(notificationMessage);
 
         // snooze action
         PendingIntent snoozePendingIntent = PendingIntent.getService(this, 0,
                 getSnoozeAlarmIntent(this, alarmToNotify.getId(), defaultSnoozeDuration),
                 PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.addAction(R.drawable.clock, "Snooze", snoozePendingIntent); // #0
+        builder.addAction(R.drawable.zzz, getString(R.string.snooze), snoozePendingIntent); // #0
 
         // dismiss action
         PendingIntent dismissPendingIntent = PendingIntent.getService(this, 0,
                 getDismissAlarmIntent(this, alarmToNotify.getId()),
                 PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.addAction(R.drawable.delete, "Dismiss", dismissPendingIntent) ; // #1
+        builder.addAction(R.drawable.ic_cancel, getString(R.string.dismiss), dismissPendingIntent) ; // #1
 
         return builder.build();       // throw new UnsupportedOperationException("Not yet Implemented.!");
     }
@@ -407,10 +407,10 @@ public class AlarmRingService extends Service {
         // dismiss action
         //TODO: create a pending intent which cancels: snoozeAlarm
         PendingIntent dismissPendingIntent = null;
-        builder.addAction(R.drawable.delete, "Cancel Snooze", dismissPendingIntent) ; // #1
+        builder.addAction(R.drawable.ic_cancel, getString(R.string.cancel_snooze), dismissPendingIntent) ; // #1
 
         // message
-        String snoozeMessage = "Snoozed alarm until " + snoozeAlarm.toString();
+        String snoozeMessage = getString(R.string.snoozed_alarm_until) + " " +  snoozeAlarm.toString();
         builder.setContentText(snoozeMessage);
 
         // push updated
