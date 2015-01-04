@@ -176,4 +176,9 @@ public class AlarmDataModel {
     public void setSnoozeAlarm(boolean snoozeAlarm) {
         this.snoozeAlarm = snoozeAlarm;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%02d : %02d", timeHour, timeMinute);
+    }
 }

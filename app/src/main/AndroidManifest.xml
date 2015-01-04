@@ -60,6 +60,7 @@
         <activity
             android:name=".viewModels.AlarmScreen"
             android:excludeFromRecents="true"
+            android:noHistory="true"
             android:label="@string/alarm_screen"
             android:screenOrientation="portrait"
             android:theme="@style/AlarmTheme" />

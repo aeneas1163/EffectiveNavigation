@@ -20,6 +20,8 @@ import android.util.Log;
 
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.R;
+import com.alphan.mcan.snoozecharity.viewModels.AlarmScreen;
+import com.alphan.mcan.snoozecharity.viewModels.CharityCollectionActivity;
 
 import java.io.IOException;
 
@@ -39,7 +41,7 @@ public class AlarmRingService extends Service {
     // alarm members:
     private AlarmDataModel ringingAlarm = null;
     private AlarmDataModel snoozeAlarm = null;
-    private int defaultSnoozeDuration = -1;
+    private int defaultSnoozeDuration;
     private PendingIntent timeOutIntent = null;
     private Notification alarmNotification = null;
     private int alarmNotificationID = -1;
@@ -47,11 +49,12 @@ public class AlarmRingService extends Service {
 
     // interactive members
     private Vibrator alarmVibrator = null;
-    private final long[] vibrationPattern = new long[]{500, 200, 1000};  //TODO: make vibration pattern setting based?
-    // with half second delay, Vibrate for 200 milliseconds, Sleep for 1000 milliseconds
+    private final long[] vibrationPattern = new long[]{0, 500, 500};  //TODO: make vibration pattern setting based?
+    // without delay, Vibrate for 500 milliseconds, Sleep for 500 milliseconds
     private MediaPlayer alarmMediaPlayer = null;
 
     // for logging and stuff
+    private Context selfService = this;
     public final String TAG = this.getClass().getSimpleName();
 
     /**
@@ -134,9 +137,12 @@ public class AlarmRingService extends Service {
 
     @Override
     public void onCreate() {
+
+        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
+
         // prepare vibrator
         alarmVibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
-        if (!alarmVibrator.hasVibrator())
+        if (!alarmVibrator.hasVibrator() || preference.getBoolean("vibration_pref", false))
             alarmVibrator = null;
 
         // prepare alarm media player
@@ -146,12 +152,9 @@ public class AlarmRingService extends Service {
         alarmMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK
                                                             | PowerManager.ACQUIRE_CAUSES_WAKEUP);
 
-        // settings
         // update snooze duration
-        if (defaultSnoozeDuration == -1) { // if snooze duration is invalid update from settings
-            SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
-            defaultSnoozeDuration = Integer.parseInt(preference.getString("snooze_duration", "5"));
-        }
+        defaultSnoozeDuration = Integer.parseInt(preference.getString("snooze_duration", "5"));
+
     }
 
     @Override
@@ -193,6 +196,7 @@ public class AlarmRingService extends Service {
         } else { // dismiss/timeout previous alarm and ring this one
            dismissCurrent(DismissReasons.NEW_ALARM);
            startRinging(alarmID);
+            //TODO: delete alarm from db if it was a snooze alarm
         }
     }
 
@@ -204,8 +208,17 @@ public class AlarmRingService extends Service {
             return; // do nothing since snooze request is not valid
         }
 
+        // snooze alarm:
         Log.d(TAG, "Creating snooze alarm in " + snoozeDurationInMinutes + " mins.");
         createAndPostSnoozeAlarm(snoozeDurationInMinutes);
+
+        // add donation
+        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
+        final int charityIndex = preference.getInt(CharityCollectionActivity.DemoObjectFragment.ARG_INDEX, 0);
+        final double donationAmount = (Double.parseDouble(preference.getString("donation_snooze_amount", "20")))/100;
+        AlarmManagerHelper.addToPendingDonation(this, charityIndex, donationAmount);
+
+        // get rid of current alarm
         dismissCurrent(DismissReasons.SNOOZE);
     }
 
@@ -241,6 +254,12 @@ public class AlarmRingService extends Service {
             return;
         }
 
+        // if the alarm is not weekly then do disable it
+        if (!ringingAlarm.isWeekly()) {
+            ringingAlarm.setEnabled(false);
+            AlarmManagerHelper.modifyAlarm(getApplicationContext(), ringingAlarm);
+        }
+
         // set time out for alarm
         timeOutIntent = startTimeOutAlarmPendingIntent(this, ringingAlarm, TIMEOUT_DURATION_IN_MINUTES);
         Log.i(TAG, "generated auto time-out for alarm: " + alarmID + " time out int: " + TIMEOUT_DURATION_IN_MINUTES + " mins.");
@@ -251,19 +270,24 @@ public class AlarmRingService extends Service {
         startForeground(alarmNotificationID, alarmNotification);
         Log.i(TAG, "Notification created, and service moved to foreground with ID: " + alarmNotificationID);
 
-        // trigger vibration
-        if (alarmVibrator != null) {
-            alarmVibrator.vibrate(vibrationPattern, 0);
-            Log.i(TAG, "Vibration Started!");
-        }
-
-        // prepare media player
+        // async prepare media player and trigger everything else when its ready
         alarmMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mP) {
+                // trigger vibration
+                if (alarmVibrator != null) {
+                    alarmVibrator.vibrate(vibrationPattern, 0);
+                    Log.i(TAG, "Vibration Started!");
+                }
+
+                // trigger alarm sound:
                 Log.i(TAG, "Starting media player!");
                 mP.start();
+
+                // show alarmScreen
+                AlarmScreen.showAlarmScreen(selfService, ringingAlarm.getId());
             }});
+
         alarmMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mP, int what, int extra) {
@@ -300,6 +324,9 @@ public class AlarmRingService extends Service {
         if (alarmVibrator != null)
             alarmVibrator.cancel();
         Log.i(TAG, "Media and Vibrator stopped");
+
+        // cancel alarm screen
+        AlarmScreen.dismissAlarmScreen(this);
 
         stopForeground(true);
         Log.i(TAG, "Service moved to background");
@@ -342,6 +369,9 @@ public class AlarmRingService extends Service {
                 .setAutoCancel(false)
                 .setContentIntent(null); //TODO: this should open alarmActivity;
 
+        // default intent shows alarm screen
+        builder.setContentIntent(AlarmScreen.getShowAlarmScreenPendingIntent(this, alarmToNotify.getId()));
+
         // message
         String notificationMessage = alarmToNotify.getName()
                 + (alarmToNotify.getMessage() != ""
@@ -350,10 +380,8 @@ public class AlarmRingService extends Service {
         builder.setContentText(notificationMessage);
 
         // snooze action
-        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
-        int snoozeDuration = Integer.parseInt(preference.getString("snooze_duration","5"));
         PendingIntent snoozePendingIntent = PendingIntent.getService(this, 0,
-                getSnoozeAlarmIntent(this, alarmToNotify.getId(), snoozeDuration),
+                getSnoozeAlarmIntent(this, alarmToNotify.getId(), defaultSnoozeDuration),
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.addAction(R.drawable.clock, "Snooze", snoozePendingIntent); // #0
 
@@ -382,9 +410,7 @@ public class AlarmRingService extends Service {
         builder.addAction(R.drawable.delete, "Cancel Snooze", dismissPendingIntent) ; // #1
 
         // message
-        String formedHour = (snoozeAlarm.getTimeHour() < 10) ? "0" + snoozeAlarm.getTimeHour() : String.valueOf(snoozeAlarm.getTimeHour());
-        String formedMin = (snoozeAlarm.getTimeMinute() < 10) ? "0" + snoozeAlarm.getTimeMinute() : String.valueOf(snoozeAlarm.getTimeMinute());
-        String snoozeMessage = "Snoozed alarm until " + formedHour + ":" + formedMin;
+        String snoozeMessage = "Snoozed alarm until " + snoozeAlarm.toString();
         builder.setContentText(snoozeMessage);
 
         // push updated
@@ -406,7 +432,7 @@ public class AlarmRingService extends Service {
                 .setContentIntent(null); //TODO: this should open alarmActivity;
 
         // message
-        String snoozeMessage = "Missed an alarm from: " + missedAlarm.getTimeHour() + ":" + missedAlarm.getTimeMinute();
+        String snoozeMessage = "Missed an alarm at: " + missedAlarm.toString();
         builder.setContentText(snoozeMessage);
 
         // push updated
