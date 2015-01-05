@@ -135,7 +135,6 @@ public class AlarmScreen extends Activity {
         snoozeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlarmManagerHelper.addToPendingDonation(getApplicationContext(), charityIndex, donationAmount);
                 AlarmRingService.startSnoozeAlarmIntent(view.getContext(), currentAlarm.getId(), snoozeDurationInMinutes);
                 finish();
             }
