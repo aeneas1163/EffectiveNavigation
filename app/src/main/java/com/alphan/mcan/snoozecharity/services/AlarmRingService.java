@@ -29,10 +29,16 @@ public class AlarmRingService extends Service {
 
     // actions and params
     private static final String RING_ALARM = "snoozecharity.services.action.RING.ALARM";
+
+    private static final String CHANGE_ALARM_VOLUME = "snoozecharity.services.action.CHANGE.ALARM.VOLUME";
+    private static final String PARAM_NEW_VOLUME = "snoozecharity.services.param.ALARM.VOLUME";
+
     private static final String SNOOZE_ALARM = "snoozecharity.services.action.SNOOZE.ALARM";
-    private static final String DISMISS_ALARM = "snoozecharity.services.action.DISMISS.ALARM";
-    private static final String TIME_OUT_ALARM = "snoozecharity.services.action.TIMEOUT.ALARM";
     private static final String PARAM_SNOOZE_DURATION = "snoozecharity.services.param.SNOOZE.DURATION";
+
+    private static final String DISMISS_ALARM = "snoozecharity.services.action.DISMISS.ALARM";
+
+    private static final String TIME_OUT_ALARM = "snoozecharity.services.action.TIMEOUT.ALARM";
 
     private enum DismissReasons {
         TIMEOUT, NEW_ALARM, SNOOZE, DISMISS
@@ -45,12 +51,14 @@ public class AlarmRingService extends Service {
     private PendingIntent timeOutIntent = null;
     private Notification alarmNotification = null;
     private int alarmNotificationID = -1;
-    private static final int TIMEOUT_DURATION_IN_MINUTES = 1; //TODO: setting based or something?
+
+    // constants
+    //TODO: setting based or something?
+    private static final int TIMEOUT_DURATION_IN_MINUTES = 1;
+    private static long[] VIBRATION_PATTERN = new long[]{0, 500, 500};  //without delay, Vibrate for 500 milliseconds, Sleep for 500 milliseconds
 
     // interactive members
     private Vibrator alarmVibrator = null;
-    private final long[] vibrationPattern = new long[]{0, 500, 500};  //TODO: make vibration pattern setting based?
-    // without delay, Vibrate for 500 milliseconds, Sleep for 500 milliseconds
     private MediaPlayer alarmMediaPlayer = null;
 
     // for logging and stuff
@@ -66,6 +74,23 @@ public class AlarmRingService extends Service {
         intent.setAction(RING_ALARM);
         intent.putExtra(AlarmManagerHelper.ID, alarmID);
         context.startService(intent);
+    }
+
+    /**
+     * Helper method to create an intent for this service which snoozes the currently ringing
+     * alarm for the supplied duration (supplied ID and the ID of the ringing alarm muss match)
+     */
+    public static void changeAlarmVolumeIntent (Context context, long alarmID, float newVolume) {
+        Intent snoozeIntent = getChangeAlarmVolumeIntent(context, alarmID, newVolume);
+        context.startService(snoozeIntent);
+    }
+
+    private static Intent getChangeAlarmVolumeIntent(Context context, long alarmID, float newVolume) {
+        Intent intent = new Intent(context, AlarmRingService.class);
+        intent.setAction(CHANGE_ALARM_VOLUME);
+        intent.putExtra(AlarmManagerHelper.ID, alarmID);
+        intent.putExtra(PARAM_NEW_VOLUME ,newVolume);
+        return intent;
     }
 
     /**
@@ -166,6 +191,7 @@ public class AlarmRingService extends Service {
         // get params
         final long alarmID = intent.getLongExtra(AlarmManagerHelper.ID, -1);
         final int snoozeDurationInMinutes = intent.getIntExtra(PARAM_SNOOZE_DURATION, -1);
+        final float newVolume = intent.getFloatExtra(PARAM_NEW_VOLUME, -1);
         Log.d(TAG, "Received Intent for AlarmID: " + alarmID);
 
         // handle actions
@@ -178,6 +204,8 @@ public class AlarmRingService extends Service {
             handleActionDismissAlarm(alarmID);
         else if (action.equals(TIME_OUT_ALARM))
             handleActionTimeOutAlarm(alarmID);
+        else if (action.equals(CHANGE_ALARM_VOLUME))
+            handleActionChangeAlarmVolume(alarmID, newVolume);
         else
             Log.w(TAG, "received unrecognized intent: " + action);
 
@@ -185,6 +213,8 @@ public class AlarmRingService extends Service {
         return START_NOT_STICKY;
     }
 
+
+    // intent handlers:
     private synchronized void handleActionRingAlarm(long alarmID) {
 
         if (ringingAlarm == null)
@@ -243,6 +273,32 @@ public class AlarmRingService extends Service {
         }
     }
 
+    private synchronized void handleActionChangeAlarmVolume(long alarmID, float newVolume) {
+
+        // check if there is a valid ringing alarm
+        if (ringingAlarm == null || ringingAlarm.getId() != alarmID) {
+            Log.d(TAG, "received volume change for wrong alarm! Ignoring action..");
+            return;
+        }
+
+        // check if media player is playing
+        if (alarmMediaPlayer == null || !alarmMediaPlayer.isPlaying()) {
+            Log.d(TAG, "alarm media is not playing! Ignoring action..");
+            return;
+        }
+
+        // check if volume parameter is correct!
+        if (newVolume < 0 || newVolume > 1) {
+            Log.d(TAG, "inconsistent volume level received! Ignoring action..");
+            return;
+        }
+
+        // all is well update the volume!
+        alarmMediaPlayer.setVolume(newVolume,newVolume);
+    }
+
+
+    // handler for starting&ending ringing
     private void startRinging(long alarmID) {
 
         // get alarm to ring
@@ -275,7 +331,7 @@ public class AlarmRingService extends Service {
             public void onPrepared(MediaPlayer mP) {
                 // trigger vibration
                 if (alarmVibrator != null) {
-                    alarmVibrator.vibrate(vibrationPattern, 0);
+                    alarmVibrator.vibrate(VIBRATION_PATTERN, 0);
                     Log.i(TAG, "Vibration Started!");
                 }
 
@@ -354,6 +410,7 @@ public class AlarmRingService extends Service {
         }
 
     }
+
 
     // notification management:
     private Notification createNotification(AlarmDataModel alarmToNotify) {
@@ -448,6 +505,8 @@ public class AlarmRingService extends Service {
         alarmNotificationID = -1;
     }
 
+
+    // service end methods:
     private void createAndPostSnoozeAlarm(int snoozeDurationInMinutes) {
         if (ringingAlarm == null) {
             Log.d(TAG, "invalid internal state: Tried to snooze an alarm which is not ringing!");

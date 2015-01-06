@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -16,6 +17,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -168,7 +170,6 @@ public class AlarmScreen extends Activity {
 		}
 	}
 
-
     @Override
     protected void onDestroy() {
         // stop listening to kill signal
@@ -186,5 +187,20 @@ public class AlarmScreen extends Activity {
                               | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN  || keyCode == KeyEvent.KEYCODE_VOLUME_MUTE) {
+            Log.d(TAG, "Volume down event caught!");
+            AlarmRingService.changeAlarmVolumeIntent(this, currentAlarm.getId(), 0);
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            Log.d(TAG, "Volume up event caught!");
+            AlarmRingService.changeAlarmVolumeIntent(this, currentAlarm.getId(), 1);
+            return true;
+        } else
+            return super.onKeyDown(keyCode, event);
     }
 }
