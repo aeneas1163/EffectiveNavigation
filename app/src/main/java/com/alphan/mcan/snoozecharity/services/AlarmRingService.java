@@ -47,19 +47,21 @@ public class AlarmRingService extends Service {
     // alarm members:
     private AlarmDataModel ringingAlarm = null;
     private AlarmDataModel snoozeAlarm = null;
-    private int defaultSnoozeDuration;
     private PendingIntent timeOutIntent = null;
+
     private Notification alarmNotification = null;
     private int alarmNotificationID = -1;
 
     // constants
     //TODO: setting based or something?
+    private int defaultSnoozeDuration;
     private static final int TIMEOUT_DURATION_IN_MINUTES = 1;
     private static long[] VIBRATION_PATTERN = new long[]{0, 500, 500};  //without delay, Vibrate for 500 milliseconds, Sleep for 500 milliseconds
 
     // interactive members
     private Vibrator alarmVibrator = null;
     private MediaPlayer alarmMediaPlayer = null;
+    private Boolean isMuted = false;
 
     // for logging and stuff
     private Context selfService = this;
@@ -293,8 +295,22 @@ public class AlarmRingService extends Service {
             return;
         }
 
+        // if we were muted and we are getting muted again end vibration as well
+        if (isMuted && newVolume == 0) {
+            if (alarmVibrator != null)
+                alarmVibrator.cancel();
+            return;
+        }
+
         // all is well update the volume!
         alarmMediaPlayer.setVolume(newVolume,newVolume);
+        if (newVolume == 0) {
+            isMuted = true;
+        } else { // if we are unMuting vibrate again
+            isMuted = false;
+            if (alarmVibrator != null && alarmVibrator.hasVibrator())
+                alarmVibrator.vibrate(VIBRATION_PATTERN, 0);
+        }
     }
 
 
@@ -308,6 +324,7 @@ public class AlarmRingService extends Service {
             endService();
             return;
         }
+        isMuted = false;
 
         // if the alarm is not weekly then do disable it
         if (!ringingAlarm.isWeekly()) {
