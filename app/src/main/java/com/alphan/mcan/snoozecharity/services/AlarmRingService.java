@@ -127,8 +127,7 @@ public class AlarmRingService extends Service {
     }
 
     private static int getNotificationID(AlarmDataModel alarm) {
-        //TODO: for snooze alarms get ID of the parent
-        return (int) alarm.getId();
+        return alarm.isSnoozeAlarm() ? (int)alarm.getParentAlarmID() : (int)alarm.getId();
     }
 
 

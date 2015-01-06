@@ -28,7 +28,7 @@ import java.util.List;
  * as well as resetting alarms. Access to existing alarms is done over this fella as well.
  * In addition this also handles resetting alarms in case device reboots.
  */
-public class AlarmManagerHelper extends BroadcastReceiver { //TODO convert to local-broadcast receiver?
+public class AlarmManagerHelper extends BroadcastReceiver {
     public AlarmManagerHelper() {
     }
 

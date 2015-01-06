@@ -2,6 +2,7 @@ package com.alphan.mcan.snoozecharity.data.persistence;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -23,7 +24,9 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "snoozeFTW.db";
 
-    //TODO: modify for charity and donation
+    public static final String ALARM_TABLE_CHANGED = "snoozecharity.database.action.ALARM_TABLE_CHANGED";
+    public static final String DONATION_TABLE_CHANGED = "snoozecharity.database.action.CHARITY_TABLE_CHANGED";
+
     private static final String SQL_CREATE_ALARM_TABLE =
             "CREATE TABLE " + AlarmModelContract.Alarm.TABLE_NAME + " (" +
                     AlarmModelContract.Alarm._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -34,7 +37,7 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_DAYS + " TEXT," +
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_WEEKLY + " BOOLEAN," +
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TONE + " TEXT," +
-                    AlarmModelContract.Alarm.COLUMN_NAME_ALARM_SNOOZE_ALARM + " BOOLEAN," +
+                    AlarmModelContract.Alarm.COLUMN_NAME_ALARM_SNOOZE_PARENT_ID + " INTEGER," +
                     AlarmModelContract.Alarm.COLUMN_NAME_ALARM_ENABLED + " BOOLEAN" + " )";
 
     private static final String SQL_CREATE_PENDING_DONATION_TABLE =
@@ -59,8 +62,11 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
     private static final String SQL_DELETE_PAID_DONATION_TABLE =
             "DROP TABLE IF EXISTS " + DonationModelContract.PaidDonation.TABLE_NAME;
 
+    private Context context = null;
+
     public AlarmDBAssistant(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -96,8 +102,10 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         // check for success
         if (model.getId() == -1)
             return false;
-        else
+        else {
+            context.sendBroadcast(new Intent(ALARM_TABLE_CHANGED));
             return true;
+        }
     }
 
     public boolean removeAlarmFromDB(AlarmDataModel model) {
@@ -111,8 +119,10 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         model.setId(-1);
         db.close();
         // check success
-        if (effectedRows != 0)
+        if (effectedRows != 0) {
+            context.sendBroadcast(new Intent(ALARM_TABLE_CHANGED));
             return true;
+        }
         else
             return false;
     }
@@ -129,8 +139,10 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
 
         db.close();
         // check for success
-        if (changedRows != 0)
+        if (changedRows != 0) {
+            context.sendBroadcast(new Intent(ALARM_TABLE_CHANGED));
             return true;
+        }
         else
             return false;
     }
@@ -182,8 +194,10 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         // check for success
         if (donation.getId() == -1)
             return false;
-        else
+        else {
+            context.sendBroadcast(new Intent(DONATION_TABLE_CHANGED));
             return true;
+        }
     }
 
     public PendingDonationDataModel getPendingDonationByCharityIndex(int id) {
@@ -192,7 +206,8 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
 
         PendingDonationDataModel donation = null;
         SQLiteDatabase db = this.getReadableDatabase();
-        String select = "SELECT * FROM " + DonationModelContract.PendingDonation.TABLE_NAME + " WHERE " + DonationModelContract.PendingDonation.COLUMN_NAME_CHARITY_INDEX+ " = " + id;
+        String select = "SELECT * FROM " + DonationModelContract.PendingDonation.TABLE_NAME + " WHERE "
+                                         + DonationModelContract.PendingDonation.COLUMN_NAME_CHARITY_INDEX+ " = " + id;
         Cursor c = db.rawQuery(select, null);
         if (c.moveToNext())
             donation = generatePendingDonationModel(c);
@@ -214,8 +229,10 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
 
         db.close();
         // check for success
-        if (changedRows != 0)
+        if (changedRows != 0) {
+            context.sendBroadcast(new Intent(DONATION_TABLE_CHANGED));
             return true;
+        }
         else
             return false;
     }
@@ -230,8 +247,10 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         model.setId(-1);
         db.close();
         // check success
-        if (effectedRows != 0)
+        if (effectedRows != 0) {
+            context.sendBroadcast(new Intent(DONATION_TABLE_CHANGED));
             return true;
+        }
         else
             return false;
     }
@@ -266,8 +285,10 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         // check for success
         if (donation.getId() == -1)
             return false;
-        else
+        else {
+            context.sendBroadcast(new Intent(DONATION_TABLE_CHANGED));
             return true;
+        }
     }
 
     public PaidDonationDataModel getPaidDonationByCharityIndex(int id) {
@@ -276,7 +297,8 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
 
         PaidDonationDataModel donation = null;
         SQLiteDatabase db = this.getReadableDatabase();
-        String select = "SELECT * FROM " + DonationModelContract.PaidDonation.TABLE_NAME + " WHERE " + DonationModelContract.PaidDonation.COLUMN_NAME_CHARITY_INDEX+ " = " + id;
+        String select = "SELECT * FROM " + DonationModelContract.PaidDonation.TABLE_NAME + " WHERE "
+                                         + DonationModelContract.PaidDonation.COLUMN_NAME_CHARITY_INDEX+ " = " + id;
         Cursor c = db.rawQuery(select, null);
         if (c.moveToNext())
             donation = generatePaidDonationModel(c);
@@ -298,8 +320,10 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
 
         db.close();
         // check for success
-        if (changedRows != 0)
+        if (changedRows != 0) {
+            context.sendBroadcast(new Intent(DONATION_TABLE_CHANGED));
             return true;
+        }
         else
             return false;
     }
@@ -314,8 +338,10 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         model.setId(-1);
         db.close();
         // check success
-        if (effectedRows != 0)
+        if (effectedRows != 0) {
+            context.sendBroadcast(new Intent(DONATION_TABLE_CHANGED));
             return true;
+        }
         else
             return false;
     }
@@ -351,7 +377,7 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
                 ? Uri.parse(c.getString(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TONE)))
                 : null);
         model.setEnabled(c.getInt(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_ENABLED)) == 0 ? false : true);
-        model.setSnoozeAlarm(c.getInt(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_SNOOZE_ALARM)) == 0 ? false : true);
+        model.setSnoozeAlarm(c.getLong(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_SNOOZE_PARENT_ID)));
         model.setWeeklyRepeat(c.getInt(c.getColumnIndex(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_WEEKLY)) == 0 ? false : true);
         String[] repeatingDays = c.getString(c.getColumnIndex((AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_DAYS))).split(",");
         for (int i = 0; i < repeatingDays.length; ++i) {
@@ -370,7 +396,7 @@ public class AlarmDBAssistant extends SQLiteOpenHelper {
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TIME_MINUTE, model.getTimeMinute());
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_TONE, model.getAlarmTone().toString());
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_ENABLED, model.isEnabled() ? 1 : 0 );
-        values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_SNOOZE_ALARM, model.isSnoozeAlarm() ? 1 : 0 );
+        values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_SNOOZE_PARENT_ID, model.getParentAlarmID());
         values.put(AlarmModelContract.Alarm.COLUMN_NAME_ALARM_REPEAT_WEEKLY, model.isWeekly());
         String repeatingDays = "";
         for (int i = 0; i < 7; ++i) {

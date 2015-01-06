@@ -22,7 +22,7 @@ public class AlarmDataModel {
 
     private boolean repeatingDays[]; //bool array for selecting repeating days (repeatingDays[Mon] = true..)
     private boolean isWeekly;
-    private boolean snoozeAlarm; //TODO: add this fild to DB
+    private long parentAlarmID;
 
     private long id; //db id of the alarm
     private boolean isEnabled;
@@ -32,17 +32,7 @@ public class AlarmDataModel {
     private int timeHour;
     private int timeMinute;
 
-    private Uri alarmTone;  //TODO:
-                            // acquire using ring tone selector and handle its return in UI
-                            // new Intent(RingtoneManager.ACTION_RINGTONE_PICKER)
-                            // thn handle its return:
-                            // onActivityResult(int requestCode, int resultCode, Intent data)
-                            // {
-                            //    super.onActivityResult(requestCode, resultCode, data);
-                            //      ...
-                            //      ...
-                            //    data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-                            // }
+    private Uri alarmTone;
 
     public static AlarmDataModel createSnoozingAlarm(AlarmDataModel alarmToSnooze, int snoozeDuration_InMinutes,
                                                      Boolean snoozeFromNow) {
@@ -52,7 +42,7 @@ public class AlarmDataModel {
         snoozeAlarm.setMessage(alarmToSnooze.getMessage());
         snoozeAlarm.setAlarmTone(alarmToSnooze.getAlarmTone());
         snoozeAlarm.setEnabled(true);
-        snoozeAlarm.setSnoozeAlarm(true);
+        snoozeAlarm.setSnoozeAlarm(alarmToSnooze);
         if (!snoozeFromNow) { // if we are not snoozing from now on use time of the alarm supplied instead
             snoozeAlarm.setTimeHour(alarmToSnooze.getTimeHour());
             snoozeAlarm.setTimeMinute(alarmToSnooze.getTimeMinute());
@@ -84,7 +74,7 @@ public class AlarmDataModel {
         this.setId(-1);
         this.setMessage("");
         this.setWeeklyRepeat(false);
-        this.setSnoozeAlarm(false);
+        this.setSnoozeAlarm(-1);
     }
 
     public AlarmDataModel(String name, int timeHour, int timeMinute, Uri ringtone) {
@@ -170,11 +160,22 @@ public class AlarmDataModel {
     }
 
     public boolean isSnoozeAlarm() {
-        return snoozeAlarm;
+        return parentAlarmID == -1 ? false : true;
     }
 
-    public void setSnoozeAlarm(boolean snoozeAlarm) {
-        this.snoozeAlarm = snoozeAlarm;
+    public void setSnoozeAlarm(AlarmDataModel parentAlarm) {
+        if (parentAlarm.isSnoozeAlarm())
+            this.parentAlarmID = parentAlarm.getParentAlarmID();
+        else
+            this.parentAlarmID = parentAlarm.getId();
+    }
+
+    public void setSnoozeAlarm(long parentAlarmID) {
+        this.parentAlarmID = parentAlarmID;
+    }
+
+    public long getParentAlarmID() {
+        return parentAlarmID;
     }
 
     @Override
