@@ -10,11 +10,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -175,7 +177,7 @@ public class AlarmRingService extends Service {
         alarmMediaPlayer = new MediaPlayer();
         alarmMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
         alarmMediaPlayer.setLooping(true);
-        alarmMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK
+        alarmMediaPlayer.setWakeMode(this, PowerManager.PARTIAL_WAKE_LOCK
                                                             | PowerManager.ACQUIRE_CAUSES_WAKEUP);
 
         // update snooze duration
@@ -329,7 +331,7 @@ public class AlarmRingService extends Service {
         // if the alarm is not weekly then do disable it
         if (!ringingAlarm.isWeekly()) {
             ringingAlarm.setEnabled(false);
-            AlarmManagerHelper.modifyAlarm(getApplicationContext(), ringingAlarm);
+            AlarmManagerHelper.modifyAlarm(this, ringingAlarm);
         }
 
         // set time out for alarm
@@ -369,7 +371,15 @@ public class AlarmRingService extends Service {
             }});
 
         try {
-            alarmMediaPlayer.setDataSource(this, ringingAlarm.getAlarmTone());
+            final SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
+            String strRingtonePreference = preference.getString("ringtone_pref", "DEFAULT_SOUND");
+            Uri ringtoneUri = Settings.System.DEFAULT_ALARM_ALERT_URI;
+            if (!strRingtonePreference.equalsIgnoreCase("DEFAULT_SOUND"))
+            {
+                ringtoneUri = Uri.parse( strRingtonePreference);
+            }
+
+            alarmMediaPlayer.setDataSource(this, ringtoneUri);
         } catch (IOException e) {
             endService();
             Log.d(TAG, "MediaPlayer input issue!");

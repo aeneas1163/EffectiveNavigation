@@ -7,90 +7,114 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1.2" />
 
-    <LinearLayout android:orientation="vertical"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center_horizontal"
-        android:layout_weight="3"
-        android:background="@color/transparent_black">
+        android:layout_weight="3">
 
-    <TextView
-        android:id="@+id/alarm_screen_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Alarm!"
-        android:textSize="38dp"/>
-
-    <TextView
-        android:id="@+id/alarm_screen_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/alarm_screen_button"
-        android:layout_below="@+id/alarm_screen_title"
-        android:text="00 : 00"
-        android:textSize="52dp"/>
-
-    <TextView
-        android:id="@+id/alarm_screen_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/alarm_screen_time"
-        android:layout_centerHorizontal="true"
-        android:text="Alarm name"/>
-
-    <LinearLayout
-        android:layout_below="@+id/alarm_screen_name"
-        android:layout_marginTop="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:layout_marginBottom="10dp">
-
-        <Button
-            android:id="@+id/alarm_screen_snooze_button"
+        <View
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:layout_centerHorizontal="true"
-            android:textSize="24dp" />
+            android:layout_height="match_parent"
+            android:layout_weight="0.2" />
 
-        <Button
-            android:id="@+id/alarm_screen_dismiss_button"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:layout_centerHorizontal="true"
-            android:text="@string/dismiss"
-            android:textSize="24dp" />
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_weight="3"
+            android:background="@drawable/alarm_screen_background">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/alarm_screen_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="5dp"
+                android:text="Alarm!"
+                android:textColor="@color/android_blue"
+                android:textSize="38dp" />
 
-    <com.alphan.mcan.snoozecharity.views.SlideToDismissButton
-        android:id="@+id/dismiss_slide_button"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:clickable="false"
-        android:max="100"
-        android:progressDrawable="@android:color/transparent"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:thumb="@drawable/ic_cancel" >
-    </com.alphan.mcan.snoozecharity.views.SlideToDismissButton>
+            <TextView
+                android:id="@+id/alarm_screen_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignLeft="@+id/alarm_screen_button"
+                android:layout_below="@+id/alarm_screen_title"
+                android:textColor="@android:color/holo_red_dark"
+                android:text="00:00"
+                android:textSize="80dp" />
+
+
+            <LinearLayout
+                android:layout_below="@+id/alarm_screen_name"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <Button
+                    android:id="@+id/alarm_screen_snooze_button"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/alarm_screen_buttons_background"
+                    android:textSize="24dp" />
+
+                <Button
+                    android:id="@+id/alarm_screen_dismiss_button"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/dismiss"
+                    android:background="@drawable/alarm_screen_buttons_background"
+                    android:textSize="24dp" />
+
+            </LinearLayout>
+
+            <!--<com.alphan.mcan.snoozecharity.views.SlideToDismissButton-->
+                <!--android:id="@+id/dismiss_slide_button"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:clickable="false"-->
+                <!--android:max="100"-->
+                <!--android:layout_marginLeft="50dp"-->
+                <!--android:layout_marginRight="50dp"-->
+                <!--android:paddingTop="10dp"-->
+                <!--android:paddingBottom="10dp"-->
+                <!--android:progressDrawable="@drawable/progress_bar"-->
+                <!--android:thumb="@drawable/delete"></com.alphan.mcan.snoozecharity.views.SlideToDismissButton>-->
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2" />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1.2" />
 
 </LinearLayout>

@@ -14,7 +14,7 @@ import android.widget.SeekBar;
 public class SlideToDismissButton extends SeekBar {
 
 
-    private static int SLIDE_ACCEPT_PERCENTAGE_THRESHOLD = 90;
+    private static int SLIDE_ACCEPT_PERCENTAGE_THRESHOLD = 50;
     private Drawable thumb;
     private SlideToDismissButtonListener listener;
 

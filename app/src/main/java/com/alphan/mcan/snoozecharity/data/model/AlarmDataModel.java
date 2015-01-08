@@ -180,6 +180,6 @@ public class AlarmDataModel {
 
     @Override
     public String toString() {
-        return String.format("%02d : %02d", timeHour, timeMinute);
+        return String.format("%02d:%02d", timeHour, timeMinute);
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="transparent_black">#AA000000</color>
+    <color name="transparent_black">#CC000000</color>
 
     <color name="transparent">#00000000</color>
 
@@ -26,7 +26,7 @@
     </style>
 
     <style name="AlarmTheme"
-        parent="@android:style/Theme.Holo">
+        parent="@android:style/Theme.Holo.Wallpaper">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>

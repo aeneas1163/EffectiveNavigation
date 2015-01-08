@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -28,7 +29,6 @@ import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 import com.alphan.mcan.snoozecharity.services.AlarmRingService;
-import com.alphan.mcan.snoozecharity.views.SlideToDismissButton;
 
 public class AlarmScreen extends Activity {
 	
@@ -101,30 +101,30 @@ public class AlarmScreen extends Activity {
         this.setContentView(R.layout.activity_alarm_screen);
         TextView tvTitle = (TextView) findViewById(R.id.alarm_screen_title);
         tvTitle.setText(currentAlarm.getName());
-        TextView tvName = (TextView) findViewById(R.id.alarm_screen_name);
-		tvName.setText("Alarm DB ID: " + alarmID);
 		TextView tvTime = (TextView) findViewById(R.id.alarm_screen_time);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/clock.ttf");
+        tvTime.setTypeface(face);
 		tvTime.setText(currentAlarm.toString());
 
         // dismiss button
 		Button dismissButton = (Button) findViewById(R.id.alarm_screen_dismiss_button);
-		dismissButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-                AlarmRingService.startDismissAlarmIntent(view.getContext(), currentAlarm.getId());
-                finish();
-			}
-		});
-
-        // dismiss slider
-        SlideToDismissButton slideDismissButton = (SlideToDismissButton) findViewById(R.id.dismiss_slide_button);
-        slideDismissButton.setSlideButtonListener(new SlideToDismissButton.SlideToDismissButtonListener() {
+        dismissButton.setOnClickListener(new OnClickListener() {
             @Override
-            public void handleSlide(View view) {
+            public void onClick(View view) {
                 AlarmRingService.startDismissAlarmIntent(view.getContext(), currentAlarm.getId());
                 finish();
             }
         });
+
+//        // dismiss slider
+//        SlideToDismissButton slideDismissButton = (SlideToDismissButton) findViewById(R.id.dismiss_slide_button);
+//        slideDismissButton.setSlideButtonListener(new SlideToDismissButton.SlideToDismissButtonListener() {
+//            @Override
+//            public void handleSlide(View view) {
+//                AlarmRingService.startDismissAlarmIntent(view.getContext(), currentAlarm.getId());
+//                finish();
+//            }
+//        });
 
         // snooze button
         Button snoozeButton = (Button) findViewById(R.id.alarm_screen_snooze_button);
@@ -170,7 +170,7 @@ public class AlarmScreen extends Activity {
                             | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// Acquire wakelock
-		PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
+		PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
 		if (mWakeLock == null) {
 			mWakeLock = pm.newWakeLock((PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE), TAG);
 		}
