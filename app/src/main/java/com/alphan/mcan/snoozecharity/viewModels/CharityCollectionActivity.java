@@ -45,8 +45,6 @@ import android.widget.TextView;
 import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.views.ColorPreference;
 
-import java.util.Arrays;
-
 public class CharityCollectionActivity extends FragmentActivity {
 
     /**
@@ -86,18 +84,7 @@ public class CharityCollectionActivity extends FragmentActivity {
 
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
         int color = preference.getInt("dash_colorkey", Color.parseColor("#FF024854"));
-        if (color == -1)
-            color = Color.parseColor("#FF024854");
-
-        String color_string = String.format("#%08X", (0xFFFFFFFF & color));
-        Resources res = getResources();
-
-        String[] colors = res.getStringArray(R.array.default_color_choice_values);
-        String[] lighterColors = res.getStringArray(R.array.default_color_choice_lighter_values);
-
-
-        int index = Arrays.asList(colors).indexOf(color_string);
-        int lightColor = Color.parseColor(lighterColors[index]);
+        int lightColor = ColorPreference.getLightColor(color, this);
 
         pagerTabStrip.setBackgroundColor(lightColor);
 

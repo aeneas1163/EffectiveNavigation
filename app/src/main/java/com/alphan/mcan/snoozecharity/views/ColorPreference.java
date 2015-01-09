@@ -7,7 +7,6 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ import android.widget.TextView;
 import com.alphan.mcan.snoozecharity.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -64,10 +62,10 @@ public class ColorPreference extends Preference {
             int choicesResId = a.getResourceId(R.styleable.ColorPreference_choices,
                     R.array.default_color_choice_values);
             if (choicesResId > 0) {
-                String[] choices = a.getResources().getStringArray(choicesResId);
-                mColorChoices = new int[choices.length];
-                for (int i = 0; i < choices.length; i++) {
-                    mColorChoices[i] = Color.parseColor(choices[i]);
+                int[] colors = a.getResources().getIntArray(choicesResId);
+                mColorChoices = new int[colors.length];
+                for (int i = 0; i < colors.length; i++) {
+                    mColorChoices[i] = colors[i];
                 }
             }
 
@@ -276,17 +274,21 @@ public class ColorPreference extends Preference {
 
     public static int getLightColor(int color, Context context)
     {
-        if (color == -1)
-            color = Color.parseColor("#FF024854");
-        String color_string = String.format("#%08X", (0xFFFFFFFF & color));
-
         Resources res = context.getResources();
+        int[] colors = res.getIntArray(R.array.default_color_choice_values);
 
-        String[] colors = res.getStringArray(R.array.default_color_choice_values);
-        String[] lighterColors = res.getStringArray(R.array.default_color_choice_lighter_values);
+        if (color == -1)
+            color = colors[0];
 
+        int[] lighterColors = res.getIntArray(R.array.default_color_choice_lighter_values);
 
-        int index = Arrays.asList(colors).indexOf(color_string);
-        return Color.parseColor(lighterColors[index]);
+        int index = 0;
+
+        for (; index < colors.length; index++)
+        {
+            if (colors[index] == color)
+                break;
+        }
+        return lighterColors[index];
     }
 }

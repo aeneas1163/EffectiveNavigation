@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -29,7 +30,6 @@ import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 import com.alphan.mcan.snoozecharity.services.AlarmRingService;
-import com.alphan.mcan.snoozecharity.views.SlideToDismissButton;
 
 public class AlarmScreen extends Activity {
 	
@@ -109,6 +109,7 @@ public class AlarmScreen extends Activity {
 
         // dismiss button
 		Button dismissButton = (Button) findViewById(R.id.alarm_screen_dismiss_button);
+        setButtonTheme(dismissButton, this);
         dismissButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,15 +118,15 @@ public class AlarmScreen extends Activity {
             }
         });
 
-        // dismiss slider
-        SlideToDismissButton slideDismissButton = (SlideToDismissButton) findViewById(R.id.dismiss_slide_button);
-        slideDismissButton.setSlideButtonListener(new SlideToDismissButton.SlideToDismissButtonListener() {
-            @Override
-            public void handleSlide(View view) {
-                AlarmRingService.startDismissAlarmIntent(view.getContext(), currentAlarm.getId());
-                finish();
-            }
-        });
+//        // dismiss slider
+//        SlideToDismissButton slideDismissButton = (SlideToDismissButton) findViewById(R.id.dismiss_slide_button);
+//        slideDismissButton.setSlideButtonListener(new SlideToDismissButton.SlideToDismissButtonListener() {
+//            @Override
+//            public void handleSlide(View view) {
+//                AlarmRingService.startDismissAlarmIntent(view.getContext(), currentAlarm.getId());
+//                finish();
+//            }
+//        });
 
         // snooze button
         Button snoozeButton = (Button) findViewById(R.id.alarm_screen_snooze_button);
@@ -146,6 +147,7 @@ public class AlarmScreen extends Activity {
         //Small font from `\n` to the end
         span.setSpan(new RelativeSizeSpan(0.5f), n, (n+m+1), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         snoozeButton.setText(span);
+        setButtonTheme(snoozeButton, this);
         snoozeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -214,5 +216,44 @@ public class AlarmScreen extends Activity {
             return true;
         } else
             return super.onKeyDown(keyCode, event);
+    }
+
+    public static void setButtonTheme(Button button, Context context) {
+        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(context);
+        int color = preference.getInt("dash_colorkey", Color.parseColor("#FF024854"));
+
+        Resources res = context.getResources();
+
+        int turquiose = res.getColor(R.color.turquiose);
+        int navy = res.getColor(R.color.navy);
+        int purple = res.getColor(R.color.purple);
+        int green = res.getColor(R.color.green);
+        int orange = res.getColor(R.color.orange);
+        int red = res.getColor(R.color.red);
+        int brown = res.getColor(R.color.brown);
+        int grey = res.getColor(R.color.grey);
+        int black = res.getColor(R.color.black);
+
+
+        if (color == turquiose) {
+            button.setBackgroundResource(R.drawable.alarm_screen_buttons_tuquiose);
+        } else if (color == navy) {
+            button.setBackgroundResource(R.drawable.alarm_screen_buttons_navy);
+        } else if (color == purple) {
+            button.setBackgroundResource(R.drawable.alarm_screen_buttons_purple);
+        } else if (color == green) {
+            button.setBackgroundResource(R.drawable.alarm_screen_buttons_green);
+        } else if (color == orange) {
+            button.setBackgroundResource(R.drawable.alarm_screen_buttons_orange);
+        } else if (color == red) {
+            button.setBackgroundResource(R.drawable.alarm_screen_buttons_red);
+        } else if (color == brown) {
+            button.setBackgroundResource(R.drawable.alarm_screen_buttons_brown);
+        } else if (color == grey) {
+            button.setBackgroundResource(R.drawable.alarm_screen_buttons_grey);
+        } else if (color == black) {
+            button.setBackgroundResource(R.drawable.alarm_screen_buttons_black);
+        }
+
     }
 }

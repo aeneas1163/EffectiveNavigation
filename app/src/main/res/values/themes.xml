@@ -10,6 +10,25 @@
     <color name="android_yellow">#FFBB33</color>
 
     <color name="turquiose">#FF024854</color>
+    <color name="navy">#FF071E3D</color>
+    <color name="purple">#FF2F0130</color>
+    <color name="green">#FF1E311D</color>
+    <color name="orange">#FFF03C02</color>
+    <color name="red">#FF600000</color>
+    <color name="brown">#FF5E3929</color>
+    <color name="grey">#FF1E1E1E</color>
+    <color name="black">#FF000000</color>
+
+    <color name="light_turquiose">#FF0293A6</color>
+    <color name="light_navy">#FF76ACAE</color>
+    <color name="light_purple">#FF6A00C4</color>
+    <color name="light_green">#FF399C66</color>
+    <color name="light_orange">#FFFF8800</color>
+    <color name="light_red">#FFFC2F68</color>
+    <color name="light_brown">#FFCD8C52</color>
+    <color name="light_grey">#FF818181</color>
+    <color name="light_black">#FF1E1E1E</color>
+
     <!-- the theme applied to the application or activity -->
     <style name="MainTheme"
         parent="@android:style/Theme.Holo.Wallpaper">
@@ -69,27 +88,27 @@
     </declare-styleable>
 
     <string-array name="default_color_choice_values" translatable="false">
-        <item>#FF024854</item>
-        <item>#FF071E3D</item>
-        <item>#FF2F0130</item>
-        <item>#FF1E311D</item>
-        <item>#FFF03C02</item>
-        <item>#FF600000</item>
-        <item>#FF5E3929</item>
-        <item>#FF1E1E1E</item>
-        <item>#FF000000</item>
+        <item>@color/turquiose</item>
+        <item>@color/navy</item>
+        <item>@color/purple</item>
+        <item>@color/green</item>
+        <item>@color/orange</item>
+        <item>@color/red</item>
+        <item>@color/brown</item>
+        <item>@color/grey</item>
+        <item>@color/black</item>
     </string-array>
 
     <string-array name="default_color_choice_lighter_values" translatable="false">
-        <item>#FF0293A6</item>
-        <item>#FF76ACAE</item>
-        <item>#FF6A00C4</item>
-        <item>#FF399C66</item>
-        <item>#FFFF8800</item>
-        <item>#FFFC2F68</item>
-        <item>#FFCD8C52</item>
-        <item>#FF818181</item>
-        <item>#FF000000</item>
+        <item>@color/light_turquiose</item>
+        <item>@color/light_navy</item>
+        <item>@color/light_purple</item>
+        <item>@color/light_green</item>
+        <item>@color/light_orange</item>
+        <item>@color/light_red</item>
+        <item>@color/light_brown</item>
+        <item>@color/light_grey</item>
+        <item>@color/light_black</item>
     </string-array>
 
 </resources>
