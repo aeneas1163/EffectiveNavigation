@@ -1,13 +1,18 @@
 package com.alphan.mcan.snoozecharity.viewModels.mainActiviy;
 
 import android.app.ActionBar;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.alphan.mcan.snoozecharity.R;
+import com.alphan.mcan.snoozecharity.viewModels.MainActivity;
 
 /**
  * Preferences fragment that uses PreferenceScreen.xml in res/values in order to allow user to edit
@@ -16,6 +21,8 @@ import com.alphan.mcan.snoozecharity.R;
  * Created by Alphan on 18-Nov-14.
  */
 public class PrefsFragment extends PreferenceFragment {
+
+    private int color;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,10 @@ public class PrefsFragment extends PreferenceFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         view.setBackgroundColor(getResources().getColor(android.R.color.black));
+
+        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        color = preference.getInt("dash_colorkey", Color.parseColor("#FF024854"));
+
         final ActionBar  actionBar = getActivity().getActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -41,6 +52,14 @@ public class PrefsFragment extends PreferenceFragment {
         final ActionBar  actionBar = getActivity().getActionBar();
         actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(false);
+        Intent myIntent = new Intent(getActivity(), MainActivity.class);
+        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        int new_color = preference.getInt("dash_colorkey", Color.parseColor("#FF024854"));
+        if (color != new_color)
+        {
+            myIntent.putExtra(MainActivity.FROM_SETTING_BOOLEAN, true); //Optional parameters
+            getActivity().startActivity(myIntent);
+        }
     }
 
 

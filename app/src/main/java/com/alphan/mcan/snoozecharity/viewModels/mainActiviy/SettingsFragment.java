@@ -4,9 +4,13 @@ import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +24,7 @@ import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 import com.alphan.mcan.snoozecharity.viewModels.AppPreferencesActivity;
 import com.alphan.mcan.snoozecharity.viewModels.CharityCollectionActivity;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,6 +40,33 @@ public class SettingsFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_section_settings, container, false);
+
+        View background = rootView.findViewById(R.id.settings_frag);
+
+        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        int color = preference.getInt("dash_colorkey", Color.parseColor("#FF024854"));
+        if (color == -1)
+            color = Color.parseColor("#FF024854");
+        String color_string = String.format("#%08X", (0xFFFFFFFF & color));
+
+        Resources res = getActivity().getResources();
+
+        String[] colors = res.getStringArray(R.array.default_color_choice_values);
+        String[] lighterColors = res.getStringArray(R.array.default_color_choice_lighter_values);
+
+
+        int index = Arrays.asList(colors).indexOf(color_string);
+        int lightColor = Color.parseColor(lighterColors[index]);
+
+        GradientDrawable gd = new GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[] {color,lightColor});
+        gd.setCornerRadius(0f);
+
+        background.setBackgroundDrawable(gd);
+
+
+
 
         List<PaidDonationDataModel> donations =  AlarmManagerHelper.getTotalDonations(getActivity());
 

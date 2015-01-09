@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.alphan.mcan.snoozecharity">
 
     <PreferenceCategory
         android:title="@string/alarm_clock_preferences">
@@ -67,6 +68,21 @@
 
 
 
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_color" >
+
+    <com.alphan.mcan.snoozecharity.views.ColorPreference
+        android:key="dash_colorkey"
+        android:title="@string/pref_color_title"
+        android:summary="@string/pref_color_summary"
+        android:defaultValue="@color/turquiose"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        app:numColumns="3"
+        app:itemLayout="@layout/dash_grid_item_color"
+        />
 
     </PreferenceCategory>
 
