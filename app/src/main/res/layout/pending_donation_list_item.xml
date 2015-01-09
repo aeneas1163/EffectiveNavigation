@@ -17,6 +17,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:text="@string/pay_now"
+            android:background="@drawable/general_button_shape"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <TextView
