@@ -480,7 +480,7 @@ public class AlarmRingService extends Service {
     private void updateSnoozeNotification(AlarmDataModel snoozeAlarm){
         // initial notification
         NotificationCompat.Builder builder  = new NotificationCompat.Builder(this)
-                .setContentTitle(getString(R.string.app_name))
+                .setContentTitle(snoozeAlarm.getName())
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setGroup(NotificationCompat.CATEGORY_ALARM)
@@ -515,7 +515,7 @@ public class AlarmRingService extends Service {
                 .setContentIntent(null); //TODO: this should open alarmActivity;
 
         // message
-        String snoozeMessage = "Missed an alarm at: " + missedAlarm.toString();
+        String snoozeMessage = getString(R.string.missed_alarm) + " " + missedAlarm.toString();
         builder.setContentText(snoozeMessage);
 
         // push updated

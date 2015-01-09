@@ -44,9 +44,9 @@
     </string-array>
 
     <string-array name="charity_sms_text">
-        <item></item>
-        <item></item>
-        <item></item>
+        <item>BAGIS</item>
+        <item>BAGIS</item>
+        <item>BAGIS</item>
         <item>EGITIM</item>
     </string-array>
 

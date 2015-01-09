@@ -40,7 +40,7 @@
     <string name="wednesday_short">ÇAR</string>
     <string name="donation_history_title">Bağış Geçmişiniz</string>
     <string name="select_charity_button_text">%1$s Seçin</string>
-    <string name="snooze_button_text">[%2$s %1$s %3$s verin]</string>
+    <string name="snooze_button_text">%2$s %1$s %3$s ☺</string>
     <string name="donate_dialog_text">Şimdi %2$s %1$s %3$s bağışlamak istiyor musunuz?</string>
     <string name="no">Hayır</string>
     <string name="yes">Evet</string>
@@ -62,9 +62,10 @@
     <string name="could_not_open_market">Google Play marketi açamadık, lütfen Google Play uygulamasını indirin.</string>
     <string name="donate_dialog_text_web"><b>Şimdi %2$s %1$s %3$s bağışlamak istiyor musunuz?</b> \n\n[<i>Web sayfası açıldığında, bilgilerinizi girip bağış yapın!</i>]</string>
     <string name="cancel_snooze">Ertelemeyi İptal Et</string>
-    <string name="snoozed_alarm_until">Alarm ertelendi:</string>
+    <string name="snoozed_alarm_until">Şu saate ertelendi:</string>
     <string name="pref_color">Renk Seçenekleri</string>
     <string name="pref_color_title">Arka Plan Rengi</string>
     <string name="pref_color_summary">Renginizi seçin</string>
     <string name="selected_charity_button_text">%1$s Seçili</string>
+    <string name="missed_alarm">Şu alarmı kaçırdınız: </string>
 </resources>
