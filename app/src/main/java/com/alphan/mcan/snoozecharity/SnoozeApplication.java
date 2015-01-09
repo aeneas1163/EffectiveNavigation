@@ -1,9 +1,11 @@
 package com.alphan.mcan.snoozecharity;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
 
 import java.util.Locale;
 
@@ -36,8 +38,17 @@ public class SnoozeApplication extends Application {
 
         Configuration config = getBaseContext().getResources().getConfiguration();
 
-//        String lang = settings.getString(getString(R.string.pref_locale), "");
-        String lang = "tr";
+        TelephonyManager tel = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String networkOperator = tel.getNetworkOperator();
+
+        int mcc = 0;
+
+        if (!networkOperator.isEmpty()) {
+            mcc = Integer.parseInt(networkOperator.substring(0, 3));
+        }
+
+        String lang = (mcc == 286)? "tr":"tr"; //TODO change second one to "de" when about to release
+
         if (! "".equals(lang) && ! config.locale.getLanguage().equals(lang))
         {
             locale = new Locale(lang);

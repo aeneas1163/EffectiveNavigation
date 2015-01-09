@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -30,6 +32,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -40,6 +43,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alphan.mcan.snoozecharity.R;
+import com.alphan.mcan.snoozecharity.views.ColorPreference;
+
+import java.util.Arrays;
 
 public class CharityCollectionActivity extends FragmentActivity {
 
@@ -68,11 +74,33 @@ public class CharityCollectionActivity extends FragmentActivity {
         // getSupportFragmentManager.
         mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager(), this);
 
+        PagerTabStrip pagerTabStrip = (PagerTabStrip) findViewById(R.id.pager_title_strip);
+
         // Set up action bar.
         final ActionBar actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
+        int color = preference.getInt("dash_colorkey", Color.parseColor("#FF024854"));
+        if (color == -1)
+            color = Color.parseColor("#FF024854");
+
+        String color_string = String.format("#%08X", (0xFFFFFFFF & color));
+        Resources res = getResources();
+
+        String[] colors = res.getStringArray(R.array.default_color_choice_values);
+        String[] lighterColors = res.getStringArray(R.array.default_color_choice_lighter_values);
+
+
+        int index = Arrays.asList(colors).indexOf(color_string);
+        int lightColor = Color.parseColor(lighterColors[index]);
+
+        pagerTabStrip.setBackgroundColor(lightColor);
+
 
         // Specify that the Home button should show an "Up" caret, indicating that touching the
         // button will take the user one step up in the application's hierarchy.
@@ -81,6 +109,7 @@ public class CharityCollectionActivity extends FragmentActivity {
         // Set up the ViewPager, attaching the adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mDemoCollectionPagerAdapter);
+        mViewPager.setCurrentItem(preference.getInt(DemoObjectFragment.ARG_INDEX, 0));
     }
 
     @Override
@@ -160,16 +189,30 @@ public class CharityCollectionActivity extends FragmentActivity {
             View rootView = inflater.inflate(R.layout.fragment_charity_object, container, false);
             Bundle args = getArguments();
             Resources res = getActivity().getResources();
+            SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            int charity_selected = preference.getInt(DemoObjectFragment.ARG_INDEX, 0);
             String[] charityDesc = res.getStringArray(R.array.charity_description_array);
+            String[] charityName = res.getStringArray(R.array.charity_array);
             String[] charitiesSelectionText = res.getStringArray(R.array.charity_selection_text);
 
             final int index = args.getInt(ARG_INDEX);
 
-            ((TextView) rootView.findViewById(R.id.donation_description)).setText(
-                    charityDesc[index]);
+            TextView  descText = (TextView) rootView.findViewById(R.id.donation_description);
+            descText.setText(charityDesc[index]);
+
+            int color = preference.getInt("dash_colorkey", Color.parseColor("#FF024854"));
+            int lightColor = ColorPreference.getLightColor(color, getActivity());
+            descText.setTextColor(lightColor);
+
             Button selectButton = ((Button) rootView.findViewById(R.id.select_charity));
 
-            selectButton.setText(res.getString(R.string.select_charity_button_text, charitiesSelectionText[index]));
+            if (charity_selected == index)
+            {
+                selectButton.setText(res.getString(R.string.selected_charity_button_text, charityName[index]));
+                selectButton.setEnabled(false);
+            }
+            else
+                selectButton.setText(res.getString(R.string.select_charity_button_text, charitiesSelectionText[index]));
 
             TypedArray imgs = getResources().obtainTypedArray(R.array.charity_image_array);
 

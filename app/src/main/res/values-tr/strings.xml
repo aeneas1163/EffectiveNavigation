@@ -11,7 +11,7 @@
     <string name="demo_external_activity">Ayarlar</string>
     <string name="dismiss">İptal</string>
     <string name="donation_history">Bağış Geçmişi</string>
-    <string name="donation_preference">Erteleme başına bagış miktarı</string>
+    <string name="donation_preference">Erteleme başına bağış miktarı</string>
     <string name="donation_preference_title">Erteleme başına bağış miktarını seçin</string>
     <string name="donation_preferences">Bağış Seçenekleri</string>
     <string name="friday_short">CUM</string>
@@ -63,4 +63,8 @@
     <string name="donate_dialog_text_web"><b>Şimdi %2$s %1$s %3$s bağışlamak istiyor musunuz?</b> \n\n[<i>Web sayfası açıldığında, bilgilerinizi girip bağış yapın!</i>]</string>
     <string name="cancel_snooze">Ertelemeyi İptal Et</string>
     <string name="snoozed_alarm_until">Alarm ertelendi:</string>
+    <string name="pref_color">Renk Seçenekleri</string>
+    <string name="pref_color_title">Arka Plan Rengi</string>
+    <string name="pref_color_summary">Renginizi seçin</string>
+    <string name="selected_charity_button_text">%1$s Seçili</string>
 </resources>

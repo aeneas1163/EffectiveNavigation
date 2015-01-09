@@ -8,6 +8,8 @@
     <color name="android_blue">#33B5E5</color>
 
     <color name="android_yellow">#FFBB33</color>
+
+    <color name="turquiose">#FF024854</color>
     <!-- the theme applied to the application or activity -->
     <style name="MainTheme"
         parent="@android:style/Theme.Holo.Wallpaper">
@@ -59,5 +61,35 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <declare-styleable name="ColorPreference">
+        <attr name="itemLayout" format="reference" />
+        <attr name="choices" format="reference" />
+        <attr name="numColumns" format="integer" />
+    </declare-styleable>
+
+    <string-array name="default_color_choice_values" translatable="false">
+        <item>#FF024854</item>
+        <item>#FF071E3D</item>
+        <item>#FF2F0130</item>
+        <item>#FF1E311D</item>
+        <item>#FFF03C02</item>
+        <item>#FF600000</item>
+        <item>#FF5E3929</item>
+        <item>#FF1E1E1E</item>
+        <item>#FF000000</item>
+    </string-array>
+
+    <string-array name="default_color_choice_lighter_values" translatable="false">
+        <item>#FF0293A6</item>
+        <item>#FF76ACAE</item>
+        <item>#FF6A00C4</item>
+        <item>#FF399C66</item>
+        <item>#FFFF8800</item>
+        <item>#FFFC2F68</item>
+        <item>#FFCD8C52</item>
+        <item>#FF818181</item>
+        <item>#FF000000</item>
+    </string-array>
 
 </resources>

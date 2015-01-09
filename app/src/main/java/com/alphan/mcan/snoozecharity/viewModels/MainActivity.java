@@ -17,6 +17,7 @@
 package com.alphan.mcan.snoozecharity.viewModels;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -28,6 +29,8 @@ import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 import com.alphan.mcan.snoozecharity.viewModels.mainActiviy.AppSectionsPagerAdapter;
 
 public class MainActivity extends FragmentActivity{
+
+    public static final String FROM_SETTING_BOOLEAN = "fromsettings";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -49,11 +52,13 @@ public class MainActivity extends FragmentActivity{
     public void onCreate(Bundle savedInstanceState)     {
         super.onCreate(savedInstanceState);
 
+        Intent intent = getIntent();
+        Boolean value = intent.getBooleanExtra(FROM_SETTING_BOOLEAN, false);
+
         initAppPreferences();
         initViewPager();
         initActionBar();
-
-        mViewPager.setCurrentItem(1);
+        mViewPager.setCurrentItem(value? 2:1);
     }
 
     private void initAppPreferences() {
