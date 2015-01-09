@@ -77,7 +77,7 @@ public class SlideToDismissButton extends SeekBar {
                     ratio = 1;
 
                 Log.d(TAG, "setting progress to: " + (int)(100/ratio));
-                setProgress((int)(100/ratio));
+                setProgress((int)(100*ratio));
 
                 if (getProgress() > SLIDE_ACCEPT_PERCENTAGE_THRESHOLD)
                     handleSlide(this);
