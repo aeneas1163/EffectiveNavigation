@@ -70,24 +70,24 @@
 
     <string-array name="default_color_choice_values" translatable="false">
         <item>#FF024854</item>
-        <item>#FF006B8E</item>
-        <item>#FF08295E</item>
-        <item>#FF472F5F</item>
+        <item>#FF071E3D</item>
+        <item>#FF2F0130</item>
         <item>#FF1E311D</item>
         <item>#FFF03C02</item>
         <item>#FF600000</item>
+        <item>#FF515779</item>
         <item>#FF1E1E1E</item>
         <item>#FF000000</item>
     </string-array>
 
     <string-array name="default_color_choice_lighter_values" translatable="false">
         <item>#FF0293A6</item>
-        <item>#FF33B5E5</item>
-        <item>#FF4C4C79</item>
-        <item>#FFAA66CC</item>
-        <item>#FF2DBB28</item>
+        <item>#FF76ACAE</item>
+        <item>#FF6A00C4</item>
+        <item>#FF399C66</item>
         <item>#FFFF8800</item>
         <item>#FFFC2F68</item>
+        <item>#FF7FCD9B</item>
         <item>#FF818181</item>
         <item>#FF000000</item>
     </string-array>

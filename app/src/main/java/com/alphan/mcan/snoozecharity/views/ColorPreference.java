@@ -262,13 +262,7 @@ public class ColorPreference extends Preference {
                 colorChoiceDrawable.setShape(GradientDrawable.OVAL);
             }
 
-            String color_string = String.format("#%08X", (0xFFFFFFFF & color));
-
-            String[] colors = res.getStringArray(R.array.default_color_choice_values);
-            String[] lighterColors = res.getStringArray(R.array.default_color_choice_lighter_values);
-
-            int index = Arrays.asList(colors).indexOf(color_string);
-            int lightColor = Color.parseColor(lighterColors[index]);
+            int lightColor = getLightColor(color, imageView.getContext());
 
             colorChoiceDrawable.setColor(lightColor);
             colorChoiceDrawable.setStroke((int) TypedValue.applyDimension(
@@ -278,5 +272,21 @@ public class ColorPreference extends Preference {
         } else if (view instanceof TextView) {
             ((TextView) view).setTextColor(color);
         }
+    }
+
+    public static int getLightColor(int color, Context context)
+    {
+        if (color == -1)
+            color = Color.parseColor("#FF024854");
+        String color_string = String.format("#%08X", (0xFFFFFFFF & color));
+
+        Resources res = context.getResources();
+
+        String[] colors = res.getStringArray(R.array.default_color_choice_values);
+        String[] lighterColors = res.getStringArray(R.array.default_color_choice_lighter_values);
+
+
+        int index = Arrays.asList(colors).indexOf(color_string);
+        return Color.parseColor(lighterColors[index]);
     }
 }

@@ -66,4 +66,5 @@
     <string name="pref_color">Renk Seçenekleri</string>
     <string name="pref_color_title">Arka Plan Rengi</string>
     <string name="pref_color_summary">Renginizi seçin</string>
+    <string name="selected_charity_button_text">%1$s Seçili</string>
 </resources>

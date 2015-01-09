@@ -1,7 +1,6 @@
 package com.alphan.mcan.snoozecharity.viewModels.mainActiviy;
 
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -15,8 +14,8 @@ import android.widget.ListView;
 import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.PendingDonationDataModel;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
+import com.alphan.mcan.snoozecharity.views.ColorPreference;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -41,18 +40,8 @@ public class ClockFragment extends Fragment {
 
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
         int color = preference.getInt("dash_colorkey", Color.parseColor("#FF024854"));
-        if (color == -1)
-            color = Color.parseColor("#FF024854");
-        String color_string = String.format("#%08X", (0xFFFFFFFF & color));
 
-        Resources res = getActivity().getResources();
-
-        String[] colors = res.getStringArray(R.array.default_color_choice_values);
-        String[] lighterColors = res.getStringArray(R.array.default_color_choice_lighter_values);
-
-
-        int index = Arrays.asList(colors).indexOf(color_string);
-        int lightColor = Color.parseColor(lighterColors[index]);
+        int lightColor = ColorPreference.getLightColor(color, getActivity());
 
         GradientDrawable gd = new GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM,

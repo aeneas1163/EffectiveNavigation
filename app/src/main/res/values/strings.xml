@@ -116,5 +116,6 @@
     <string name="pref_color">Color Preferences</string>
     <string name="pref_color_title">Background Color</string>
     <string name="pref_color_summary">Choose your color</string>
+    <string name="selected_charity_button_text">%1$s is Selected</string>
 
 </resources>
