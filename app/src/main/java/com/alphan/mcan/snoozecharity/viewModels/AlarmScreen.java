@@ -29,6 +29,7 @@ import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 import com.alphan.mcan.snoozecharity.services.AlarmRingService;
+import com.alphan.mcan.snoozecharity.views.SlideToDismissButton;
 
 public class AlarmScreen extends Activity {
 	
@@ -116,15 +117,15 @@ public class AlarmScreen extends Activity {
             }
         });
 
-//        // dismiss slider
-//        SlideToDismissButton slideDismissButton = (SlideToDismissButton) findViewById(R.id.dismiss_slide_button);
-//        slideDismissButton.setSlideButtonListener(new SlideToDismissButton.SlideToDismissButtonListener() {
-//            @Override
-//            public void handleSlide(View view) {
-//                AlarmRingService.startDismissAlarmIntent(view.getContext(), currentAlarm.getId());
-//                finish();
-//            }
-//        });
+        // dismiss slider
+        SlideToDismissButton slideDismissButton = (SlideToDismissButton) findViewById(R.id.dismiss_slide_button);
+        slideDismissButton.setSlideButtonListener(new SlideToDismissButton.SlideToDismissButtonListener() {
+            @Override
+            public void handleSlide(View view) {
+                AlarmRingService.startDismissAlarmIntent(view.getContext(), currentAlarm.getId());
+                finish();
+            }
+        });
 
         // snooze button
         Button snoozeButton = (Button) findViewById(R.id.alarm_screen_snooze_button);
