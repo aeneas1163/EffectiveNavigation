@@ -345,6 +345,7 @@ public class AlarmRingService extends Service {
         Log.i(TAG, "Notification created, and service moved to foreground with ID: " + alarmNotificationID);
 
         // async prepare media player and trigger everything else when its ready
+        alarmMediaPlayer.reset();
         alarmMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mP) {
