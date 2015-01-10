@@ -155,7 +155,7 @@ public class AlarmRingService extends Service {
         return pIntent;
     }
 
-    private static int getNotificationID(AlarmDataModel alarm) {
+    public static int getNotificationID(AlarmDataModel alarm) {
         return alarm.isSnoozeAlarm() ? (int)alarm.getParentAlarmID() : (int)alarm.getId();
     }
 
@@ -489,8 +489,7 @@ public class AlarmRingService extends Service {
                 .setContentIntent(null); //TODO: this should open alarmActivity;
 
         // dismiss action
-        //TODO: create a pending intent which cancels: snoozeAlarm
-        PendingIntent dismissPendingIntent = null;
+        PendingIntent dismissPendingIntent = AlarmBroadcastReceiver.getDeleteAlarmPendingIntent(this, snoozeAlarm.getId());
         builder.addAction(R.drawable.ic_cancel, getString(R.string.cancel_snooze), dismissPendingIntent) ; // #1
 
         // message
