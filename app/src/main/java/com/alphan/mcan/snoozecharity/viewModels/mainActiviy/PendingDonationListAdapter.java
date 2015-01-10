@@ -69,7 +69,7 @@ public class PendingDonationListAdapter extends ArrayAdapter<PendingDonationData
         charityName.setText(charities[model.getCharityIndex()]);
 
         TextView txtName = (TextView) view.findViewById(R.id.donation_amount);
-        txtName.setText(String.format("%.2f", model.getPendingAmount()) + res.getString(R.string.money_sign));
+        txtName.setText(String.format("%.2f", model.getPendingAmount()) + " " + res.getString(R.string.money_sign));
 
 //        TextView donationName = (TextView) view.findViewById(R.id.donation_db_id);
 //        donationName.setText("Donation DB ID: " + model.getId());

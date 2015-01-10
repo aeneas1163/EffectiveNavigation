@@ -118,5 +118,7 @@
     <string name="pref_color_summary">Choose your color</string>
     <string name="selected_charity_button_text">%1$s is Selected</string>
     <string name="missed_alarm">Missed an alarm at:</string>
+    <string name="charity_needs_payment">You have a pending donation of %1$s%3$s to %2$s!</string>
+    <string name="and">and</string>
 
 </resources>

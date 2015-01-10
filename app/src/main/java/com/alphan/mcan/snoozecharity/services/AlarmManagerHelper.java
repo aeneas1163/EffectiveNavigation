@@ -145,7 +145,7 @@ public class AlarmManagerHelper extends BroadcastReceiver {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY * 2, pIntent);
+                AlarmManager.INTERVAL_DAY * 3, pIntent);
     }
 
     // cancel the donation reminder

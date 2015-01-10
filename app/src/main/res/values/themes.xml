@@ -21,17 +21,17 @@
     <color name="red">#FF600000</color>
     <color name="brown">#FF5E3929</color>
     <color name="grey">#FF1E1E1E</color>
-    <color name="black">#FF000000</color>
+    <color name="black">#FF1A1A1A</color>
 
     <color name="light_turquiose">#FF0293A6</color>
-    <color name="light_navy">#FF76ACAE</color>
-    <color name="light_purple">#FF6A00C4</color>
+    <color name="light_navy">#FF33B5E5</color>
+    <color name="light_purple">#FFFF00FF</color>
     <color name="light_green">#FF399C66</color>
     <color name="light_orange">#FFFF8800</color>
     <color name="light_red">#FFFC2F68</color>
     <color name="light_brown">#FFCD8C52</color>
     <color name="light_grey">#FF818181</color>
-    <color name="light_black">#FF1E1E1E</color>
+    <color name="light_black">#FF2F2F2F</color>
 
     <!-- the theme applied to the application or activity -->
     <style name="MainTheme"

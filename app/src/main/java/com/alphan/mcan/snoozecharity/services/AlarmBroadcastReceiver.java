@@ -5,9 +5,18 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
+import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
+import com.alphan.mcan.snoozecharity.data.model.PendingDonationDataModel;
+import com.alphan.mcan.snoozecharity.viewModels.MainActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 // class that handles call backs from androids alarm manager api
@@ -91,6 +100,42 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         //check if it larger than warning threshold
         //if it is show notification to the user
         //profit.
+
+        List<PendingDonationDataModel> donations =  AlarmManagerHelper.getPendingDonations(context);
+        List<PendingDonationDataModel> donationsToBePaid = new ArrayList<PendingDonationDataModel>();
+        Resources res = context.getResources();
+        String[] charities = res.getStringArray(R.array.charity_array);
+        String[] charitySMSamount = res.getStringArray(R.array.charity_sms_donation_amount);
+        String[] charitiesSnooze = res.getStringArray(R.array.charity_snooze_text);
+
+        for (PendingDonationDataModel donation_iter : donations)
+        {
+            if (donation_iter.getPendingAmount().doubleValue() >= Double.parseDouble(charitySMSamount[donation_iter.getCharityIndex()]))
+            {
+                donationsToBePaid.add(donation_iter);
+            }
+        }
+        String notificationMessage;
+        if (!donationsToBePaid.isEmpty())
+        {
+            StringBuilder strBuilder = new StringBuilder();
+            Double totalAmount = 0.0;
+            for (int index = 0; index < donationsToBePaid.size(); index ++)
+            {
+                PendingDonationDataModel pendingDon = donationsToBePaid.get(index);
+                strBuilder.append(charitiesSnooze[pendingDon.getCharityIndex()]);
+                if (index == donationsToBePaid.size() - 2)
+                    strBuilder.append(" " + res.getString(R.string.and) + " ");
+                else if (index != donationsToBePaid.size() - 1)
+                    strBuilder.append(", ");
+
+                totalAmount = totalAmount + pendingDon.getPendingAmount();
+            }
+
+            String pendingAmount = String.format("%.2f", totalAmount);
+            notificationMessage = res.getString(R.string.charity_needs_payment, pendingAmount, strBuilder.toString(), res.getString(R.string.money_sign));
+            fireDonationNotification(context, notificationMessage);
+        }
     }
 
     // internal handlers
@@ -115,5 +160,34 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.cancel(AlarmRingService.getNotificationID(alarmToDelete));
         Log.d(TAG, "Alarm deleted: " + alarmID);
+    }
+
+    private static void fireDonationNotification(Context context, String message) {
+        Intent resultIntent = new Intent(context, MainActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(MainActivity.class);
+
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
+                0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder  = new NotificationCompat.Builder(context)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setGroup(NotificationCompat.CATEGORY_ALARM)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setAutoCancel(true)
+                .setContentIntent(resultPendingIntent);
+
+        // message
+        builder.setStyle(new NotificationCompat.BigTextStyle()
+                .bigText(message));
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        // mId allows you to update the notification later on.
+        mNotificationManager.notify(0, builder.build());
     }
 }

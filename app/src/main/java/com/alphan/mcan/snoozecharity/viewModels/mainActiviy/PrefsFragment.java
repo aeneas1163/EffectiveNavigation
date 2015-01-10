@@ -3,7 +3,6 @@ package com.alphan.mcan.snoozecharity.viewModels.mainActiviy;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -38,7 +37,7 @@ public class PrefsFragment extends PreferenceFragment {
         view.setBackgroundColor(getResources().getColor(android.R.color.black));
 
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        color = preference.getInt("dash_colorkey", Color.parseColor("#FF024854"));
+        color = preference.getInt("dash_colorkey", getActivity().getResources().getColor(R.color.turquiose));
 
         final ActionBar  actionBar = getActivity().getActionBar();
         actionBar.setHomeButtonEnabled(true);
@@ -54,10 +53,10 @@ public class PrefsFragment extends PreferenceFragment {
         actionBar.setDisplayHomeAsUpEnabled(false);
         Intent myIntent = new Intent(getActivity(), MainActivity.class);
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        int new_color = preference.getInt("dash_colorkey", Color.parseColor("#FF024854"));
+        int new_color = preference.getInt("dash_colorkey", getActivity().getResources().getColor(R.color.turquiose));
         if (color != new_color)
         {
-            myIntent.putExtra(MainActivity.FROM_SETTING_BOOLEAN, true); //Optional parameters
+            myIntent.putExtra(MainActivity.WHICH_PAGE_INT, 2); //Optional parameters
             getActivity().startActivity(myIntent);
         }
     }

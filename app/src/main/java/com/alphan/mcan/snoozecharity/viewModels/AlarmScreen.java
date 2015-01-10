@@ -30,6 +30,7 @@ import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 import com.alphan.mcan.snoozecharity.services.AlarmRingService;
+import com.alphan.mcan.snoozecharity.views.ColorPreference;
 
 public class AlarmScreen extends Activity {
 	
@@ -94,14 +95,20 @@ public class AlarmScreen extends Activity {
             return;
         }
 
+        Resources res = getResources();
         // snooze duration
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
         snoozeDurationInMinutes = Integer.parseInt(preference.getString("snooze_duration","5"));
+        int color = preference.getInt("dash_colorkey", res.getColor(R.color.turquiose));
+        int lightColor= ColorPreference.getLightColor(color, this);
 
         // setup layout
         this.setContentView(R.layout.activity_alarm_screen);
         TextView tvTitle = (TextView) findViewById(R.id.alarm_screen_title);
         tvTitle.setText(currentAlarm.getName());
+        if (lightColor == res.getColor(R.color.light_black))
+            lightColor = Color.WHITE;
+        tvTitle.setTextColor(lightColor);
 		TextView tvTime = (TextView) findViewById(R.id.alarm_screen_time);
         Typeface face = Typeface.createFromAsset(getAssets(),"fonts/clock.ttf");
         tvTime.setTypeface(face);
@@ -130,7 +137,7 @@ public class AlarmScreen extends Activity {
 
         // snooze button
         Button snoozeButton = (Button) findViewById(R.id.alarm_screen_snooze_button);
-        Resources res = getResources();
+
 
         final int charityIndex = preference.getInt(CharityCollectionActivity.DemoObjectFragment.ARG_INDEX, 0);
         final double donationAmount = (Double.parseDouble(preference.getString("donation_snooze_amount", "20")))/100;
@@ -220,8 +227,6 @@ public class AlarmScreen extends Activity {
 
     public static void setButtonTheme(Button button, Context context) {
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(context);
-        int color = preference.getInt("dash_colorkey", Color.parseColor("#FF024854"));
-
         Resources res = context.getResources();
 
         int turquiose = res.getColor(R.color.turquiose);
@@ -233,6 +238,8 @@ public class AlarmScreen extends Activity {
         int brown = res.getColor(R.color.brown);
         int grey = res.getColor(R.color.grey);
         int black = res.getColor(R.color.black);
+
+        int color = preference.getInt("dash_colorkey", turquiose);
 
 
         if (color == turquiose) {

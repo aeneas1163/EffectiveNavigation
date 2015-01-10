@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -50,7 +49,7 @@ public class AlarmFragment extends Fragment{
         View background = rootView.findViewById(R.id.alarm);
 
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        int color = preference.getInt("dash_colorkey", Color.parseColor("#FF024854"));
+        int color = preference.getInt("dash_colorkey", getActivity().getResources().getColor(R.color.turquiose));
 
         int lightColor = ColorPreference.getLightColor(color, getActivity());
 

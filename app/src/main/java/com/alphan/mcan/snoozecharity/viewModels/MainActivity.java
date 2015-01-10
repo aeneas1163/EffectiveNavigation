@@ -30,7 +30,7 @@ import com.alphan.mcan.snoozecharity.viewModels.mainActiviy.AppSectionsPagerAdap
 
 public class MainActivity extends FragmentActivity{
 
-    public static final String FROM_SETTING_BOOLEAN = "fromsettings";
+    public static final String WHICH_PAGE_INT = "whichpageint";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -53,12 +53,12 @@ public class MainActivity extends FragmentActivity{
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        Boolean value = intent.getBooleanExtra(FROM_SETTING_BOOLEAN, false);
+        int value = intent.getIntExtra(WHICH_PAGE_INT, 1);
 
         initAppPreferences();
         initViewPager();
         initActionBar();
-        mViewPager.setCurrentItem(value? 2:1);
+        mViewPager.setCurrentItem(value);
     }
 
     private void initAppPreferences() {

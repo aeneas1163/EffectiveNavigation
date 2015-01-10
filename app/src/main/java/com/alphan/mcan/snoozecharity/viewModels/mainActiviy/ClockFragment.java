@@ -1,7 +1,6 @@
 package com.alphan.mcan.snoozecharity.viewModels.mainActiviy;
 
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -39,7 +38,7 @@ public class ClockFragment extends Fragment {
         View background = rootView.findViewById(R.id.clock);
 
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        int color = preference.getInt("dash_colorkey", Color.parseColor("#FF024854"));
+        int color = preference.getInt("dash_colorkey", getActivity().getResources().getColor(R.color.turquiose));
 
         int lightColor = ColorPreference.getLightColor(color, getActivity());
 

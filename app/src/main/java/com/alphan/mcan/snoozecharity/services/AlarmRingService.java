@@ -18,12 +18,14 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.AlarmDataModel;
 import com.alphan.mcan.snoozecharity.viewModels.AlarmScreen;
 import com.alphan.mcan.snoozecharity.viewModels.CharityCollectionActivity;
+import com.alphan.mcan.snoozecharity.viewModels.MainActivity;
 
 import java.io.IOException;
 
@@ -451,7 +453,7 @@ public class AlarmRingService extends Service {
                 .setGroup(NotificationCompat.CATEGORY_ALARM)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setAutoCancel(false)
-                .setContentIntent(null); //TODO: this should open alarmActivity;
+                .setContentIntent(null);
 
         // default intent shows alarm screen
         builder.setContentIntent(AlarmScreen.getShowAlarmScreenPendingIntent(this, alarmToNotify.getId()));
@@ -486,7 +488,7 @@ public class AlarmRingService extends Service {
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setGroup(NotificationCompat.CATEGORY_ALARM)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentIntent(null); //TODO: this should open alarmActivity;
+                .setContentIntent(null);
 
         // dismiss action
         PendingIntent dismissPendingIntent = AlarmBroadcastReceiver.getDeleteAlarmPendingIntent(this, snoozeAlarm.getId());
@@ -503,6 +505,15 @@ public class AlarmRingService extends Service {
     }
 
     private void updateMissedAlarmNotification(AlarmDataModel missedAlarm) {
+        Intent resultIntent = new Intent(this, MainActivity.class);
+        resultIntent.putExtra(MainActivity.WHICH_PAGE_INT, 0);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(MainActivity.class);
+
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
+                0, PendingIntent.FLAG_UPDATE_CURRENT);
         // initial notification
         NotificationCompat.Builder builder  = new NotificationCompat.Builder(this)
                 .setContentTitle(getString(R.string.app_name))
@@ -512,7 +523,7 @@ public class AlarmRingService extends Service {
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setDefaults(Notification.DEFAULT_LIGHTS)
                 .setAutoCancel(true)
-                .setContentIntent(null); //TODO: this should open alarmActivity;
+                .setContentIntent(resultPendingIntent);
 
         // message
         String snoozeMessage = getString(R.string.missed_alarm) + " " + missedAlarm.toString();

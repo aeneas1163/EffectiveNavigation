@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,7 +43,7 @@ public class SettingsFragment extends Fragment{
         View background = rootView.findViewById(R.id.settings_frag);
 
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        int color = preference.getInt("dash_colorkey", Color.parseColor("#FF024854"));
+        int color = preference.getInt("dash_colorkey", getActivity().getResources().getColor(R.color.turquiose));
         int lightColor = ColorPreference.getLightColor(color, getActivity());
 
         GradientDrawable gd = new GradientDrawable(

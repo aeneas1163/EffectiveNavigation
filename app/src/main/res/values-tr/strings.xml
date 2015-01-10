@@ -40,7 +40,7 @@
     <string name="wednesday_short">ÇAR</string>
     <string name="donation_history_title">Bağış Geçmişiniz</string>
     <string name="select_charity_button_text">%1$s Seçin</string>
-    <string name="snooze_button_text">%2$s %1$s %3$s ☺</string>
+    <string name="snooze_button_text">%2$s %1$s%3$s ☺</string>
     <string name="donate_dialog_text">Şimdi %2$s %1$s %3$s bağışlamak istiyor musunuz?</string>
     <string name="no">Hayır</string>
     <string name="yes">Evet</string>
@@ -68,4 +68,6 @@
     <string name="pref_color_summary">Renginizi seçin</string>
     <string name="selected_charity_button_text">%1$s Seçili</string>
     <string name="missed_alarm">Şu alarmı kaçırdınız: </string>
+    <string name="charity_needs_payment">%2$s ödeme bekleyen %1$s %3$s bağışınız var!</string>
+    <string name="and">ve</string>
 </resources>
