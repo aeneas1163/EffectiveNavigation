@@ -3,6 +3,10 @@
 
     <color name="transparent_black">#CC000000</color>
 
+    <color name="transparent_grey">#66000000</color>
+
+    <color name="transparent_light_grey">#66999999</color>
+
     <color name="transparent">#00000000</color>
 
     <color name="android_blue">#33B5E5</color>
@@ -47,7 +51,7 @@
     </style>
 
     <style name="AlarmTheme"
-        parent="@android:style/Theme.Holo.Wallpaper">
+        parent="@android:style/Theme.Translucent">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>

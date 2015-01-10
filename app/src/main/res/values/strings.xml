@@ -19,7 +19,7 @@
 
     <string name="money_sign">€</string>
 
-    <string name="pay_now">Donate!</string>
+    <string name="pay_now">&#160;Donate!&#160;</string>
 
     <string name="pending_donations_label">Your Pending Donations:</string>
 

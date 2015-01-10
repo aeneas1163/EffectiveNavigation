@@ -73,6 +73,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="5dp"
                     android:layout_centerHorizontal="true"
+                    android:textColor="@android:color/white"
                     android:textSize="24dp" />
 
                 <Button
@@ -84,6 +85,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_centerHorizontal="true"
                     android:text="@string/dismiss"
+                    android:textColor="@android:color/white"
                     android:textSize="24dp" />
 
 

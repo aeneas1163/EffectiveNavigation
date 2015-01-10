@@ -21,7 +21,7 @@
     <string name="money_sign">TL</string>
     <string name="ok">Tamam</string>
     <string name="paid_donations_label">Toplam Bağışlarınız:</string>
-    <string name="pay_now">Bağışla!</string>
+    <string name="pay_now">&#160;Bağışla!&#160;</string>
     <string name="payment_preference">Bağış Ödeme Miktarı</string>
     <string name="payment_preference_title">Bağış Ödeme Miktarını Seçin</string>
     <string name="pending_donations_label">Ödeme Bekleyen Bağışlarınız:</string>
