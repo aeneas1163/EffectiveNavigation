@@ -28,6 +28,8 @@
         <!-- all normal size screens -->
         <screen android:screenSize="normal" android:screenDensity="hdpi" />
         <screen android:screenSize="normal" android:screenDensity="xhdpi" />
+        <!--nexus 5-->
+        <screen android:screenSize="normal" android:screenDensity="480" />
     </compatible-screens>
 
     <uses-permission
