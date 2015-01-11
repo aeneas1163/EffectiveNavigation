@@ -38,7 +38,7 @@ public class ClockFragment extends Fragment {
         View background = rootView.findViewById(R.id.clock);
 
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        int color = preference.getInt("dash_colorkey", getActivity().getResources().getColor(R.color.turquiose));
+        int color = preference.getInt("dash_colorkey", getActivity().getResources().getColor(R.color.default_color));
 
         int lightColor = ColorPreference.getLightColor(color, getActivity());
 

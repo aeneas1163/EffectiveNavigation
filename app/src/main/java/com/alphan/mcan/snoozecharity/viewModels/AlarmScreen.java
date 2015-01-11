@@ -99,7 +99,7 @@ public class AlarmScreen extends Activity {
         // snooze duration
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
         snoozeDurationInMinutes = Integer.parseInt(preference.getString("snooze_duration","5"));
-        int color = preference.getInt("dash_colorkey", res.getColor(R.color.turquiose));
+        int color = preference.getInt("dash_colorkey", res.getColor(R.color.default_color));
         int lightColor= ColorPreference.getLightColor(color, this);
 
         // setup layout
@@ -238,8 +238,9 @@ public class AlarmScreen extends Activity {
         int brown = res.getColor(R.color.brown);
         int grey = res.getColor(R.color.grey);
         int black = res.getColor(R.color.black);
+        int default_color = res.getColor(R.color.default_color);
 
-        int color = preference.getInt("dash_colorkey", turquiose);
+        int color = preference.getInt("dash_colorkey", default_color);
 
 
         if (color == turquiose) {

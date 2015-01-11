@@ -77,7 +77,7 @@
         android:key="dash_colorkey"
         android:title="@string/pref_color_title"
         android:summary="@string/pref_color_summary"
-        android:defaultValue="@color/turquiose"
+        android:defaultValue="@color/navy"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
         app:numColumns="3"

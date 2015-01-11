@@ -37,7 +37,7 @@ public class PrefsFragment extends PreferenceFragment {
         view.setBackgroundColor(getResources().getColor(android.R.color.black));
 
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        color = preference.getInt("dash_colorkey", getActivity().getResources().getColor(R.color.turquiose));
+        color = preference.getInt("dash_colorkey", getActivity().getResources().getColor(R.color.default_color));
 
         final ActionBar  actionBar = getActivity().getActionBar();
         actionBar.setHomeButtonEnabled(true);
@@ -54,7 +54,7 @@ public class PrefsFragment extends PreferenceFragment {
         Intent myIntent = new Intent(getActivity(), MainActivity.class);
         myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        int new_color = preference.getInt("dash_colorkey", getActivity().getResources().getColor(R.color.turquiose));
+        int new_color = preference.getInt("dash_colorkey", getActivity().getResources().getColor(R.color.default_color));
         if (color != new_color)
         {
             myIntent.putExtra(MainActivity.WHICH_PAGE_INT, 2); //Optional parameters

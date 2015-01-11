@@ -83,7 +83,7 @@ public class CharityCollectionActivity extends FragmentActivity {
 
 
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
-        int color = preference.getInt("dash_colorkey", getResources().getColor(R.color.turquiose));
+        int color = preference.getInt("dash_colorkey", getResources().getColor(R.color.default_color));
         int lightColor = ColorPreference.getLightColor(color, this);
 
         pagerTabStrip.setBackgroundColor(lightColor);
@@ -187,7 +187,7 @@ public class CharityCollectionActivity extends FragmentActivity {
             TextView  descText = (TextView) rootView.findViewById(R.id.donation_description);
             descText.setText(charityDesc[index]);
 
-            int color = preference.getInt("dash_colorkey", res.getColor(R.color.turquiose));
+            int color = preference.getInt("dash_colorkey", res.getColor(R.color.default_color));
             int lightColor = ColorPreference.getLightColor(color, getActivity());
             descText.setTextColor(lightColor);
 

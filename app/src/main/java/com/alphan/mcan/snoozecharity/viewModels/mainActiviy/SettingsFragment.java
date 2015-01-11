@@ -43,7 +43,7 @@ public class SettingsFragment extends Fragment{
         View background = rootView.findViewById(R.id.settings_frag);
 
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        int color = preference.getInt("dash_colorkey", getActivity().getResources().getColor(R.color.turquiose));
+        int color = preference.getInt("dash_colorkey", getActivity().getResources().getColor(R.color.default_color));
         int lightColor = ColorPreference.getLightColor(color, getActivity());
 
         GradientDrawable gd = new GradientDrawable(

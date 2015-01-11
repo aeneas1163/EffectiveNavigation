@@ -13,6 +13,8 @@
 
     <color name="android_yellow">#FFBB33</color>
 
+    <color name="default_color">#FF071E3D</color>
+
     <color name="turquiose">#FF024854</color>
     <color name="navy">#FF071E3D</color>
     <color name="purple">#FF2F0130</color>
@@ -92,8 +94,8 @@
     </declare-styleable>
 
     <string-array name="default_color_choice_values" translatable="false">
-        <item>@color/turquiose</item>
         <item>@color/navy</item>
+        <item>@color/turquiose</item>
         <item>@color/purple</item>
         <item>@color/green</item>
         <item>@color/orange</item>
@@ -104,8 +106,8 @@
     </string-array>
 
     <string-array name="default_color_choice_lighter_values" translatable="false">
-        <item>@color/light_turquiose</item>
         <item>@color/light_navy</item>
+        <item>@color/light_turquiose</item>
         <item>@color/light_purple</item>
         <item>@color/light_green</item>
         <item>@color/light_orange</item>
