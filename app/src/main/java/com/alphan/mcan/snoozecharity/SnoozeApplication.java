@@ -47,7 +47,7 @@ public class SnoozeApplication extends Application {
             mcc = Integer.parseInt(networkOperator.substring(0, 3));
         }
 
-        String lang = (mcc == 286)? "tr":"tr"; //TODO change second one to "de" when about to release
+        String lang = (mcc == 286)? "tr":"en"; //TODO change second one to "en" when about to release
 
         if (! "".equals(lang) && ! config.locale.getLanguage().equals(lang))
         {

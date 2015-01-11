@@ -21,7 +21,7 @@ public class PaidDonationListAdapter extends ArrayAdapter<PaidDonationDataModel>
     private Context mContext;
 
     public PaidDonationListAdapter(Context context, List<PaidDonationDataModel> paidDonations) {
-        super(context, R.layout.pending_donation_list_item, paidDonations);
+        super(context, R.layout.paid_donation_item, paidDonations);
         mContext = context;
     }
 
@@ -37,7 +37,7 @@ public class PaidDonationListAdapter extends ArrayAdapter<PaidDonationDataModel>
 
         TextView charityName = (TextView) view.findViewById(R.id.paid_charity_name);
         Resources res = mContext.getResources();
-        String[] charities = res.getStringArray(R.array.charity_array);
+        String[] charities = res.getStringArray(R.array.charity_snooze_text);
         charityName.setText(charities[model.getCharityIndex()]);
 
         TextView txtName = (TextView) view.findViewById(R.id.paid_donation_amount);

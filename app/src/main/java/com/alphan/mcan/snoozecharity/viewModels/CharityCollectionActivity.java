@@ -195,7 +195,7 @@ public class CharityCollectionActivity extends FragmentActivity {
 
             if (charity_selected == index)
             {
-                selectButton.setText(res.getString(R.string.selected_charity_button_text, charityName[index]));
+                selectButton.setText(res.getString(R.string.selected_charity_button_text, charitiesSelectionText[index]));
                 selectButton.setEnabled(false);
             }
             else
