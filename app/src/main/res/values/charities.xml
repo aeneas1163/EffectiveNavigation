@@ -7,7 +7,7 @@
     </string-array>
 
     <string-array name="charity_description_array">
-        <item>When large-scale epidemics occur, when areas in crisis are too dangerous for many others, then the medical teams from MSF are there to ensure that the affected population can count on continual care being provided for their most basic health-care needs.</item>
+        <item>When large-scale epidemics occur or areas in crisis are too dangerous for many others, the medical teams from ÄOG are there to ensure that the affected population can count on continual care being provided for their most basic health-care needs.</item>
         <item>Save the Children gives children in Germany and around the world what every child deserves -- a healthy start, the opportunity to learn and care when disaster strikes. We save children\'s lives. Please invest in children\'s futures and support our mission.</item>
         <item>We fight against global hunger and for sustainable food security. This incorporates the promotion of agriculture suited to local conditions, access to clean water, the provision of modern, environmentally friendly energy and the improvement of health and education.</item>
     </string-array>
@@ -31,7 +31,7 @@
     </string-array>
 
     <string-array name="charity_sms_number">
-        <item>0664 660 1000</item>
+        <item>06646601000</item>
         <item>81190</item>
         <item>81190</item>
     </string-array>

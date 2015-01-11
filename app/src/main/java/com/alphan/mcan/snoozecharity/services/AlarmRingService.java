@@ -398,6 +398,12 @@ public class AlarmRingService extends Service {
         // remove ringing alarm
         Log.i(TAG, "dismissing alarm: " + ringingAlarm.getId());
         AlarmDataModel dismissedAlarm = ringingAlarm;
+        if (dismissedAlarm.isSnoozeAlarm())
+        {
+            Boolean success = AlarmManagerHelper.deleteAlarm(this, dismissedAlarm);
+            Log.i(TAG, "Deleting snooze alarm: " + dismissedAlarm.getId() + " success: " + success);
+        }
+
         ringingAlarm = null;
         if (timeOutIntent != null)
             timeOutIntent.cancel();
