@@ -52,6 +52,7 @@ public class PrefsFragment extends PreferenceFragment {
         actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(false);
         Intent myIntent = new Intent(getActivity(), MainActivity.class);
+        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
         int new_color = preference.getInt("dash_colorkey", getActivity().getResources().getColor(R.color.turquiose));
         if (color != new_color)
