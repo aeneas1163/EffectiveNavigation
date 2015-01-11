@@ -15,7 +15,7 @@
   -->
 
 <resources>
-    <string name="app_name">Snooze FTW</string>
+    <string name="app_name" translatable="false">Doze &amp; Give</string>
 
     <string name="money_sign">€</string>
 
