@@ -46,8 +46,20 @@ public class SnoozeApplication extends Application {
         if (!networkOperator.isEmpty()) {
             mcc = Integer.parseInt(networkOperator.substring(0, 3));
         }
-
-        String lang = (mcc == 286)? "tr":"en"; //TODO change second one to "en" when about to release
+        
+        String lang;
+        
+        switch (mcc) {
+            case 286:
+                lang = "tr";
+                break;
+            case 262:
+                lang = "de";
+                break;
+            default:
+                lang = "en"
+                break;
+        }
 
         if (! "".equals(lang) && ! config.locale.getLanguage().equals(lang))
         {
