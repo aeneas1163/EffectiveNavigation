@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Doze &amp; Donate</string>
-
     <string name="money_sign">€</string>
 
     <string name="pay_now">&#160;Donate!&#160;</string>
