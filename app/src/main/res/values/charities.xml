@@ -1,63 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="charity_array">
-        <item>ÄRZTE OHNE GRENZEN</item>
+        <item>AMERICAN CANCER SOCIETY</item>
+		<item>AMERICAN RED CROSS</item>
         <item>SAVE THE CHILDREN</item>
-        <item>WELT HUNGER HILFE</item>
+        <item>WORLD FOOD PROGRAMME</item>
     </string-array>
 
     <string-array name="charity_description_array">
-        <item>When large-scale epidemics occur or areas in crisis are too dangerous for many others, the medical teams from ÄOG are there to ensure that the affected population can count on continual care being provided for their most basic health-care needs.</item>
-        <item>Save the Children gives children in Germany and around the world what every child deserves -- a healthy start, the opportunity to learn and care when disaster strikes. We save children\'s lives. Please invest in children\'s futures and support our mission.</item>
-        <item>We fight against global hunger and for sustainable food security. This incorporates the promotion of agriculture suited to local conditions, access to clean water, the provision of modern, environmentally friendly energy and the improvement of health and education.</item>
+        <item>For over 100 years, the American Cancer Society (ACS) has worked relentlessly to save lives and create a world with less cancer. Together with millions of our supporters worldwide, we help people stay well and get well, find cures, and fight back against cancer. </item>
+        <item>The American Red Cross exists to provide compassionate care to those in need. Our network of generous donors, volunteers and employees share a mission of preventing and relieving suffering, here at home and around the world, through five key service areas: Disaster Relief, Supporting America\'s Military Families, Lifesaving Blood, Health and Safety Services and International Services.</item>
+        <item>Save the Children gives children in the United States and around the world what every child deserves -- a healthy start, the opportunity to learn and care when disaster strikes. We save children\'s lives. Please invest in children\'s futures and support our mission.</item>
+        <item>Born in 1961, WFP pursues a vision of the world in which every man, woman and child has access at all times to the food needed for an active and healthy life. We work towards that vision with our sister UN agencies in Rome -- the Food and Agriculture Organization (FAO) and the International Fund for Agricultural Development (IFAD) -- as well as other government, UN and NGO partners.</item>
     </string-array>
 
     <string-array name="charity_web_donation_support">
+	    <item>true</item>
+        <item>true</item>
+        <item>true</item>
+        <item>true</item>
+    </string-array>
+	
+	<string-array name="charity_sms_donation_support">
+	    <item>true</item>
         <item>true</item>
         <item>true</item>
         <item>true</item>
     </string-array>
 
     <string-array name="charity_website_array">
-        <item>https://www.aerzte-ohne-grenzen.at/spenden/sofort-helfen/online-spenden-header/</item>
-        <item>https://www.savethechildren.de/jetzt-spenden/spendenformular/</item>
-        <item>https://www.welthungerhilfe.de/en/donate.html?tamount=5</item>
+        <item>https://donate.cancer.org/index</item>
+        <item>https://www.redcross.org/donate/</item>
+        <item>https://secure.savethechildren.org/site/c.ckLQKcOTLjK8E/b.9142417/k.C189/Global_Action_Fund/apps/ka/sd/donorcustom.asp</item>
+		<item>https://secure2.convio.net/fwfp/site/Donation2?idb=79212669&amp;df_id=1520</item>
     </string-array>
 
     <string-array name="charity_image_array">
-        <item>@drawable/aog</item>
+        <item>@drawable/acs</item>
+		<item>@drawable/arc</item>
         <item>@drawable/stc</item>
-        <item>@drawable/whh</item>
+        <item>@drawable/wfp</item>
     </string-array>
 
     <string-array name="charity_sms_number">
-        <item>06646601000</item>
-        <item>81190</item>
-        <item>81190</item>
+        <item>20222</item>
+        <item>90999</item>
+        <item>20222</item>
+		<item>50555</item>
     </string-array>
 
     <string-array name="charity_sms_text">
-        <item>10EURO</item>
-        <item>SAVE10</item>
-        <item>HUNGER</item>
+        <item>HOPE</item>
+        <item>REDCROSS</item>
+        <item>SAVE</item>
+		<item>WFP</item>
     </string-array>
 
     <string-array name="charity_sms_donation_amount">
-        <item>10</item>
-        <item>10</item>
         <item>5</item>
+        <item>10</item>
+        <item>10</item>
+		<item>5</item>
     </string-array>
 
     <string-array name="charity_selection_text">
-        <item>ÄOG</item>
-        <item>STC</item>
-        <item>WHH</item>
+        <item>A.C.S.</item>
+        <item>A.R.C.</item>
+        <item>S.T.C.</item>
+		<item>W.F.P.</item>
     </string-array>
 
     <string-array name="charity_snooze_text">
-        <item>ÄOG</item>
-        <item>STC</item>
-        <item>WHH</item>
+        <item>A.C.S.</item>
+        <item>A.R.C.</item>
+        <item>S.T.C.</item>
+		<item>W.F.P.</item>
+    </string-array>
+	
+	<string-array name="charity_short_text">
+        <item>A.C.S.</item>
+        <item>A.R.C.</item>
+        <item>S.T.C.</item>
+		<item>W.F.P.</item>
     </string-array>
 
 </resources>
