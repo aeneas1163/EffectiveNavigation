@@ -20,6 +20,13 @@
         <item>true</item>
         <item>true</item>
     </string-array>
+    
+   <string-array name="charity_sms_donation_support">
+        <item>true</item>
+        <item>true</item>
+        <item>true</item>
+        <item>true</item>
+    </string-array>
 
     <string-array name="charity_website_array">
         <item>http://www.acev.org/bagis</item>
@@ -70,6 +77,7 @@
         <item>LÖSEV\'e</item>
         <item>TEGV\'e</item>
     </string-array>
+    
 
 
 </resources>
