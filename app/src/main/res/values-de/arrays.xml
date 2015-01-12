@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="snooze_minute_text_array">
+        <item>1 Minute</item>
+        <item>3 Minutes</item>
+        <item>5 Minutes</item>
+        <item>10 Minutes</item>
+    </string-array>
+
+    <string-array name="snooze_minute_value_array">
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="donation_amount_text_array">
+        <item>10 Cents</item>
+        <item>20 Cents</item>
+        <item>30 Cents</item>
+        <item>50 Cents</item>
+        <item>1 Dollar</item>
+    </string-array>
+
+    <string-array name="donation_amount_value_array">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>50</item>
+        <item>100</item>
+    </string-array>
+
+
+    <string-array name="payment_amount_text_array">
+        <item>5 Dollars</item>
+        <item>10 Dollars</item>
+        <item>15 Dollars</item>
+        <item>20 Dollars</item>
+    </string-array>
+
+    <string-array name="payment_amount_value_array">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </string-array>
+
+</resources>
