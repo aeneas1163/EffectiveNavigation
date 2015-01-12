@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="charity_array">
+        <item>ÄRZTE OHNE GRENZEN</item>
+        <item>SAVE THE CHILDREN</item>
+        <item>WELT HUNGER HILFE</item>
+    </string-array>
+
+    <string-array name="charity_description_array">
+        <item>When large-scale epidemics occur or areas in crisis are too dangerous for many others, the medical teams from ÄOG are there to ensure that the affected population can count on continual care being provided for their most basic health-care needs.</item>
+        <item>Save the Children gives children in Germany and around the world what every child deserves -- a healthy start, the opportunity to learn and care when disaster strikes. We save children\'s lives. Please invest in children\'s futures and support our mission.</item>
+        <item>We fight against global hunger and for sustainable food security. This incorporates the promotion of agriculture suited to local conditions, access to clean water, the provision of modern, environmentally friendly energy and the improvement of health and education.</item>
+    </string-array>
+
+    <string-array name="charity_web_donation_support">
+        <item>true</item>
+        <item>true</item>
+        <item>true</item>
+    </string-array>
+
+    <string-array name="charity_website_array">
+        <item>https://www.aerzte-ohne-grenzen.at/spenden/sofort-helfen/online-spenden-header/</item>
+        <item>https://www.savethechildren.de/jetzt-spenden/spendenformular/</item>
+        <item>https://www.welthungerhilfe.de/en/donate.html?tamount=5</item>
+    </string-array>
+
+    <string-array name="charity_image_array">
+        <item>@drawable/aog</item>
+        <item>@drawable/stc</item>
+        <item>@drawable/whh</item>
+    </string-array>
+
+    <string-array name="charity_sms_number">
+        <item>06646601000</item>
+        <item>81190</item>
+        <item>81190</item>
+    </string-array>
+
+    <string-array name="charity_sms_text">
+        <item>10EURO</item>
+        <item>SAVE10</item>
+        <item>HUNGER</item>
+    </string-array>
+
+    <string-array name="charity_sms_donation_amount">
+        <item>10</item>
+        <item>10</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="charity_selection_text">
+        <item>ÄOG</item>
+        <item>STC</item>
+        <item>WHH</item>
+    </string-array>
+
+    <string-array name="charity_snooze_text">
+        <item>ÄOG</item>
+        <item>STC</item>
+        <item>WHH</item>
+    </string-array>
+
+</resources>
