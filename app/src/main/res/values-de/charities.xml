@@ -19,7 +19,6 @@
     </string-array>
     
     <string-array name="charity_sms_donation_support">
-	    <item>true</item>
         <item>true</item>
         <item>true</item>
         <item>true</item>
