@@ -181,6 +181,7 @@ public class CharityCollectionActivity extends FragmentActivity {
             String[] charityDesc = res.getStringArray(R.array.charity_description_array);
             String[] charityName = res.getStringArray(R.array.charity_array);
             String[] charitiesSelectionText = res.getStringArray(R.array.charity_selection_text);
+            String[] charitiesShortText = res.getStringArray(R.array.charity_short_text);
 
             final int index = args.getInt(ARG_INDEX);
 
@@ -195,7 +196,7 @@ public class CharityCollectionActivity extends FragmentActivity {
 
             if (charity_selected == index)
             {
-                selectButton.setText(res.getString(R.string.selected_charity_button_text, charitiesSelectionText[index]));
+                selectButton.setText(res.getString(R.string.selected_charity_button_text, charitiesShortText[index]));
                 selectButton.setEnabled(false);
             }
             else
