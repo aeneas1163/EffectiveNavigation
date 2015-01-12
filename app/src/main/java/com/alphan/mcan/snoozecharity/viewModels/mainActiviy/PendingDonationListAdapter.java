@@ -62,11 +62,12 @@ public class PendingDonationListAdapter extends ArrayAdapter<PendingDonationData
         final String[] charities = res.getStringArray(R.array.charity_array);
         final String[] charityWebsites = res.getStringArray(R.array.charity_website_array);
         final String[] charitySnooze = res.getStringArray(R.array.charity_snooze_text);
+        final String[] charityShort = res.getStringArray(R.array.charity_short_text);
         final String[] charitySMSnumber = res.getStringArray(R.array.charity_sms_number);
         final String[] charitySMStext = res.getStringArray(R.array.charity_sms_text);
         final String[] charitySMSamount = res.getStringArray(R.array.charity_sms_donation_amount);
         final String[] charityWEBsupport = res.getStringArray(R.array.charity_web_donation_support);
-        charityName.setText(charitySnooze[model.getCharityIndex()]);
+        charityName.setText(charityShort[model.getCharityIndex()]);
 
         TextView txtName = (TextView) view.findViewById(R.id.donation_amount);
         txtName.setText(String.format("%.2f", model.getPendingAmount()) + " " + res.getString(R.string.money_sign));
