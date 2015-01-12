@@ -1,0 +1,108 @@
+<resources>
+    <string name="app_name" translatable="false">Doze &amp; Donate</string>
+
+    <string name="money_sign">€</string>
+
+    <string name="pay_now">&#160;Donate!&#160;</string>
+
+    <string name="pending_donations_label">Your Pending Donations:</string>
+
+    <string name="paid_donations_label">Your Total Contributions So Far:</string>
+
+    <string name="donation_history">Donation History</string>
+
+    <string name="about_us">About Us</string>
+
+    <string name="clock_section_text" translatable="false">Woww! An awesome clock in section %1d </string>
+    <string name="alarm_section_text" translatable="false">Cool alarm functionality in section %1d </string>
+
+    <string name="demo_external_activity">Settings</string>
+    <string name="demo_collection">Charity Selection</string>
+    <string name="app_preferences">Settings</string>
+    <string name="set_alarm">Create new alarm</string>
+    <string name="alarm_default_name" translatable="false">Alarm</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete Alarm</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="snooze">Snooze</string>
+    <string name="set_ringtone">Ringtones</string>
+
+    <string name="alarm_repeat">REPEAT</string>
+
+    <string name="monday_short">MON</string>
+    <string name="tuesday_short">TUE</string>
+    <string name="wednesday_short">WED</string>
+    <string name="thursday_short">THU</string>
+    <string name="friday_short">FRI</string>
+    <string name="saturday_short">SAT</string>
+    <string name="sunday_short">SUN</string>
+
+    <string name="alarm_screen" translatable="false">WAAAAAKE UPPP!</string>
+
+    <string name="hour_option_title">Hour Mode</string>
+
+    <string name="hour24">24 Hour</string>
+
+    <string name="am_pm" translatable="false">AM/PM</string>
+
+    <string name="vibration_checkbox_preference">Vibration</string>
+
+    <string name="summary_vibraion_preference">Set vibration on/off</string>
+
+    <string name="alarm_clock_preferences">Alarm Clock Preferences</string>
+
+    <string name="donation_preferences">Donation Preferences</string>
+
+    <string name="snooze_preference">Snooze Duration</string>
+
+    <string name="donation_preference">Donation per Snooze</string>
+
+    <string name="payment_preference">Donation Payment Amount</string>
+
+    <string name="summary_ringtone_preference">Choose Alarm Ringtone</string>
+
+    <string name="snooze_duration_preference_title">Choose Snooze Duration</string>
+
+    <string name="donation_preference_title">Choose Amount per Snooze</string>
+
+    <string name="payment_preference_title">Choose Amount for Donation Payment</string>
+    <string name="donation_history_title">Your Donation History:</string>
+    <string name="select_charity_button_text">Select %1$s</string>
+    <string name="snooze_button_text">%1$s%3$s to %2$s ☺</string>
+    <string name="donate_dialog_text">Do you want to donate now %1$s%3$s to %2$s? </string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="summary_payment_option">Warning: Operators may charge for SMS</string>
+    <string name="payment_option_title">Payment Option</string>
+    <string name="sms" translatable="false">SMS</string>
+    <string name="web" translatable="false">WEB</string>
+    <string name="donate_sure_check">Are you sure?</string>
+    <string name="donate_sure_text_sms">Your pending amount for %2$s is %1$s%3$s. SMS will donate %4$s%3$s. Are you sure you want to continue? \n\n[<i>When SMS screen is shown, just click Send Button!</i>]</string>
+    <string name="donate_dialog_text_sms"> <b> Do you want to donate now %1$s%3$s to %2$s? </b> \n\n[<i>When SMS screen is shown, just click Send Button!</i>]</string>
+    <string name="single_letter_sunday">S</string>
+    <string name="single_letter_monday">M</string>
+    <string name="single_letter_tuesday">T</string>
+    <string name="single_letter_wednesday">W</string>
+    <string name="single_letter_thursday">T</string>
+    <string name="single_letter_friday">F</string>
+    <string name="single_letter_saturday">S</string>
+    <string name="no_donations_yet">You have not made any donations yet.</string>
+    <string name="about_us_message">This non-profit donation app was made by Mehmet Can and Alphan. \n\nIf you like our app, please rate it by clicking on the button below. \n\n\nImportant Warning: Charities may change their SMS numbers without our knowledge, if you notice such a case or for any feedback you would like to give us, please contact us at snoozecharity@gmail.com.</string>
+    <string name="rate_us">Rate us :)</string>
+    <string name="app_id" translatable="false">com.alphan.mcan.snoozecharity</string>
+    <string name="could_not_open_market">Could not open Android market, please install the market app.</string>
+    <string name="username" translatable="false">snoozecharity@gmail.com</string>
+    <string name="password" translatable="false">mcan.2014alphan</string>
+    <string name="donate_dialog_text_web">Do you want to donate now %1$s%3$s to %2$s? \n\n[<i>When web page is shown, just enter your information and make a donation!</i>]</string>
+    <string name="cancel_snooze">Cancel Snooze</string>
+    <string name="snoozed_alarm_until">Snoozed until:</string>
+    <string name="pref_color">Color Preferences</string>
+    <string name="pref_color_title">Background Color</string>
+    <string name="pref_color_summary">Choose your color</string>
+    <string name="selected_charity_button_text">%1$s is Selected</string>
+    <string name="missed_alarm">Missed an alarm at:</string>
+    <string name="charity_needs_payment">You have a pending donation of %1$s%3$s to %2$s!</string>
+    <string name="and">and</string>
+
+</resources>
