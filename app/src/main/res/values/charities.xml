@@ -15,14 +15,14 @@
     </string-array>
 
     <string-array name="charity_web_donation_support">
-	    <item>true</item>
+		<item>true</item>
         <item>true</item>
         <item>true</item>
         <item>true</item>
     </string-array>
 	
-	<string-array name="charity_sms_donation_support">
-	    <item>true</item>
+    <string-array name="charity_sms_donation_support">
+		<item>true</item>
         <item>true</item>
         <item>true</item>
         <item>true</item>
@@ -32,7 +32,7 @@
         <item>https://donate.cancer.org/index</item>
         <item>https://www.redcross.org/donate/</item>
         <item>https://secure.savethechildren.org/site/c.ckLQKcOTLjK8E/b.9142417/k.C189/Global_Action_Fund/apps/ka/sd/donorcustom.asp</item>
-		<item>https://secure2.convio.net/fwfp/site/Donation2?idb=79212669&amp;df_id=1520</item>
+        <item>https://secure2.convio.net/fwfp/site/Donation2?idb=79212669&amp;df_id=1520</item>
     </string-array>
 
     <string-array name="charity_image_array">
@@ -77,7 +77,7 @@
 		<item>W.F.P.</item>
     </string-array>
 	
-	<string-array name="charity_short_text">
+    <string-array name="charity_short_text">
         <item>A.C.S.</item>
         <item>A.R.C.</item>
         <item>S.T.C.</item>
