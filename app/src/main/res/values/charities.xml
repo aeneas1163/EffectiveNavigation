@@ -2,7 +2,7 @@
 <resources>
     <string-array name="charity_array">
         <item>AMERICAN CANCER SOCIETY</item>
-		<item>AMERICAN RED CROSS</item>
+	<item>AMERICAN RED CROSS</item>
         <item>SAVE THE CHILDREN</item>
         <item>WORLD FOOD PROGRAMME</item>
     </string-array>
@@ -15,14 +15,14 @@
     </string-array>
 
     <string-array name="charity_web_donation_support">
-		<item>true</item>
+	<item>true</item>
         <item>true</item>
         <item>true</item>
         <item>true</item>
     </string-array>
 	
     <string-array name="charity_sms_donation_support">
-		<item>true</item>
+	<item>true</item>
         <item>true</item>
         <item>true</item>
         <item>true</item>
@@ -37,7 +37,7 @@
 
     <string-array name="charity_image_array">
         <item>@drawable/acs</item>
-		<item>@drawable/arc</item>
+	<item>@drawable/arc</item>
         <item>@drawable/stc</item>
         <item>@drawable/wfp</item>
     </string-array>
@@ -46,42 +46,42 @@
         <item>20222</item>
         <item>90999</item>
         <item>20222</item>
-		<item>50555</item>
+	<item>50555</item>
     </string-array>
 
     <string-array name="charity_sms_text">
         <item>HOPE</item>
         <item>REDCROSS</item>
         <item>SAVE</item>
-		<item>WFP</item>
+	<item>WFP</item>
     </string-array>
 
     <string-array name="charity_sms_donation_amount">
         <item>5</item>
         <item>10</item>
         <item>10</item>
-		<item>5</item>
+	<item>5</item>
     </string-array>
 
     <string-array name="charity_selection_text">
         <item>A.C.S.</item>
         <item>A.R.C.</item>
         <item>S.T.C.</item>
-		<item>W.F.P.</item>
+	<item>W.F.P.</item>
     </string-array>
 
     <string-array name="charity_snooze_text">
         <item>A.C.S.</item>
         <item>A.R.C.</item>
         <item>S.T.C.</item>
-		<item>W.F.P.</item>
+	<item>W.F.P.</item>
     </string-array>
 	
     <string-array name="charity_short_text">
         <item>A.C.S.</item>
         <item>A.R.C.</item>
         <item>S.T.C.</item>
-		<item>W.F.P.</item>
+	<item>W.F.P.</item>
     </string-array>
 
 </resources>
