@@ -57,7 +57,7 @@ public class SnoozeApplication extends Application {
                 lang = "de";
                 break;
             default:
-                lang = "en"
+                lang = "en";
                 break;
         }
 

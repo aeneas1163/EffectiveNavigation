@@ -30,7 +30,14 @@
         <screen android:screenSize="normal" android:screenDensity="xhdpi" />
         <!--nexus 5-->
         <screen android:screenSize="normal" android:screenDensity="480" />
+        <!--larger devices such as note-->
+        <screen android:screenSize="large" android:screenDensity="hdpi" />
+        <screen android:screenSize="large" android:screenDensity="xhdpi" />
     </compatible-screens>
+
+    <supports-screens
+        android:normalScreens="true"
+        android:anyDensity="true" />
 
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
