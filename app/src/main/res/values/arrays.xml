@@ -20,7 +20,7 @@
         <item>20 Cents</item>
         <item>30 Cents</item>
         <item>50 Cents</item>
-        <item>1 Euro</item>
+        <item>1 Dollar</item>
     </string-array>
 
     <string-array name="donation_amount_value_array">
@@ -33,10 +33,10 @@
 
 
     <string-array name="payment_amount_text_array">
-        <item>5 Euros</item>
-        <item>10 Euros</item>
-        <item>15 Euros</item>
-        <item>20 Euros</item>
+        <item>5 Dollars</item>
+        <item>10 Dollars</item>
+        <item>15 Dollars</item>
+        <item>20 Dollars</item>
     </string-array>
 
     <string-array name="payment_amount_value_array">
