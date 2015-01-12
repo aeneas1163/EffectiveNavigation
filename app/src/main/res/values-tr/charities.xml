@@ -78,6 +78,12 @@
         <item>TEGV\'e</item>
     </string-array>
     
+    <string-array name="charity_short_text">
+        <item>AÇEV</item>
+        <item>ÇYDD KIZ</item>
+        <item>LÖSEV</item>
+        <item>TEGV</item>
+    </string-array>
 
 
 </resources>
