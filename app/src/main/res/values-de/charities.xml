@@ -17,6 +17,13 @@
         <item>true</item>
         <item>true</item>
     </string-array>
+    
+    <string-array name="charity_sms_donation_support">
+	    <item>true</item>
+        <item>true</item>
+        <item>true</item>
+        <item>true</item>
+    </string-array>
 
     <string-array name="charity_website_array">
         <item>https://www.aerzte-ohne-grenzen.at/spenden/sofort-helfen/online-spenden-header/</item>
@@ -49,15 +56,21 @@
     </string-array>
 
     <string-array name="charity_selection_text">
-        <item>ÄOG</item>
-        <item>STC</item>
-        <item>WHH</item>
+        <item>Ä.O.G.</item>
+        <item>S.T.C.</item>
+        <item>W.H.H.</item>
     </string-array>
 
     <string-array name="charity_snooze_text">
-        <item>ÄOG</item>
-        <item>STC</item>
-        <item>WHH</item>
+        <item>Ä.O.G.</item>
+        <item>S.T.C.</item>
+        <item>W.H.H.</item>
+    </string-array>
+    
+    <string-array name="charity_short_text">
+        <item>Ä.O.G.</item>
+        <item>S.T.C.</item>
+        <item>W.H.H.</item>
     </string-array>
 
 </resources>
