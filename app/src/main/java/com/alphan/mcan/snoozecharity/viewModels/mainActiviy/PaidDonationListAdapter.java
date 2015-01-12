@@ -37,7 +37,7 @@ public class PaidDonationListAdapter extends ArrayAdapter<PaidDonationDataModel>
 
         TextView charityName = (TextView) view.findViewById(R.id.paid_charity_name);
         Resources res = mContext.getResources();
-        String[] charities = res.getStringArray(R.array.charity_snooze_text);
+        String[] charities = res.getStringArray(R.array.charity_short_text);
         charityName.setText(charities[model.getCharityIndex()]);
 
         TextView txtName = (TextView) view.findViewById(R.id.paid_donation_amount);
