@@ -1,6 +1,11 @@
 package com.alphan.mcan.snoozecharity.data.model;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
+
+import com.alphan.mcan.snoozecharity.R;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -181,5 +186,20 @@ public class AlarmDataModel {
     @Override
     public String toString() {
         return String.format("%02d:%02d", timeHour, timeMinute);
+    }
+
+    public String toString(Context context) {
+        if (context == null)
+            return toString();
+
+        // check if 24h or 12h is needed
+        final SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(context);
+        final Boolean is24Hour = preference.getBoolean("24hour_option", true);
+        if (is24Hour)
+            return String.format("%02d:%02d", getTimeHour(), getTimeMinute());
+
+        final String format12H = String.format("%02d:%02d", (getTimeHour() > 12) ? (getTimeHour() - 12) : getTimeHour() , getTimeMinute());
+        final Boolean isPM = (getTimeHour() >= 12);
+        return format12H + " " + (isPM ? context.getString(R.string.pm) : context.getString(R.string.am));
     }
 }

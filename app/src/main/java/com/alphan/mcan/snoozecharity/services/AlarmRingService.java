@@ -459,7 +459,7 @@ public class AlarmRingService extends Service {
                 .setGroup(NotificationCompat.CATEGORY_ALARM)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setAutoCancel(false)
-                .setContentIntent(null);
+                .setShowWhen(false);
 
         // default intent shows alarm screen
         builder.setContentIntent(AlarmScreen.getShowAlarmScreenPendingIntent(this, alarmToNotify.getId()));
@@ -468,7 +468,7 @@ public class AlarmRingService extends Service {
         String notificationMessage = alarmToNotify.getName()
                 + (alarmToNotify.getMessage() != ""
                 ? (" " + alarmToNotify.getMessage())
-                : getString(R.string.alarm_default_name));
+                : getString(R.string.alarm_default_name)) + alarmToNotify.toString(this);
         builder.setContentText(notificationMessage);
 
         // snooze action
@@ -494,6 +494,7 @@ public class AlarmRingService extends Service {
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setGroup(NotificationCompat.CATEGORY_ALARM)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setShowWhen(false)
                 .setContentIntent(null);
 
         // dismiss action
@@ -501,7 +502,7 @@ public class AlarmRingService extends Service {
         builder.addAction(R.drawable.ic_cancel, getString(R.string.cancel_snooze), dismissPendingIntent) ; // #1
 
         // message
-        String snoozeMessage = getString(R.string.snoozed_alarm_until) + " " +  snoozeAlarm.toString();
+        String snoozeMessage = getString(R.string.snoozed_alarm_until) + " " +  snoozeAlarm.toString(this);
         builder.setContentText(snoozeMessage);
 
         // push updated
@@ -511,15 +512,16 @@ public class AlarmRingService extends Service {
     }
 
     private void updateMissedAlarmNotification(AlarmDataModel missedAlarm) {
+
+        // task stacked intent to show main app
         Intent resultIntent = new Intent(this, MainActivity.class);
         resultIntent.putExtra(MainActivity.WHICH_PAGE_INT, 0);
-
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(MainActivity.class);
-
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
                 0, PendingIntent.FLAG_UPDATE_CURRENT);
+
         // initial notification
         NotificationCompat.Builder builder  = new NotificationCompat.Builder(this)
                 .setContentTitle(getString(R.string.app_name))
@@ -529,10 +531,11 @@ public class AlarmRingService extends Service {
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setDefaults(Notification.DEFAULT_LIGHTS)
                 .setAutoCancel(true)
+                .setShowWhen(false)
                 .setContentIntent(resultPendingIntent);
 
         // message
-        String snoozeMessage = getString(R.string.missed_alarm) + " " + missedAlarm.toString();
+        String snoozeMessage = getString(R.string.missed_alarm) + " " + missedAlarm.toString(this);
         builder.setContentText(snoozeMessage);
 
         // push updated

@@ -69,4 +69,7 @@
     <string name="missed_alarm">Şu alarmı kaçırdınız: </string>
     <string name="charity_needs_payment">%2$s ödeme bekleyen %1$s %3$s bağışınız var!</string>
     <string name="and">ve</string>
+    <string name="pm">PM</string>
+    <string name="am">AM</string>
+
 </resources>

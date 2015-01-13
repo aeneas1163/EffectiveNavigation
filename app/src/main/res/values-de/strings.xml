@@ -89,5 +89,7 @@
     <string name="missed_alarm">Missed an alarm at:</string>
     <string name="charity_needs_payment">You have a pending donation of %1$s%3$s to %2$s!</string>
     <string name="and">and</string>
+    <string name="pm">PM</string>
+    <string name="am">AM</string>
 
 </resources>
