@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alphan.mcan.snoozecharity.R;
@@ -69,19 +70,37 @@ public class PendingDonationListAdapter extends ArrayAdapter<PendingDonationData
         final String[] charityWEBsupport = res.getStringArray(R.array.charity_web_donation_support);
         charityName.setText(charityShort[model.getCharityIndex()]);
 
+
+
+        final int charityIndex = model.getCharityIndex();
+        final Double pendingAmount = model.getPendingAmount();
+
+        final Double currentSMSAmount = Double.parseDouble(charitySMSamount[charityIndex]);
+
         TextView txtName = (TextView) view.findViewById(R.id.donation_amount);
         txtName.setText(String.format("%.2f", model.getPendingAmount()) + " " + res.getString(R.string.money_sign));
+
+        TextView txtMaxMoney = (TextView) view.findViewById(R.id.max_money);
+        txtMaxMoney.setText(String.format("%.2f", currentSMSAmount) + " " + res.getString(R.string.money_sign));
+
+
+
+        ProgressBar progBar = (ProgressBar) view.findViewById(R.id.pbHeaderProgress);
+        Double progress = 100.0*pendingAmount/currentSMSAmount;
+        if (progress.intValue() >= 100)
+        {
+            progBar.setProgress(100);
+            txtMaxMoney.setTextColor(res.getColor(R.color.android_yellow));
+        }
+        else {
+            progBar.setProgress(progress.intValue());
+        }
 
 //        TextView donationName = (TextView) view.findViewById(R.id.donation_db_id);
 //        donationName.setText("Donation DB ID: " + model.getId());
 
+
         Button payButton = (Button) view.findViewById(R.id.donation_pay_button);
-
-        final int charityIndex = model.getCharityIndex();
-
-        final Double pendingAmount = model.getPendingAmount();
-
-        final Double currentSMSAmount = Double.parseDouble(charitySMSamount[charityIndex]);
 
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override

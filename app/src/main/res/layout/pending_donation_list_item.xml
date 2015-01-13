@@ -47,6 +47,34 @@
             android:text="50 €"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
+        <TextView
+            android:id="@+id/max_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/donation_pay_button"
+            android:layout_marginLeft="4dp"
+            android:gravity="center|left"
+            android:text="Money"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ProgressBar
+            android:id="@+id/pbHeaderProgress"
+            android:layout_alignLeft="@id/charity_name"
+            android:layout_marginTop="6dp"
+            android:layout_toLeftOf="@id/donation_pay_button"
+            style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
+            android:layout_below="@id/donation_pay_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="50"
+            android:progressDrawable="@drawable/progress_bar_yellow">
+        </ProgressBar>
+
+
+
         <!--<TextView-->
             <!--android:id="@+id/donation_db_id"-->
             <!--android:layout_width="wrap_content"-->
