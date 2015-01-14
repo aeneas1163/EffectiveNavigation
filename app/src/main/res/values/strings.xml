@@ -122,5 +122,7 @@
     <string name="and">and</string>
     <string name="pm">PM</string>
     <string name="am">AM</string>
+    <string name="analog_clock">Analog</string>
+    <string name="digital_clock">Digital</string>
 
 </resources>

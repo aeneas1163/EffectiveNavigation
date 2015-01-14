@@ -8,12 +8,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DigitalClock;
 import android.widget.ListView;
 
 import com.alphan.mcan.snoozecharity.R;
 import com.alphan.mcan.snoozecharity.data.model.PendingDonationDataModel;
 import com.alphan.mcan.snoozecharity.services.AlarmManagerHelper;
 import com.alphan.mcan.snoozecharity.views.ColorPreference;
+import com.alphan.mcan.snoozecharity.views.DigitalClockCustom;
 
 import java.util.List;
 
@@ -31,17 +33,31 @@ public class ClockFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Bundle args = getArguments();
-
-        View rootView = inflater.inflate(R.layout.fragment_section_clock, container, false);
-
-        View background = rootView.findViewById(R.id.clock);
 
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        View rootView;
+        View background;
+
+        // check which view to use depending on the clock type, and get root view and background
+        boolean isAnalogClock = preference.getBoolean("clock_type", true);
+        if (isAnalogClock) {
+            rootView = inflater.inflate(R.layout.fragment_section_clock_analog, container, false);
+            background = rootView.findViewById(R.id.clock_analog);
+        } else {
+            rootView = inflater.inflate(R.layout.fragment_section_clock_digital, container, false);
+            background = rootView.findViewById(R.id.clock_digital);
+
+            // adjust am/pm of digital clock if there is one
+            DigitalClockCustom digitalClock = (DigitalClockCustom)rootView.findViewById(R.id.digitalClock1);
+            if (digitalClock != null) {
+                digitalClock.set24Hmode(preference.getBoolean("24hour_option", android.text.format.DateFormat.is24HourFormat(getActivity())));
+            }
+        }
+
+        // adjust theme
         int color = preference.getInt("dash_colorkey", getActivity().getResources().getColor(R.color.default_color));
-
         int lightColor = ColorPreference.getLightColor(color, getActivity());
-
         GradientDrawable gd = new GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM,
                 new int[] {color,lightColor});

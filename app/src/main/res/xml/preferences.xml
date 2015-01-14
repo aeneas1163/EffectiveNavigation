@@ -28,6 +28,13 @@
             android:switchTextOff="@string/am_pm"
             android:defaultValue="true"/>
 
+        <SwitchPreference
+            android:key="clock_type"
+            android:title="@string/hour_option_title"
+            android:switchTextOn="@string/analog_clock"
+            android:switchTextOff="@string/digital_clock"
+            android:defaultValue="true"/>
+
         <CheckBoxPreference
             android:key="vibration_pref"
             android:title="@string/vibration_checkbox_preference"
