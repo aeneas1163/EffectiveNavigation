@@ -3,9 +3,10 @@ package com.alphan.mcan.snoozecharity.views;
 import android.content.Context;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.widget.TextView;
+
+import com.alphan.mcan.snoozecharity.R;
 
 import java.util.Calendar;
 
@@ -19,26 +20,26 @@ public class DigitalClockCustom extends TextView {
 
     Calendar calendar;
 
-    private final static String mode12h = "h:mm aa";
-    private final static String mode24h = "k:mm";
-
     private Runnable ticker;
+
     private Handler handler;
 
     private boolean tickerStopped = false;
 
     private boolean is24h;
 
-    String timeFormat;
+    private Context mContext;
 
     public DigitalClockCustom(Context context) {
         super(context);
         initClock(context);
+        mContext = context;
     }
 
     public DigitalClockCustom(Context context, AttributeSet attrs) {
         super(context, attrs);
         initClock(context);
+        mContext = context;
     }
 
     private void initClock(Context context) {
@@ -46,7 +47,6 @@ public class DigitalClockCustom extends TextView {
             calendar = Calendar.getInstance();
 
         is24h = android.text.format.DateFormat.is24HourFormat(context);
-        setFormat();
     }
 
     @Override
@@ -67,7 +67,27 @@ public class DigitalClockCustom extends TextView {
 
                 // set time to now
                 calendar.setTimeInMillis(System.currentTimeMillis());
-                setText(DateFormat.format(timeFormat, calendar));
+
+                // get minute and hour
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+
+                // create string for 12h
+                String timeText;
+                if (is24h) {
+                    timeText = String.format("%02d:%02d", hour, minute);
+                } else {
+                    final Boolean isPM = (hour > 12);
+                    if (hour == 0)
+                        hour = 12;
+                    final String format12H = String.format("%02d:%02d", (isPM) ? (hour - 12) : hour, minute);
+                    if (mContext != null)
+                        timeText = format12H + " " + (isPM ? mContext.getString(R.string.pm) : mContext.getString(R.string.am));
+                    else
+                        timeText = String.format("%02d:%02d", hour, minute);
+                }
+
+                setText(timeText);
                 invalidate(); // update the view
 
                 // post the next tick
@@ -87,15 +107,6 @@ public class DigitalClockCustom extends TextView {
 
     public void set24Hmode(Boolean enable) {
         is24h = enable;
-        setFormat();
     }
-
-    private void setFormat() {
-        if (is24h)
-            timeFormat = mode24h;
-        else
-            timeFormat = mode12h;
-    }
-
 
 }

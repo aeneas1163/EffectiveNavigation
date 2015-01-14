@@ -48,11 +48,8 @@
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
                 android:inputType="none"
-                android:textSize="75sp"
-                android:fontFamily="/@android:sans-serif-light"
+                android:textSize="80sp"
                 android:text="DigitalClock" />
-
-
 
         </LinearLayout>
 

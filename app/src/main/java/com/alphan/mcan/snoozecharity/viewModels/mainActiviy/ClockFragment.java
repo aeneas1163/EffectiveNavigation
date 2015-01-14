@@ -1,14 +1,15 @@
 package com.alphan.mcan.snoozecharity.viewModels.mainActiviy;
 
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DigitalClock;
 import android.widget.ListView;
 
 import com.alphan.mcan.snoozecharity.R;
@@ -27,6 +28,8 @@ import java.util.List;
 public class ClockFragment extends Fragment {
 
     public static final String ARG_SECTION_NUMBER = "section_number";
+
+    private static final float CLOCK_SCALE_FACTOR = 1.3f;
 
     private PendingDonationListAdapter pendingDonationListAdapter;
 
@@ -51,8 +54,19 @@ public class ClockFragment extends Fragment {
             // adjust am/pm of digital clock if there is one
             DigitalClockCustom digitalClock = (DigitalClockCustom)rootView.findViewById(R.id.digitalClock1);
             if (digitalClock != null) {
-                digitalClock.set24Hmode(preference.getBoolean("24hour_option", android.text.format.DateFormat.is24HourFormat(getActivity())));
+                Boolean is24h = preference.getBoolean("24hour_option", android.text.format.DateFormat.is24HourFormat(getActivity()));
+                digitalClock.set24Hmode(is24h);
+                if (is24h) { // adjust size of the alarm font if there is 24h more, as it can be bigger!
+                    final float scaledDensity = this.getResources().getDisplayMetrics().scaledDensity;
+                    final float currentTextSizeSP = digitalClock.getTextSize()/scaledDensity;
+                    final float increasedTextSize = currentTextSizeSP * CLOCK_SCALE_FACTOR;
+                    digitalClock.setTextSize(TypedValue.COMPLEX_UNIT_SP, increasedTextSize);
+                }
             }
+
+            //adjust font of the clock
+            Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/clock.ttf");
+            digitalClock.setTypeface(face);
         }
 
         // adjust theme
