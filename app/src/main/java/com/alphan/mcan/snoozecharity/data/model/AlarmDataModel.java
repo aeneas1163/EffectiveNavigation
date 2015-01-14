@@ -192,14 +192,17 @@ public class AlarmDataModel {
         if (context == null)
             return toString();
 
+        int alarmHour = getTimeHour();
         // check if 24h or 12h is needed
         final SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(context);
         final Boolean is24Hour = preference.getBoolean("24hour_option", true);
         if (is24Hour)
-            return String.format("%02d:%02d", getTimeHour(), getTimeMinute());
+            return String.format("%02d:%02d", alarmHour, getTimeMinute());
 
-        final String format12H = String.format("%02d:%02d", (getTimeHour() > 12) ? (getTimeHour() - 12) : getTimeHour() , getTimeMinute());
-        final Boolean isPM = (getTimeHour() >= 12);
+        final Boolean isPM = (alarmHour > 12);
+        if (alarmHour == 0)
+            alarmHour = 12;
+        final String format12H = String.format("%02d:%02d", (isPM) ? (alarmHour - 12) : alarmHour, getTimeMinute());
         return format12H + " " + (isPM ? context.getString(R.string.pm) : context.getString(R.string.am));
     }
 }

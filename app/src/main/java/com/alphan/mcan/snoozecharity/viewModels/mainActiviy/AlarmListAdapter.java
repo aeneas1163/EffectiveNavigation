@@ -63,8 +63,10 @@ public class AlarmListAdapter extends ArrayAdapter<AlarmDataModel> {
         else
         {
             textAmpm.setVisibility(View.VISIBLE);
-            Boolean isPM = (alarmHour >= 12);
-            txtTime.setText(String.format("%02d:%02d", (isPM && alarmHour != 12) ? (alarmHour - 12):alarmHour , alarmMinute));
+            Boolean isPM = (alarmHour > 12);
+            if (alarmHour == 0)
+                alarmHour = 12;
+            txtTime.setText(String.format("%02d:%02d", (isPM) ? (alarmHour - 12):alarmHour , alarmMinute));
             textAmpm.setText(isPM? mContext.getString(R.string.pm): mContext.getString(R.string.am));
         }
 
