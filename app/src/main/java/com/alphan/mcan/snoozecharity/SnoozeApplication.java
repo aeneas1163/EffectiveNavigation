@@ -23,9 +23,11 @@ public class SnoozeApplication extends Application {
         super.onConfigurationChanged(newConfig);
         if (locale != null)
         {
-            newConfig.locale = locale;
+            Locale locale = new Locale(locale);
             Locale.setDefault(locale);
-            getBaseContext().getResources().updateConfiguration(newConfig, getBaseContext().getResources().getDisplayMetrics());
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getResources().updateConfiguration(config, getResources().getDisplayMetrics());
         }
     }
 
