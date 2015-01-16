@@ -15,15 +15,15 @@ import java.util.Locale;
  */
 public class SnoozeApplication extends Application {
 
-    private Locale locale = null;
+    private String lang;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig)
     {
         super.onConfigurationChanged(newConfig);
-        if (locale != null)
+        if (!lang.isEmpty())
         {
-            Locale locale = new Locale(locale);
+            Locale locale = new Locale(lang);
             Locale.setDefault(locale);
             Configuration config = new Configuration();
             config.locale = locale;
@@ -49,8 +49,6 @@ public class SnoozeApplication extends Application {
             mcc = Integer.parseInt(networkOperator.substring(0, 3));
         }
         
-        String lang;
-        
         switch (mcc) {
             case 286:
                 lang = "tr";
@@ -65,7 +63,7 @@ public class SnoozeApplication extends Application {
 
         if (! "".equals(lang) && ! config.locale.getLanguage().equals(lang))
         {
-            locale = new Locale(lang);
+            Locale locale = new Locale(lang);
             Locale.setDefault(locale);
             config.locale = locale;
             getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());

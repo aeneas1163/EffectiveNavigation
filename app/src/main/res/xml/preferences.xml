@@ -21,20 +21,6 @@
             android:dialogTitle="@string/snooze_duration_preference_title"
             android:defaultValue="5"/>
 
-        <SwitchPreference
-            android:key="24hour_option"
-            android:title="@string/hour_option_title"
-            android:switchTextOn="@string/hour24"
-            android:switchTextOff="@string/am_pm"
-            android:defaultValue="true"/>
-
-        <SwitchPreference
-            android:key="clock_type"
-            android:title="@string/pref_hour_type_selection_title"
-            android:switchTextOn="@string/analog_clock"
-            android:switchTextOff="@string/digital_clock"
-            android:defaultValue="true"/>
-
         <CheckBoxPreference
             android:key="vibration_pref"
             android:title="@string/vibration_checkbox_preference"
@@ -72,10 +58,6 @@
             android:switchTextOff="@string/web"
             android:defaultValue="true"/>
 
-
-
-
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_color" >
@@ -90,6 +72,20 @@
         app:numColumns="3"
         app:itemLayout="@layout/dash_grid_item_color"
         />
+
+        <SwitchPreference
+            android:key="clock_type"
+            android:title="@string/pref_hour_type_selection_title"
+            android:switchTextOn="@string/analog_clock"
+            android:switchTextOff="@string/digital_clock"
+            android:defaultValue="true"/>
+
+        <SwitchPreference
+            android:key="24hour_option"
+            android:title="@string/hour_option_title"
+            android:switchTextOn="@string/hour24"
+            android:switchTextOff="@string/am_pm"
+            android:defaultValue="true"/>
 
     </PreferenceCategory>
 

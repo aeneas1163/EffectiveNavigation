@@ -76,13 +76,13 @@
     <string name="single_letter_friday">F</string>
     <string name="single_letter_saturday">S</string>
     <string name="no_donations_yet">You have not made any donations yet.</string>
-    <string name="about_us_message">This non-profit donation app was made by Mehmet Can and Alphan. \n\nIf you like our app, please rate it by clicking on the button below. \n\n\nImportant Warning: Charities may change their SMS numbers without our knowledge, if you notice such a case or for any feedback you would like to give us, please contact us at snoozecharity@gmail.com.</string>
+    <string name="about_us_message">If you like our non-profit donation app, please rate it by clicking on the button below. \n\n\nImportant Warning: Charities may change their SMS numbers without our knowledge, if you notice such a case or for any feedback you would like to give us, please contact us at snoozecharity@gmail.com.</string>
     <string name="rate_us">Rate us :)</string>
     <string name="could_not_open_market">Could not open Android market, please install the market app.</string>
     <string name="donate_dialog_text_web">Do you want to donate now %1$s%3$s to %2$s? \n\n[<i>When web page is shown, just enter your information and make a donation!</i>]</string>
     <string name="cancel_snooze">Cancel Snooze</string>
     <string name="snoozed_alarm_until">Snoozed until:</string>
-    <string name="pref_color">Color Preferences</string>
+    <string name="pref_color">Appearance Preferences</string>
     <string name="pref_color_title">Background Color</string>
     <string name="pref_color_summary">Choose your color</string>
     <string name="selected_charity_button_text">%1$s is Selected</string>
@@ -91,5 +91,11 @@
     <string name="and">and</string>
     <string name="pm">PM</string>
     <string name="am">AM</string>
+    <string name="digital_clock">Digital</string>
+    <string name="analog_clock">Analog</string>
+    <string name="delete_paid_title">Remove Paid Donation From History?</string>
+    <string name="delete_paid_message">Are you sure you want to delete this paid donation from history?</string>
+    <string name="pref_hour_type_selection_title">Clock Type</string>
+    <string name="version">version:</string>
 
 </resources>

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -68,6 +69,7 @@ public class PendingDonationListAdapter extends ArrayAdapter<PendingDonationData
         final String[] charitySMStext = res.getStringArray(R.array.charity_sms_text);
         final String[] charitySMSamount = res.getStringArray(R.array.charity_sms_donation_amount);
         final String[] charityWEBsupport = res.getStringArray(R.array.charity_web_donation_support);
+        final String[] charitySMSsupport = res.getStringArray(R.array.charity_sms_donation_support);
         charityName.setText(charityShort[model.getCharityIndex()]);
 
 
@@ -94,11 +96,8 @@ public class PendingDonationListAdapter extends ArrayAdapter<PendingDonationData
         }
         else {
             progBar.setProgress(progress.intValue());
+            txtMaxMoney.setTextColor(Color.LTGRAY);
         }
-
-//        TextView donationName = (TextView) view.findViewById(R.id.donation_db_id);
-//        donationName.setText("Donation DB ID: " + model.getId());
-
 
         Button payButton = (Button) view.findViewById(R.id.donation_pay_button);
 
@@ -109,8 +108,8 @@ public class PendingDonationListAdapter extends ArrayAdapter<PendingDonationData
                 SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(mContext);
                 final Boolean isSMS = preference.getBoolean("payment_option", true);
                 adb.setTitle(res.getString(R.string.pay_now));
-                if (isSMS) {
-                    if (pendingAmount.doubleValue() == currentSMSAmount.doubleValue())
+                if (isSMS && Boolean.parseBoolean(charitySMSsupport[charityIndex])) {
+                    if (pendingAmount.doubleValue() >= currentSMSAmount.doubleValue())
                         adb.setMessage(res.getString(R.string.donate_dialog_text_sms, String.format("%.2f", pendingAmount), charitySnooze[charityIndex], res.getString(R.string.money_sign)));
                     else
                         adb.setMessage(res.getString(R.string.donate_sure_text_sms, String.format("%.2f", pendingAmount), charitySnooze[charityIndex], res.getString(R.string.money_sign), String.format("%.2f", currentSMSAmount)));

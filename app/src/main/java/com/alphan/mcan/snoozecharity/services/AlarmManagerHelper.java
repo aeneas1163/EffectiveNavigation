@@ -317,11 +317,11 @@ public class AlarmManagerHelper extends BroadcastReceiver {
         return dbHelper.updatePendingDonation(modifiedPendingDonation);
     }
 
-    // remove an existing alarm
-    private static boolean deletePendingDonation(Context context, PendingDonationDataModel deletedPendingDonation) {
-        //try to delete the alarm from db
+    // remove an existing paidDonation
+    public static boolean deletePaidDonation(Context context, PaidDonationDataModel deletedPaidDonation) {
+        //try to delete the paidDonation from db
         AlarmDBAssistant dbHelper = new AlarmDBAssistant(context);
-        return dbHelper.deletePendingDonation(deletedPendingDonation);
+        return dbHelper.deletePaidDonation(deletedPaidDonation);
     }
 
     // acquire the alarm with the given ID, can return null!!

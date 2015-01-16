@@ -1,12 +1,10 @@
 package com.alphan.mcan.snoozecharity.viewModels.mainActiviy;
 
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,17 +54,7 @@ public class ClockFragment extends Fragment {
             if (digitalClock != null) {
                 Boolean is24h = preference.getBoolean("24hour_option", android.text.format.DateFormat.is24HourFormat(getActivity()));
                 digitalClock.set24Hmode(is24h);
-                if (is24h) { // adjust size of the alarm font if there is 24h more, as it can be bigger!
-                    final float scaledDensity = this.getResources().getDisplayMetrics().scaledDensity;
-                    final float currentTextSizeSP = digitalClock.getTextSize()/scaledDensity;
-                    final float increasedTextSize = currentTextSizeSP * CLOCK_SCALE_FACTOR;
-                    digitalClock.setTextSize(TypedValue.COMPLEX_UNIT_SP, increasedTextSize);
-                }
             }
-
-            //adjust font of the clock
-            Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/clock.ttf");
-            digitalClock.setTypeface(face);
         }
 
         // adjust theme

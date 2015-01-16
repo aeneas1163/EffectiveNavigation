@@ -6,7 +6,7 @@
     <string name="app_preferences">Ayarlar</string>
     <string name="cancel">İptal</string>
     <string name="delete">Alarmı Sil</string>
-    <string name="demo_collection">Bağış Kurum Seçimi</string>
+    <string name="demo_collection">Hayır Kurumu Seçimi</string>
     <string name="demo_external_activity">Ayarlar</string>
     <string name="dismiss">İptal</string>
     <string name="donation_history">Bağış Geçmişi</string>
@@ -56,13 +56,13 @@
     <string name="single_letter_tuesday">S</string>
     <string name="single_letter_wednesday">Ç</string>
     <string name="no_donations_yet">Henüz bir bağış yapmadınız.</string>
-    <string name="about_us_message">Bu kar amacı gütmeyen uygulama iki kişi tarafından yapılmıştır: Mehmet Can ve Alphan. \n\nEğer uygulamamızı beğendiyseniz, lütfen aşağıdaki tuşa tıklayarak oylayın. \n\n\nÖnemli Uyarı: Bağış kurumları bizim haberimiz olmadan SMS numaralarını değiştirebilir. Böyle bir durumu farkettiyseniz veya bizimle iletişime geçmek isterseniz snoozecharity@gmail.com adresinden bize ulaşabilirsiniz.</string>
+    <string name="about_us_message">Bu kar amacı gütmeyen uygulamamızı beğendiyseniz, lütfen aşağıdaki tuşa tıklayarak oylayın. \n\n\nÖnemli Uyarı: Bağış kurumları bizim haberimiz olmadan SMS numaralarını değiştirebilir. Böyle bir durumu farkettiyseniz veya bizimle iletişime geçmek isterseniz snoozecharity@gmail.com adresinden bize ulaşabilirsiniz.</string>
     <string name="rate_us">Uygulamayı oylayın :)</string>
     <string name="could_not_open_market">Google Play marketi açamadık, lütfen Google Play uygulamasını indirin.</string>
     <string name="donate_dialog_text_web"><b>Şimdi %2$s %1$s %3$s bağışlamak istiyor musunuz?</b> \n\n[<i>Web sayfası açıldığında, bilgilerinizi girip bağış yapın!</i>]</string>
     <string name="cancel_snooze">Ertelemeyi İptal Et</string>
     <string name="snoozed_alarm_until">Şu saate ertelendi:</string>
-    <string name="pref_color">Renk Seçenekleri</string>
+    <string name="pref_color">Görünüm Seçenekleri</string>
     <string name="pref_color_title">Arka Plan Rengi</string>
     <string name="pref_color_summary">Renginizi seçin</string>
     <string name="selected_charity_button_text">%1$s Seçili</string>
@@ -71,5 +71,11 @@
     <string name="and">ve</string>
     <string name="pm">PM</string>
     <string name="am">AM</string>
+    <string name="digital_clock">Dijital</string>
+    <string name="analog_clock">Analog</string>
+    <string name="delete_paid_title">Ödenmiş Bağışı Geçmişten Sil?</string>
+    <string name="delete_paid_message">Bu ödenmiş bağışı geçmişten silmek istiyor musunuz?</string>
+    <string name="pref_hour_type_selection_title">Saat Tipi</string>
+    <string name="version">versiyon:</string>
 
 </resources>

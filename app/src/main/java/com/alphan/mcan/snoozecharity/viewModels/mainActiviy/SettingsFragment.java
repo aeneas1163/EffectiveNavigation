@@ -11,9 +11,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -55,7 +57,7 @@ public class SettingsFragment extends Fragment{
 
         List<PaidDonationDataModel> donations =  AlarmManagerHelper.getTotalDonations(getActivity());
 
-        totalDonationListAdapter = new PaidDonationListAdapter(getActivity(), donations);
+        totalDonationListAdapter = new PaidDonationListAdapter(getActivity(), donations, false);
 
         final ListView donationListView = (ListView) rootView.findViewById(R.id.paid_donation_list);
 
@@ -88,7 +90,7 @@ public class SettingsFragment extends Fragment{
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         List<PaidDonationDataModel> donationsMade =  AlarmManagerHelper.getPaidDonations(getActivity());
 
-                        Resources res = view.getResources();
+                        final Resources res = view.getResources();
 
                         if (donationsMade.isEmpty())
                         {
@@ -98,9 +100,33 @@ public class SettingsFragment extends Fragment{
 
                             ListView donationList = new ListView(getActivity());
 
-                            PaidDonationListAdapter paidDonations = new PaidDonationListAdapter(getActivity(), donationsMade);
+                            final PaidDonationListAdapter paidDonations = new PaidDonationListAdapter(getActivity(), donationsMade, true);
 
                             donationList.setAdapter(paidDonations);
+
+                            donationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                                    final PaidDonationDataModel model = (PaidDonationDataModel) adapterView.getItemAtPosition(position);
+                                    AlertDialog.Builder adb = new AlertDialog.Builder(view.getContext());
+                                    adb.setTitle(res.getString(R.string.delete_paid_title));
+                                    adb.setMessage(res.getString(R.string.delete_paid_message));
+                                    adb.setNegativeButton(res.getString(R.string.cancel), null);
+                                    adb.setPositiveButton(res.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            AlarmManagerHelper.deletePaidDonation(getActivity(), model);
+                                            paidDonations.remove(model);
+                                            final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                            ft.detach(SettingsFragment.this);
+                                            ft.attach(SettingsFragment.this);
+                                            ft.commit();
+                                        }
+                                    });
+                                    adb.show();
+                                }
+                            });
 
                             builder.setView(donationList);
                         }
@@ -121,7 +147,10 @@ public class SettingsFragment extends Fragment{
 
                 final Resources res = view.getResources();
                 adb.setTitle(res.getString(R.string.about_us));
-                adb.setMessage(res.getString(R.string.about_us_message));
+                adb.setMessage(res.getString(R.string.app_name) + " "
+                        + res.getString(R.string.version) + " "
+                        + res.getString(R.string.app_version_name) + "\n\n"
+                        + res.getString(R.string.about_us_message));
                 adb.setNegativeButton(res.getString(R.string.cancel), null);
                 adb.setPositiveButton(res.getString(R.string.rate_us), new DialogInterface.OnClickListener() {
                     @Override

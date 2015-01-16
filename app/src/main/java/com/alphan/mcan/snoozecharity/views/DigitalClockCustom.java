@@ -1,8 +1,12 @@
 package com.alphan.mcan.snoozecharity.views;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -72,27 +76,39 @@ public class DigitalClockCustom extends TextView {
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 int minute = calendar.get(Calendar.MINUTE);
 
+                //adjust font of the clock
+                Typeface face = Typeface.createFromAsset(mContext.getAssets(), "fonts/clock.ttf");
+                setTypeface(face);
+
                 // create string for 12h
                 String timeText;
                 if (is24h) {
-                    timeText = String.format("%02d:%02d", hour, minute);
+                    setText(String.format("%02d:%02d", hour, minute));
                 } else {
                     final Boolean isPM = (hour > 12);
                     if (hour == 0)
                         hour = 12;
                     final String format12H = String.format("%02d:%02d", (isPM) ? (hour - 12) : hour, minute);
-                    if (mContext != null)
-                        timeText = format12H + " " + (isPM ? mContext.getString(R.string.pm) : mContext.getString(R.string.am));
-                    else
-                        timeText = String.format("%02d:%02d", hour, minute);
-                }
+                    final String amPm = (isPM ? mContext.getString(R.string.pm) : mContext.getString(R.string.am));
+                    int n = format12H.length();
+                    int m = amPm.length();
 
-                setText(timeText);
+                    Spannable span = new SpannableString(format12H + " " +  amPm);
+                    //Big font till you find `\n`
+                    span.setSpan(new RelativeSizeSpan(1.0f), 0, n, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    //Small font from `\n` to the end
+                    span.setSpan(new RelativeSizeSpan(0.5f), n, (n+m+1), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    if (mContext != null)
+                        setText(span);
+                    else
+                        setText(String.format("%02d:%02d", hour, minute));
+                }
                 invalidate(); // update the view
 
                 // post the next tick
                 long now = SystemClock.uptimeMillis();
-                long next = now + (1000 - now % 1000);
+                long next = now + (60000 - now % 60000); // set the 60000 milliseoncds = 1 minute
                 handler.postAtTime(ticker, next);
             }
         };

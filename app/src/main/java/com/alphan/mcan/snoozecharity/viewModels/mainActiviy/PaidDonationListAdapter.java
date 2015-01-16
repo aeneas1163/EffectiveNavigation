@@ -20,9 +20,12 @@ public class PaidDonationListAdapter extends ArrayAdapter<PaidDonationDataModel>
 
     private Context mContext;
 
-    public PaidDonationListAdapter(Context context, List<PaidDonationDataModel> paidDonations) {
+    boolean isDialog;
+
+    public PaidDonationListAdapter(Context context, List<PaidDonationDataModel> paidDonations, boolean dialog) {
         super(context, R.layout.paid_donation_item, paidDonations);
         mContext = context;
+        isDialog = dialog;
     }
 
     @Override
@@ -54,6 +57,6 @@ public class PaidDonationListAdapter extends ArrayAdapter<PaidDonationDataModel>
 
     @Override
     public boolean isEnabled(int position) {
-        return false;
+        return isDialog;
     }
 }
