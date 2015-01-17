@@ -52,6 +52,12 @@ public class MainActivity extends FragmentActivity{
     public void onCreate(Bundle savedInstanceState)     {
         super.onCreate(savedInstanceState);
 
+        // check for first run
+        if (prefs.getBoolean("firstrun", true)) {
+            firstRunInitialization();
+            prefs.edit().putBoolean("firstrun", false).commit();
+        }
+
         Intent intent = getIntent();
         int value = intent.getIntExtra(WHICH_PAGE_INT, 1);
 
@@ -97,23 +103,11 @@ public class MainActivity extends FragmentActivity{
         actionBar.addTab(alarm_tab.setTabListener(mAppSectionsPagerAdapter));
         actionBar.addTab(clock_tab.setTabListener(mAppSectionsPagerAdapter));
         actionBar.addTab(settings_tab.setTabListener(mAppSectionsPagerAdapter));
-
-
     }
 
-    // implemented to catch the first time run of our app
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (prefs.getBoolean("firstrun", true)) {
-
-            firstRunInitialization();
-
-            prefs.edit().putBoolean("firstrun", false).commit();
-        }
-    }
 
     private void firstRunInitialization() {
+
         AlarmManagerHelper.enableDonationCheck(this);
 
         // update am/pm setting from current system setting
