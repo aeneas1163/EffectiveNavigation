@@ -350,17 +350,15 @@ public class AlarmFragment extends Fragment{
     }
 
     public static void setRepeatingDays(View dialog, AlarmDataModel alarmData) {
-        boolean isRepeating = ((CheckBox)dialog.findViewById(R.id.alarm_repeat_check)).isChecked();
-        alarmData.setWeeklyRepeat(isRepeating);
-        if (isRepeating) { //do not set repeating days for a non repeating alarm.
-            alarmData.setRepeatingDay(0, ((ToggleButton) dialog.findViewById(R.id.toggle_sunday)).isChecked());
-            alarmData.setRepeatingDay(1, ((ToggleButton) dialog.findViewById(R.id.toggle_monday)).isChecked());
-            alarmData.setRepeatingDay(2, ((ToggleButton) dialog.findViewById(R.id.toggle_tuesday)).isChecked());
-            alarmData.setRepeatingDay(3, ((ToggleButton) dialog.findViewById(R.id.toggle_wednesday)).isChecked());
-            alarmData.setRepeatingDay(4, ((ToggleButton) dialog.findViewById(R.id.toggle_thursday)).isChecked());
-            alarmData.setRepeatingDay(5, ((ToggleButton) dialog.findViewById(R.id.toggle_friday)).isChecked());
-            alarmData.setRepeatingDay(6, ((ToggleButton) dialog.findViewById(R.id.toggle_saturday)).isChecked());
-        }
+        alarmData.setWeeklyRepeat(((CheckBox)dialog.findViewById(R.id.alarm_repeat_check)).isChecked());
+        alarmData.setRepeatingDay(0, ((ToggleButton) dialog.findViewById(R.id.toggle_sunday)).isChecked());
+        alarmData.setRepeatingDay(1, ((ToggleButton) dialog.findViewById(R.id.toggle_monday)).isChecked());
+        alarmData.setRepeatingDay(2, ((ToggleButton) dialog.findViewById(R.id.toggle_tuesday)).isChecked());
+        alarmData.setRepeatingDay(3, ((ToggleButton) dialog.findViewById(R.id.toggle_wednesday)).isChecked());
+        alarmData.setRepeatingDay(4, ((ToggleButton) dialog.findViewById(R.id.toggle_thursday)).isChecked());
+        alarmData.setRepeatingDay(5, ((ToggleButton) dialog.findViewById(R.id.toggle_friday)).isChecked());
+        alarmData.setRepeatingDay(6, ((ToggleButton) dialog.findViewById(R.id.toggle_saturday)).isChecked());
+
     }
 
     public static void updateRepeatingDays(View dialog, AlarmDataModel alarmData) {

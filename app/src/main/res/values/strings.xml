@@ -112,6 +112,6 @@
     <string name="delete_paid_title">Remove Paid Donation From History?</string>
     <string name="delete_paid_message">Are you sure you want to delete this paid donation from history?</string>
     <string name="version">version:</string>
-    <string name="app_version_name" translatable="false">1.1.0</string>
+    <string name="app_version_name" translatable="false">1.2.0</string>
 
 </resources>
