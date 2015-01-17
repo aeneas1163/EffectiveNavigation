@@ -77,7 +77,7 @@
     <string name="single_letter_saturday">S</string>
     <string name="no_donations_yet">You have not made any donations yet.</string>
     <string name="about_us_message">If you like our non-profit donation app, please rate it by clicking on the button below. \n\n\nImportant Warning: Charities may change their SMS numbers without our knowledge, if you notice such a case or for any feedback you would like to give us, please contact us at snoozecharity@gmail.com.</string>
-    <string name="rate_us">Rate us :)</string>
+    <string name="rate_us">Rate us ☺</string>
     <string name="could_not_open_market">Could not open Android market, please install the market app.</string>
     <string name="donate_dialog_text_web">Do you want to donate now %1$s%3$s to %2$s? \n\n[<i>When web page is shown, just enter your information and make a donation!</i>]</string>
     <string name="cancel_snooze">Cancel Snooze</string>

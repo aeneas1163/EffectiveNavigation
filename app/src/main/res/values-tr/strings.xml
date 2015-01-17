@@ -57,7 +57,7 @@
     <string name="single_letter_wednesday">Ç</string>
     <string name="no_donations_yet">Henüz bir bağış yapmadınız.</string>
     <string name="about_us_message">Bu kar amacı gütmeyen uygulamamızı beğendiyseniz, lütfen aşağıdaki tuşa tıklayarak oylayın. \n\n\nÖnemli Uyarı: Bağış kurumları bizim haberimiz olmadan SMS numaralarını değiştirebilir. Böyle bir durumu farkettiyseniz veya bizimle iletişime geçmek isterseniz snoozecharity@gmail.com adresinden bize ulaşabilirsiniz.</string>
-    <string name="rate_us">Uygulamayı oylayın :)</string>
+    <string name="rate_us">Uygulamayı oylayın ☺</string>
     <string name="could_not_open_market">Google Play marketi açamadık, lütfen Google Play uygulamasını indirin.</string>
     <string name="donate_dialog_text_web"><b>Şimdi %2$s %1$s %3$s bağışlamak istiyor musunuz?</b> \n\n[<i>Web sayfası açıldığında, bilgilerinizi girip bağış yapın!</i>]</string>
     <string name="cancel_snooze">Ertelemeyi İptal Et</string>
