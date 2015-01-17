@@ -108,7 +108,7 @@ public class DigitalClockCustom extends TextView {
 
                 // post the next tick
                 long now = SystemClock.uptimeMillis();
-                long next = now + (60000 - now % 60000); // set the 60000 milliseoncds = 1 minute
+                long next = now + (2000 - now % 2000); // set the 2000 milliseoncds = 2 seconds
                 handler.postAtTime(ticker, next);
             }
         };
