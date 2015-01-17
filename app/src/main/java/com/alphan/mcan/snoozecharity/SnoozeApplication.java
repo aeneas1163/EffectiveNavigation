@@ -36,8 +36,6 @@ public class SnoozeApplication extends Application {
     {
         super.onCreate();
 
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-
         Configuration config = getBaseContext().getResources().getConfiguration();
 
         TelephonyManager tel = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);

@@ -115,6 +115,10 @@ public class MainActivity extends FragmentActivity{
 
     private void firstRunInitialization() {
         AlarmManagerHelper.enableDonationCheck(this);
+
+        // update am/pm setting from current system setting
+        Boolean isSystem24h = android.text.format.DateFormat.is24HourFormat(this);
+        prefs.edit().putBoolean("24hour_option", isSystem24h).commit();
     }
 
 }
