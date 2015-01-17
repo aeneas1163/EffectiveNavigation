@@ -19,6 +19,7 @@
             android:entries="@array/snooze_minute_text_array"
             android:entryValues="@array/snooze_minute_value_array"
             android:dialogTitle="@string/snooze_duration_preference_title"
+            android:negativeButtonText="@string/cancel"
             android:defaultValue="5"/>
 
         <CheckBoxPreference
@@ -39,6 +40,7 @@
             android:entries="@array/donation_amount_text_array"
             android:entryValues="@array/donation_amount_value_array"
             android:dialogTitle="@string/donation_preference_title"
+            android:negativeButtonText="@string/cancel"
             android:defaultValue="20"/>
 
         <!--<ListPreference-->
