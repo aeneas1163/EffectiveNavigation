@@ -110,7 +110,7 @@ public class PendingDonationListAdapter extends ArrayAdapter<PendingDonationData
                 adb.setTitle(res.getString(R.string.pay_now));
                 if (isSMS && Boolean.parseBoolean(charitySMSsupport[charityIndex])) {
                     if (pendingAmount.doubleValue() >= currentSMSAmount.doubleValue())
-                        adb.setMessage(res.getString(R.string.donate_dialog_text_sms, String.format("%.2f", pendingAmount), charitySnooze[charityIndex], res.getString(R.string.money_sign)));
+                        adb.setMessage(res.getString(R.string.donate_dialog_text_sms, String.format("%.2f", currentSMSAmount), charitySnooze[charityIndex], res.getString(R.string.money_sign)));
                     else
                         adb.setMessage(res.getString(R.string.donate_sure_text_sms, String.format("%.2f", pendingAmount), charitySnooze[charityIndex], res.getString(R.string.money_sign), String.format("%.2f", currentSMSAmount)));
                 } else
