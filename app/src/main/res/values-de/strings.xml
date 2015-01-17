@@ -67,7 +67,7 @@
     <string name="payment_option_title">Payment Option</string>
     <string name="donate_sure_check">Are you sure?</string>
     <string name="donate_sure_text_sms">Your pending amount for %2$s is %1$s%3$s. SMS will donate %4$s%3$s. Are you sure you want to continue? \n\n[<i>When SMS screen is shown, just click Send Button!</i>]</string>
-    <string name="donate_dialog_text_sms"> <b> Do you want to donate now %1$s%3$s to %2$s? </b> \n\n[<i>When SMS screen is shown, just click Send Button!</i>]</string>
+    <string name="donate_dialog_text_sms"><b>Do you want to donate now %1$s%3$s to %2$s? </b> \n\n[<i>When SMS screen is shown, just click Send Button!</i>]</string>
     <string name="single_letter_sunday">S</string>
     <string name="single_letter_monday">M</string>
     <string name="single_letter_tuesday">T</string>
